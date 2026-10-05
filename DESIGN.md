@@ -205,7 +205,7 @@ for reduced motion.
 | `brand/VOICE.md`, `brand/character.md`, `brand/copy.json` | her voice, her character sheet, every line on the page and at her door | copy |
 | `brand/tokens.css` | palette and type | look |
 | `dashboard/server.js`, `dashboard/public/` | the server and the page (no build step) | lead |
-| `engine/` | `config.js`, `stage.js`, `decisions.js`, `asks.js` | lead |
+| `engine/` | `config.js`, `stage.js`, `decisions.js`, `record.js` (opens and updates a decision's `meta.json` for the runbook, added during the build), `asks.js` | lead |
 | `CLAUDE.md`, `subagent.md` | her runbook, her front desk | lead (voice from copy) |
 | `brains/`, `rules/`, `memory/` | what she knows, her standing rules, what she has learned | lead |
 | `examples/` | the invented data folder | lead |
