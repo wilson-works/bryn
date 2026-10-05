@@ -1,0 +1,52 @@
+{
+  "key": "bryn",
+  "name": "Bryn",
+  "title": "The Trail Guide",
+  "line": "Helps you think a decision through. Five scouts weigh it on their own, she looks for where the plan could fail, and she keeps your call so you never argue it twice.",
+  "status": "live",
+  "door": {
+    "local": "http://127.0.0.1:7550/",
+    "phone": null
+  },
+  "probe": {
+    "port": 7550,
+    "path": "/health"
+  },
+  "start": "node dashboard/server.js",
+  "autostart": true,
+  "match": [
+    "bryn",
+    "trail guide"
+  ],
+  "brand": {
+    "bg": "#EEF2EF",
+    "panel": "#DCE5E2",
+    "ink": "#1F2D38",
+    "accent": "#C8432F",
+    "accent2": "#4F8FB8",
+    "font": "Avenir Next, Segoe UI, system-ui, sans-serif",
+    "mark": "mark.svg"
+  },
+  "art": "art.svg",
+  "jokes": [
+    "Come in. Boots off if they're muddy. They're always muddy.",
+    "A cairn is a pile of stones that agreed to stay put. Most decisions should be so lucky.",
+    "The Contrarian has walked back down the trail again. They'll come back with something I missed.",
+    "The Executor already has the pack on. The Executor always has the pack on.",
+    "I asked the sky about the weather. It said maybe. Skies and decisions have a lot in common.",
+    "If you can undo it, just decide. If you can't, sit down. I have a spare rock.",
+    "I'll tell you which road I'd take. You're the one wearing the boots.",
+    "Nobody has ever regretted packing a rain shell. I checked the cairn.",
+    "I go up the hill to look ahead. Also to eat my lunch in peace.",
+    "The Outsider asked why we don't just take the road. We're still thinking about that one.",
+    "Knock twice for a quick question. Knock three times and I'll light the stove for tea."
+  ],
+  "requires": {
+    "skills": [
+      "brainstorm",
+      "llm-council",
+      "premortem",
+      "decision-policy"
+    ]
+  }
+}

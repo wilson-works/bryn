@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "id": "2026-10-01-cycle-to-work-four-days",
+  "question": "Cycle to work four days a week instead of driving?",
+  "door": "two-way",
+  "stakes": "low",
+  "status": "decided",
+  "planned": [
+    "framing",
+    "premortem",
+    "filing"
+  ],
+  "created": "2026-10-01T07:45:00.000Z",
+  "updated": "2026-10-02T21:10:00.000Z",
+  "options": [
+    "Cycle four days, drive one",
+    "Cycle two days to start",
+    "Bus and bike mixed"
+  ],
+  "verdict": "Start with two days for a month, with a bad-weather rule decided now, not at 7 in the morning.",
+  "first_step": "Ride the route once on Sunday and time it.",
+  "seats": [],
+  "premortem": {
+    "likely": "The first week of heavy rain breaks the habit, and it never restarts.",
+    "dangerous": "The busy junction by the bridge with no bike lane, in the dark after the clocks change.",
+    "assumption": "That there is a shower or somewhere to change at work."
+  },
+  "models": {
+    "advisors": null,
+    "reviewers": null,
+    "chairman": "opus"
+  },
+  "outcome": "Two days a week through October, the quiet route over the footbridge, the bus on rain-warning days.",
+  "filed_as": "POL-002",
+  "revisit": "2026-11-01"
+}

@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "id": "2026-09-26-adopt-a-second-dog",
+  "question": "Adopt a second dog this winter, or wait a year?",
+  "door": "one-way",
+  "stakes": "high",
+  "status": "waiting",
+  "planned": [
+    "framing",
+    "council",
+    "review",
+    "verdict",
+    "premortem",
+    "filing"
+  ],
+  "created": "2026-09-26T17:30:00.000Z",
+  "updated": "2026-09-28T20:05:00.000Z",
+  "options": [
+    "Adopt this winter",
+    "Wait a year",
+    "Foster first, then decide"
+  ],
+  "verdict": "Foster a dog for six weeks this winter before deciding. It tests the real worry, which is the first dog, not the new one.",
+  "first_step": "Call the rescue and ask whether their foster programme takes a household with a resident dog.",
+  "seats": [
+    {
+      "seat": "contrarian",
+      "lean": "against",
+      "line": "Winter walks with two dogs, in the dark, before work. That is the part nobody pictures."
+    },
+    {
+      "seat": "first-principles",
+      "lean": "split",
+      "line": "Is this for the household, or for the first dog? Those are different answers."
+    },
+    {
+      "seat": "expansionist",
+      "lean": "for",
+      "line": "A second dog could settle the first one's nerves when the house is empty."
+    },
+    {
+      "seat": "outsider",
+      "lean": "split",
+      "line": "I would ask the first dog. Can you borrow a friend's dog for a weekend?"
+    },
+    {
+      "seat": "executor",
+      "lean": "for",
+      "line": "Fostering is a trial run with an exit. Do that first."
+    }
+  ],
+  "premortem": {
+    "likely": "The two dogs never settle together, and walks become two separate walks.",
+    "dangerous": "A long vet bill for the older dog lands in the same month as the adoption costs.",
+    "assumption": "That the first dog wants company. Nobody has checked that yet."
+  },
+  "models": {
+    "advisors": "sonnet",
+    "reviewers": "sonnet",
+    "chairman": "opus"
+  },
+  "outcome": null,
+  "filed_as": null,
+  "revisit": null
+}

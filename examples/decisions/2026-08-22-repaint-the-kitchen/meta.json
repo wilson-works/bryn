@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "id": "2026-08-22-repaint-the-kitchen",
+  "question": "Repaint the kitchen this autumn, or leave it until spring?",
+  "door": "two-way",
+  "stakes": "low",
+  "status": "abandoned",
+  "planned": [
+    "framing"
+  ],
+  "created": "2026-08-22T18:05:00.000Z",
+  "updated": "2026-08-22T18:20:00.000Z",
+  "options": [
+    "Repaint this autumn",
+    "Leave it until spring"
+  ],
+  "verdict": null,
+  "first_step": null,
+  "seats": [],
+  "premortem": null,
+  "models": null,
+  "outcome": "Not worth deciding now. The kitchen is fine, and the paint shop sale is in March anyway.",
+  "filed_as": null,
+  "revisit": null
+}

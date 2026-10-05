@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "id": "2026-10-03-host-the-family-holiday",
+  "question": "Host the family holiday dinner this year, or ask someone else?",
+  "door": "two-way",
+  "stakes": "high",
+  "status": "in-progress",
+  "planned": [
+    "framing",
+    "brainstorm",
+    "council",
+    "review",
+    "verdict",
+    "premortem",
+    "filing"
+  ],
+  "created": "2026-10-03T16:00:00.000Z",
+  "updated": "2026-10-05T14:40:00.000Z",
+  "options": [
+    "Host at home for twelve",
+    "Host, but everyone brings a dish",
+    "Book the back room at the community hall",
+    "Ask a cousin to host and bring dessert"
+  ],
+  "verdict": null,
+  "first_step": null,
+  "seats": [],
+  "premortem": null,
+  "models": {
+    "advisors": "sonnet",
+    "reviewers": "sonnet",
+    "chairman": "opus"
+  },
+  "outcome": null,
+  "filed_as": null,
+  "revisit": null
+}

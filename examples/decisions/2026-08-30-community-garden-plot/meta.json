@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "id": "2026-08-30-community-garden-plot",
+  "question": "Take a community garden plot next year, or build raised beds at home?",
+  "door": "two-way",
+  "stakes": "low",
+  "status": "parked",
+  "planned": [
+    "framing",
+    "brainstorm",
+    "council",
+    "review",
+    "verdict",
+    "filing"
+  ],
+  "created": "2026-08-30T09:40:00.000Z",
+  "updated": "2026-08-30T10:25:00.000Z",
+  "options": [
+    "A plot at the community garden",
+    "Two raised beds by the back fence",
+    "Containers on the patio first, decide in a year",
+    "Share a plot with the neighbours"
+  ],
+  "verdict": null,
+  "first_step": "Ask the garden committee when next year's waiting list opens.",
+  "seats": [],
+  "premortem": null,
+  "models": null,
+  "outcome": null,
+  "filed_as": null,
+  "revisit": "2027-02-01"
+}

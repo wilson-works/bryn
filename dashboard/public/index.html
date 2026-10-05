@@ -1,0 +1,152 @@
+<!doctype html>
+<!--
+  dashboard/public/index.html — Bryn's dashboard page. No framework, no build step. Every visible string is
+  keyed to brand/copy.json (data-copy="<key>"; the text here is only the fallback). app.js fills the page from
+  the server's API; app.css draws it. The page's Content-Security-Policy allows scripts and styles from this
+  server only, so there is no inline script or style anywhere.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bryn, the Trail Guide</title>
+<meta name="color-scheme" content="light">
+<link rel="icon" href="/mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/brand/tokens.css">
+<link rel="stylesheet" href="/app.css">
+<script src="/app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#cairn" data-copy="ui.skip">Skip to the cairn</a>
+
+<header class="top">
+  <a class="brand" href="#trailhead">
+    <img src="/mark.svg" alt="" width="44" height="44">
+    <span class="brand-words">
+      <span class="brand-name" data-copy="name">Bryn</span>
+      <span class="brand-title" data-copy="title">The Trail Guide</span>
+    </span>
+  </a>
+  <span class="examples-badge" id="examples-badge" hidden data-copy="ui.examples_badge">Examples</span>
+  <nav class="nav" aria-label="Sections">
+    <a href="#trailhead" data-copy="ui.nav_trailhead">The trailhead</a>
+    <a href="#cairn" data-copy="ui.nav_cairn">The cairn</a>
+    <a href="#markers" data-copy="ui.nav_markers">Trail markers</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section id="trailhead" class="trailhead" aria-labelledby="stage-label">
+    <figure class="scene-card">
+      <figcaption class="sr-only" id="scene-title"></figcaption>
+      <div class="scene" id="scene" role="img" aria-labelledby="scene-title"></div>
+      <button type="button" class="scene-pause" id="scene-pause" data-copy="ui.pause_motion">Pause the scene</button>
+    </figure>
+
+    <div class="side">
+      <div class="desk">
+        <p class="eyebrow" data-copy="line" id="line">Puts your decision to five scouts, looks down the trail for where it could wash out, and leaves a stone so you never decide it twice.</p>
+        <h1 class="stage-label" id="stage-label">At the trailhead</h1>
+        <p class="caption" id="caption" aria-live="polite"></p>
+
+        <div class="table" id="table">
+          <h2 class="table-heading" data-copy="ui.table_heading">On the table</h2>
+          <p class="table-q" id="table-q" data-copy="ui.table_empty">Nothing on the table.</p>
+          <p class="table-meta" id="table-meta"></p>
+        </div>
+      </div>
+
+      <div class="trail-wrap">
+        <h2 class="trail-heading" id="trail-heading" data-copy="ui.trail_heading">The trail</h2>
+        <ol class="trail" id="trail" role="list" aria-labelledby="trail-heading"></ol>
+      </div>
+
+      <section class="ask" aria-labelledby="ask-heading">
+        <h2 id="ask-heading" data-copy="ui.ask_heading">Bring Bryn a question</h2>
+        <p class="ask-intro" data-copy="ui.ask_intro">It waits here for your next Claude session. Nothing runs by itself.</p>
+        <form id="ask-form" class="ask-form" novalidate>
+          <div class="field">
+            <label for="ask-q" data-copy="ui.ask_question_label">What are you deciding?</label>
+            <input id="ask-q" name="question" type="text" maxlength="200" autocomplete="off" required aria-describedby="ask-status">
+          </div>
+          <div class="field">
+            <label for="ask-c" data-copy="ui.ask_context_label">Anything Bryn should know (optional)</label>
+            <textarea id="ask-c" name="context" rows="2" maxlength="600"></textarea>
+          </div>
+          <div class="ask-actions">
+            <button type="submit" class="btn btn-primary" data-copy="ui.ask_button">Leave it at the trailhead</button>
+            <p class="ask-status" id="ask-status" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      </section>
+    </div>
+  </section>
+
+  <section id="cairn" class="cairn" aria-labelledby="cairn-heading" tabindex="-1">
+    <div class="section-head">
+      <h2 id="cairn-heading" data-copy="ui.cairn_heading">The cairn</h2>
+      <p class="section-intro" data-copy="ui.cairn_intro">Every decision is a stone. Open one to read it.</p>
+    </div>
+    <p class="examples-banner" id="examples-banner" hidden data-copy="ui.examples_banner">These stones are invented examples for a person called Alex, so you can see how it works.</p>
+
+    <div class="cairn-tools">
+      <div class="chips" role="group" aria-labelledby="filter-label">
+        <span class="chips-label" id="filter-label" data-copy="ui.filter_label">Show</span>
+        <span id="chips" class="chips-row"></span>
+      </div>
+      <form class="search" id="search-form" role="search" novalidate>
+        <label for="search-q" class="sr-only" data-copy="ui.search_label">Search the cairn</label>
+        <input id="search-q" type="search" maxlength="120" autocomplete="off" aria-describedby="search-hint">
+        <button type="submit" class="btn btn-quiet" data-copy="ui.consult_button">Ask Bryn to check</button>
+      </form>
+    </div>
+    <p class="search-hint" id="search-hint" data-copy="ui.search_hint">Type to filter the stones. Press Enter to ask Bryn to check.</p>
+    <p class="consult-result" id="consult-result" role="status" aria-live="polite"></p>
+    <p class="sr-only" id="cairn-count" role="status"></p>
+
+    <ul class="stones" id="stones" role="list"></ul>
+    <p class="empty" id="cairn-empty" hidden data-copy="ui.cairn_empty">No stones match that.</p>
+  </section>
+
+  <section id="markers" class="markers" aria-labelledby="markers-heading">
+    <div class="section-head">
+      <h2 id="markers-heading" data-copy="ui.markers_heading">Trail markers</h2>
+      <p class="section-intro" data-copy="ui.markers_intro">A standing rule for a choice that keeps coming back, so you do not argue it again.</p>
+    </div>
+    <ul class="marker-list" id="marker-list" role="list"></ul>
+    <p class="empty" id="markers-empty" hidden data-copy="ui.markers_empty">No trail markers yet.</p>
+    <div class="records" id="records-wrap" hidden>
+      <h3 data-copy="ui.records_heading">The longer records</h3>
+      <ul class="record-list" id="record-list" role="list"></ul>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <p id="footer"></p>
+</footer>
+
+<dialog class="journal" id="journal" aria-labelledby="j-question">
+  <div class="journal-inner">
+    <header class="j-head">
+      <div class="j-tags" id="j-tags"></div>
+      <h2 class="j-question" id="j-question"></h2>
+      <button type="button" class="btn btn-quiet j-close" id="j-close" data-copy="ui.journal_close">Back to the cairn</button>
+    </header>
+    <div class="j-body">
+      <aside class="j-glance" id="j-glance"></aside>
+      <article class="j-reader">
+        <nav class="j-pages" id="j-pages" aria-label="Pages"></nav>
+        <div class="j-page md" id="j-page" tabindex="0" role="region" aria-labelledby="j-of"></div>
+        <div class="j-flip">
+          <button type="button" class="btn btn-quiet" id="j-prev" data-copy="ui.page_prev">Previous page</button>
+          <span class="j-of" id="j-of" role="status"></span>
+          <button type="button" class="btn btn-quiet" id="j-next" data-copy="ui.page_next">Next page</button>
+        </div>
+        <p class="j-reports" id="j-reports"></p>
+      </article>
+    </div>
+  </div>
+</dialog>
+</body>
+</html>

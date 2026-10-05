@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "id": "2026-09-19-evening-or-weekend-pottery-class",
+  "question": "Take the Tuesday evening pottery class or the Saturday morning one?",
+  "door": "two-way",
+  "stakes": "low",
+  "status": "decided",
+  "planned": [
+    "framing",
+    "filing"
+  ],
+  "created": "2026-09-19T12:00:00.000Z",
+  "updated": "2026-09-19T12:15:00.000Z",
+  "options": [
+    "Tuesday evening",
+    "Saturday morning"
+  ],
+  "verdict": "A small call you can undo: no council needed. The trail marker for hobby sign-ups already covers it.",
+  "first_step": "Sign up for Tuesday; you can switch after the first month.",
+  "seats": [],
+  "premortem": null,
+  "models": null,
+  "outcome": "Tuesday evenings. The studio is on the bus route, and Saturdays stay free.",
+  "filed_as": "POL-003",
+  "revisit": null
+}

@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "id": "2026-09-12-repair-or-replace-laptop",
+  "question": "Repair the old laptop or replace it?",
+  "door": "two-way",
+  "stakes": "low",
+  "status": "decided",
+  "planned": [
+    "framing",
+    "council",
+    "review",
+    "verdict",
+    "filing"
+  ],
+  "created": "2026-09-12T19:10:00.000Z",
+  "updated": "2026-09-13T08:30:00.000Z",
+  "options": [
+    "Repair: a new battery and a bigger drive",
+    "Replace with a refurbished model",
+    "Replace with a new one"
+  ],
+  "verdict": "Repair it now, put the replacement money aside, and set a date to look again.",
+  "first_step": "Book the repair shop's free check this week and get the quote in writing.",
+  "seats": [
+    {
+      "seat": "contrarian",
+      "lean": "against",
+      "line": "A seven-year-old laptop will fail somewhere else next. You may pay twice."
+    },
+    {
+      "seat": "first-principles",
+      "lean": "for",
+      "line": "The real need is email, photos and the school portal. Any working laptop does that."
+    },
+    {
+      "seat": "expansionist",
+      "lean": "split",
+      "line": "Replace, and turn the old one into the family photo backup."
+    },
+    {
+      "seat": "outsider",
+      "lean": "for",
+      "line": "If the only problems are the battery and the space, fix those two things."
+    },
+    {
+      "seat": "executor",
+      "lean": "for",
+      "line": "A quote takes a day. Shopping for a new one takes weeks of tabs."
+    }
+  ],
+  "premortem": null,
+  "models": {
+    "advisors": "sonnet",
+    "reviewers": "sonnet",
+    "chairman": "opus"
+  },
+  "outcome": "Repairing it. The shop quoted a third of the price of a refurbished one. Looking again in March.",
+  "filed_as": "POL-001",
+  "revisit": "2027-03-01"
+}
