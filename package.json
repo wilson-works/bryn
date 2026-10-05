@@ -1,0 +1,10 @@
+{
+  "name": "bryn",
+  "private": true,
+  "version": "0.1.0",
+  "type": "commonjs",
+  "description": "Bryn the Trail Guide: a WilsonWorks decision agent. Five scouts, a look down the trail, and a cairn so you never decide the same thing twice.",
+  "license": "MIT",
+  "engines": { "node": ">=20" },
+  "scripts": { "start": "node dashboard/server.js" }
+}
