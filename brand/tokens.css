@@ -1,0 +1,225 @@
+/*
+ * Bryn the Trail Guide: design tokens.
+ * Custom properties on :root only. No selectors, no rules, no fonts fetched.
+ *
+ * Two layers. Components use the semantic layer only; the palette layer exists so the semantic
+ * layer has something to point at.
+ *
+ * Contrast (WCAG 2.2 SC 1.4.3 text, SC 1.4.11 non-text). Every ratio below was computed with the
+ * WCAG relative-luminance formula, not estimated. Text needs 4.5:1, large text (24px+, or 18.66px+
+ * bold) needs 3:1, and borders, focus rings and meaningful graphics need 3:1.
+ *
+ *   text                     on page   panel  raised   mist   stone-1  stone-2
+ *   ink        #1F2D38        12.47    13.31   14.09   10.97     8.24     9.33
+ *   slate      #34495A         8.27     8.83    9.35    7.28     5.47     6.19
+ *   ink-muted  #4B616D         5.75     6.15    6.50    5.06     3.80 x   4.30 x  -> on stones use slate
+ *   accent-ink #9E3221         6.34     6.77    7.16    5.58     4.19 x     -     -> never on stones
+ *   link       #2C6A92         5.19     5.54    5.86    4.56     3.43 x     -     -> never on stones
+ *   waiting    #835A12         5.41     5.78    6.11    4.76
+ *   decided    #4A6639         5.72     6.11    6.46    5.03
+ *   abandoned  #625E54         5.72     6.11    6.46    5.03
+ *   (in-progress uses link, parked uses ink-muted: ratios above)
+ *
+ *   FAILS as small text, kept for fills and large text only:
+ *   trail red  #C8432F on page 4.32 (large text and non-text only)   glacier #4F8FB8 on page 3.12
+ *   moss #5F7F4A 4.02   ridge near #5E7682 4.23   stone dark #7E7A6E 3.80   ochre 1.91   sand 1.51
+ *
+ *   text on fills: white on trail red 4.88 (fog on trail red is 4.32 and FAILS: use white),
+ *   white on red dark 7.16, white on ink 14.09, white on moss 4.54, white on plum 5.91,
+ *   ink on ochre 6.51, ink on sand 8.26, ink on ridge mid 5.47.
+ *   Nothing small on glacier: white 3.53, ink 3.99.
+ *
+ *   non-text: line-strong #5E7682 vs page 4.23, raised 4.78, mist 3.72 (inputs, chip outlines).
+ *   Focus #2C6A92 vs page 5.19, stone-1 3.43, BUT vs trail red only 1.20, so the ring must sit on
+ *   the page with an offset (--focus-offset), never flush against a red button.
+ *   Status fills (ochre 1.91, sand 1.51, ridge mid 2.28 on page) are below 3:1, so a status is
+ *   never colour alone (SC 1.4.1). Every status carries its word and its glyph.
+ *   --line (ridge far, 1.52 on page) is for decorative dividers only, never a control's edge.
+ *
+ * Breakpoints cannot be custom properties (var() does not work inside @media). Use these literals:
+ *   40em (640px)   60em (960px)   75em (1200px)
+ */
+
+:root {
+  /* ---------- palette (from the brief) ---------- */
+  --c-fog: #EEF2EF;
+  --c-mist: #DCE5E2;
+  --c-ridge-far: #B9C8CC;
+  --c-ridge-mid: #8FA5AE;
+  --c-ridge-near: #5E7682;
+  --c-slate: #34495A;
+  --c-ink: #1F2D38;
+  --c-red: #C8432F;
+  --c-red-dark: #9E3221;
+  --c-glacier: #4F8FB8;
+  --c-ochre: #E0A643;
+  --c-moss: #5F7F4A;
+  --c-sand: #D9C49A;
+  --c-stone-light: #C9C6BC;
+  --c-stone-mid: #A7A396;
+  --c-stone-dark: #7E7A6E;
+  --c-plum: #6B5B95;
+
+  /* ---------- derived (computed to pass; not in the brief) ---------- */
+  --c-white: #FFFFFF;
+  --c-fog-50: #F7F9F7;      /* panel: one step lighter than the room */
+  --c-stone-pale: #D6D2C7;  /* second stone face, for variety on the cairn */
+  --c-glacier-700: #2C6A92; /* glacier dark enough for text: 5.19 on page */
+  --c-ridge-700: #4B616D;   /* ridge near, darkened to 5.75 on page */
+  --c-ochre-700: #835A12;
+  --c-moss-700: #4A6639;
+  --c-stone-700: #625E54;
+
+  /* ---------- surfaces ---------- */
+  --color-page: var(--c-fog);
+  --color-panel: var(--c-fog-50);
+  --color-raised: var(--c-white);
+  --color-sunken: var(--c-mist);          /* trail-map track, input wells, chip rest state */
+
+  /* ---------- ink ---------- */
+  --color-ink: var(--c-ink);
+  --color-ink-muted: var(--c-ridge-700);  /* not on stones: use --stone-ink-muted */
+  --color-ink-on-dark: var(--c-white);    /* on trail red, red dark, ink, moss, plum */
+
+  /* ---------- lines ---------- */
+  --color-line: var(--c-ridge-far);       /* decorative dividers only */
+  --color-line-strong: var(--c-ridge-near); /* input and chip edges: 3:1 or better everywhere */
+
+  /* ---------- accent: trail red (Bryn's shell, the recommended road, the call) ---------- */
+  --color-accent: var(--c-red);           /* fills, large display text, the lit trail stop */
+  --color-accent-strong: var(--c-red-dark); /* hover and pressed on red fills */
+  --color-accent-ink: var(--c-red-dark);  /* red text on light surfaces */
+  --color-on-accent: var(--c-white);      /* white, not fog: fog on red is 4.32 */
+
+  /* ---------- link and focus: glacier ---------- */
+  --color-link: var(--c-glacier-700);
+  --color-link-hover: var(--c-ink);
+  --color-focus: var(--c-glacier-700);
+  --focus-width: 3px;
+  --focus-offset: 3px;
+
+  /* ---------- status: fill (glyphs, painted markers, dots) + ink (text) ---------- */
+  --status-progress: var(--c-glacier);
+  --status-progress-ink: var(--c-glacier-700);
+  --status-waiting: var(--c-ochre);
+  --status-waiting-ink: var(--c-ochre-700);
+  --status-decided: var(--c-moss);
+  --status-decided-ink: var(--c-moss-700);
+  --status-parked: var(--c-ridge-mid);
+  --status-parked-ink: var(--c-ridge-700);
+  --status-abandoned: var(--c-stone-dark);
+  --status-abandoned-ink: var(--c-stone-700);
+
+  /* ---------- the five scouts: fills only, never text; swatches get a --color-line-strong edge
+     because sand is 1.51 on the page ---------- */
+  --scout-contrarian: var(--c-plum);
+  --scout-first-principles: var(--c-ochre);
+  --scout-expansionist: var(--c-glacier);
+  --scout-outsider: var(--c-sand);
+  --scout-executor: var(--c-moss);
+
+  /* ---------- stones (the cairn cards) ---------- */
+  --stone-face-1: var(--c-stone-light);
+  --stone-face-2: var(--c-stone-pale);
+  --stone-shade: var(--c-stone-mid);      /* the flat poster underside, an inset shadow */
+  --stone-ink: var(--c-ink);              /* 8.24 on the darker face */
+  --stone-ink-muted: var(--c-slate);      /* 5.47 on the darker face */
+  /* Elliptical radii in percent so the shape holds at any card size. Pad stones with --space-6
+     so text clears the curves. */
+  /* Rendered, the first radii (as much as 44% vertical) made tall cards read as arches; these flatter curves read
+     as river stones. */
+  --radius-stone-1: 22% 26% 24% 20% / 26% 22% 30% 24%;
+  --radius-stone-2: 26% 20% 20% 24% / 22% 28% 24% 30%;
+  --radius-stone-3: 20% 24% 28% 22% / 30% 24% 22% 28%;
+  --radius-stone-4: 24% 20% 22% 28% / 24% 30% 26% 22%;
+  --stone-tilt-1: -1.2deg;
+  --stone-tilt-2: 0.8deg;
+  --stone-tilt-3: -0.6deg;
+  --stone-tilt-4: 1.4deg;
+
+  /* ---------- radius ---------- */
+  --radius-1: 4px;     /* painted markers, small chips' inner glyphs */
+  --radius-2: 8px;     /* buttons, inputs */
+  --radius-3: 14px;    /* panels, trail-marker cards */
+  --radius-4: 22px;    /* the scene card, the journal */
+  --radius-pill: 999px; /* filter chips */
+
+  /* ---------- spacing (4/8 rhythm) ---------- */
+  --space-1: 0.25rem;  /*  4 */
+  --space-2: 0.5rem;   /*  8 */
+  --space-3: 0.75rem;  /* 12 */
+  --space-4: 1rem;     /* 16 */
+  --space-5: 1.5rem;   /* 24 */
+  --space-6: 2rem;     /* 32 */
+  --space-7: 3rem;     /* 48 */
+  --space-8: 4rem;     /* 64 */
+  --space-9: 6rem;     /* 96 */
+  --page-max: 80rem;                                  /* 1280 content at 1440 */
+  --page-gutter: clamp(1rem, 0.4rem + 2.6vw, 2.5rem); /* 16 at 375 */
+  --grid-gap: clamp(1rem, 0.6rem + 1.2vw, 2rem);      /* 16 at 375, 32 at 1440 */
+  --target-min: 2.75rem;                              /* 44px touch target */
+
+  /* ---------- shadow ---------- */
+  --shadow-panel: 0 1px 2px rgb(31 45 56 / 0.06), 0 4px 12px rgb(31 45 56 / 0.06);
+  --shadow-raised: 0 2px 4px rgb(31 45 56 / 0.08), 0 12px 28px rgb(31 45 56 / 0.10);
+  --shadow-stone: inset 0 -0.5rem 0 var(--stone-shade), 0 3px 0 rgb(52 73 90 / 0.22);
+  --shadow-stone-lift: inset 0 -0.5rem 0 var(--stone-shade), 0 7px 0 rgb(52 73 90 / 0.18);
+
+  /* ---------- type: system fonts only, nothing fetched ---------- */
+  /* Display: condensed, poster-like, set in caps. Avenir Next Condensed and DIN Condensed ship
+     with macOS and iOS; Bahnschrift ships with Windows 10 and 11 (a variable font: pair it with
+     --font-display-stretch so its width axis narrows); the rest cover Linux and older Windows. */
+  --font-display: "Avenir Next Condensed", "DIN Condensed", "Bahnschrift SemiCondensed", Bahnschrift,
+    "Roboto Condensed", "Ubuntu Condensed", "Arial Narrow", "DejaVu Sans Condensed", system-ui, sans-serif;
+  --font-display-stretch: 87.5%;
+  --font-display-weight: 700;
+  --font-display-case: uppercase;
+  --tracking-display: 0.03em;
+  --tracking-eyebrow: 0.12em;
+  /* Reading */
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-weight-regular: 400;
+  --font-weight-strong: 600;
+
+  --text-xs: 0.8125rem;  /* 13: chip counts and badges only, never a sentence */
+  --text-sm: 0.875rem;   /* 14: meta lines, dates, eyebrows */
+  --text-base: 1rem;     /* 16: body and every input (16 stops iOS zooming the field) */
+  --text-md: 1.125rem;   /* 18: the question on the table, stone titles */
+  --text-lg: 1.375rem;   /* 22: Bryn's caption, the call */
+  --text-xl: clamp(1.75rem, 1.35rem + 1.6vw, 2.5rem);  /* 28 to 40: section titles (display) */
+  --text-2xl: clamp(2.25rem, 1.6rem + 2.8vw, 3.5rem);  /* 36 to 56: the journal's question (display) */
+
+  --leading-display: 1.05;
+  --leading-heading: 1.2;
+  --leading-body: 1.55;
+  --leading-read: 1.7;   /* rendered markdown in the journal */
+  --measure: 66ch;
+
+  /* ---------- motion: interface ---------- */
+  --dur-press: 120ms;
+  --dur-hover: 160ms;
+  --dur-enter: 280ms;   /* page flip in, journal open, panel in */
+  --dur-exit: 180ms;    /* about two thirds of enter */
+  --dur-scene: 480ms;   /* the scene crossfade */
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);       /* entering */
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);        /* leaving */
+  --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1); /* sine: every looping scene motion */
+  --ease-settle: cubic-bezier(0.3, 1.3, 0.6, 1); /* a small overshoot: a post or a stone landing */
+
+  /* ---------- motion: the scenes (one per anim-* class; app.css owns the keyframes) ---------- */
+  --loop-cloud: 80s;
+  --loop-fog: 22s;
+  --loop-breathe: 5.2s;
+  --loop-steam: 3.6s;
+  --loop-write: 1.4s;
+  --loop-route: 7s;     /* draw over the first 40%, hold, fade, repeat */
+  --loop-walk: 0.8s;
+  --loop-card: 3.4s;
+  --loop-flag: 1.8s;
+  --loop-hazard: 2.4s;  /* 0.4 flashes a second, far under SC 2.3.1's three */
+  --loop-look: 7s;
+  --loop-glint: 6s;     /* one 300ms glint per loop */
+  --once-plant: 700ms;
+  --once-stone: 650ms;
+  --once-dust: 900ms;
+}

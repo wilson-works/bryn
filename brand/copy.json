@@ -1,0 +1,174 @@
+{
+  "name": "Bryn",
+  "title": "The Trail Guide",
+  "line": "Helps you think a decision through. Five scouts weigh it on their own, she looks for where the plan could fail, and she keeps your call so you never argue it twice.",
+  "jokes": [
+    "Come in. Boots off if they're muddy. They're always muddy.",
+    "A cairn is a pile of stones that agreed to stay put. Most decisions should be so lucky.",
+    "The Contrarian has walked back down the trail again. They'll come back with something I missed.",
+    "The Executor already has the pack on. The Executor always has the pack on.",
+    "I asked the sky about the weather. It said maybe. Skies and decisions have a lot in common.",
+    "If you can undo it, just decide. If you can't, sit down. I have a spare rock.",
+    "I'll tell you which road I'd take. You're the one wearing the boots.",
+    "Nobody has ever regretted packing a rain shell. I checked the cairn.",
+    "I go up the hill to look ahead. Also to eat my lunch in peace.",
+    "The Outsider asked why we don't just take the road. We're still thinking about that one.",
+    "Knock twice for a quick question. Knock three times and I'll light the stove for tea."
+  ],
+  "stages": {
+    "idle": {
+      "label": "At the trailhead",
+      "caption": "Nothing on the table. I'm on my rock with a cup of tea. Bring me a decision when you have one."
+    },
+    "framing": {
+      "label": "At the fork",
+      "caption": "I'm writing your question on the signpost. Can it be undone? How much rides on it? That tells us how far to walk."
+    },
+    "brainstorm": {
+      "label": "Laying out the routes",
+      "caption": "I'm chalking every route onto the map, odd ones included. We'll rub most of them out soon."
+    },
+    "council": {
+      "label": "Scouts on the trail",
+      "caption": "Five scouts are out, each on a different road. They don't talk to each other until they're back."
+    },
+    "review": {
+      "label": "Comparing notes",
+      "caption": "The scouts are back with their hoods up. Each one reads the others' notes without knowing whose they are."
+    },
+    "verdict": {
+      "label": "Marking the road",
+      "caption": "I'm sorting where the scouts agree and where they don't. Then I'll paint the road I'd take. You still choose."
+    },
+    "waiting": {
+      "label": "Your call",
+      "caption": "My advice is on the signpost. The choice is yours, and there's no rush. Tell me what you decide."
+    },
+    "premortem": {
+      "label": "Up on the hill",
+      "caption": "Say it's six months on and the plan failed. I'm up on the hill, looking for where the bridge washed out."
+    },
+    "filing": {
+      "label": "Adding a stone",
+      "caption": "Your decision goes on the cairn as a stone. If it's a rule worth keeping, I'll paint a trail marker beside it."
+    },
+    "consulting": {
+      "label": "Checking the cairn",
+      "caption": "Before we argue this one again, I'm checking the cairn. You may have settled it already."
+    }
+  },
+  "stalled": "It's been quiet since {time}. Last stop: {stage}. In your next Claude session I'll offer to pick it up or close it.",
+  "parked": "My advice has been on the signpost since {time}. No hurry. When you decide, tell me in a Claude session.",
+  "examples_idle": "The stones here are made-up examples. Bring me your first real question and we'll start your own cairn.",
+  "seats": {
+    "contrarian": {
+      "name": "The Contrarian",
+      "short": "Hunts for the flaw in the plan",
+      "prop": "Walks back down the trail"
+    },
+    "first-principles": {
+      "name": "The First Principles Thinker",
+      "short": "Asks what you're really trying to solve",
+      "prop": "Kneels at bedrock with a rock hammer"
+    },
+    "expansionist": {
+      "name": "The Expansionist",
+      "short": "Looks for the bigger upside",
+      "prop": "Holds a map wider than they are"
+    },
+    "outsider": {
+      "name": "The Outsider",
+      "short": "Comes to it fresh, knowing nothing",
+      "prop": "Sun hat, no map, off the trail"
+    },
+    "executor": {
+      "name": "The Executor",
+      "short": "Asks what you'd do on Monday morning",
+      "prop": "Pack on, one foot on the path"
+    }
+  },
+  "leans": {
+    "for": "For it",
+    "against": "Against it",
+    "split": "In two minds"
+  },
+  "status": {
+    "in-progress": "On the trail",
+    "waiting": "Your call",
+    "decided": "Decided",
+    "parked": "Set aside",
+    "abandoned": "Turned back"
+  },
+  "ui": {
+    "skip": "Skip to the main content",
+    "nav_trailhead": "Trailhead",
+    "nav_cairn": "Cairn",
+    "nav_markers": "Trail markers",
+    "table_heading": "On the table",
+    "table_empty": "Nothing on the table.",
+    "step": "Stop {n} of {of}",
+    "since": "Since {time}",
+    "trail_heading": "Trail map",
+    "pause_motion": "Pause the scene",
+    "play_motion": "Play the scene",
+    "examples_badge": "Examples",
+    "ask_heading": "Bring Bryn a question",
+    "ask_intro": "Your question waits here for your next Claude session, and nothing runs by itself.",
+    "ask_question_label": "Your question",
+    "ask_question_placeholder": "Should I move my book club to Thursday evenings?",
+    "ask_context_label": "Anything she should know (optional)",
+    "ask_context_placeholder": "Three of the five members work late on Mondays.",
+    "ask_button": "Leave it for Bryn",
+    "ask_done": "Left at the trailhead. In your next Claude session, say \"Bryn, take up the next question.\"",
+    "ask_waiting": "Questions waiting: {n}",
+    "ask_too_short": "Write your question in a few words first.",
+    "cairn_heading": "The cairn",
+    "cairn_intro": "Every decision you make here becomes a stone on the cairn. Open one to read how it was made.",
+    "filter_label": "Show",
+    "filter_all": "All",
+    "search_label": "Search the cairn",
+    "search_placeholder": "A word from the question",
+    "search_hint": "Type to filter the stones. Press Enter to ask Bryn to check.",
+    "cairn_count": "Stones shown: {n}",
+    "stop_done": "done",
+    "stop_here": "we are here",
+    "consult_button": "Ask Bryn to check",
+    "consult_policy": "A trail marker covers this: {title} ({id}).",
+    "consult_decision": "You've decided something like this before: {question}",
+    "consult_nothing": "Nothing on the cairn matches. This is new ground.",
+    "examples_banner": "These stones are made-up examples for someone called Alex, so you can see how it works. They step aside when you bring your first real question.",
+    "cairn_empty": "No stones match that.",
+    "markers_heading": "Trail markers",
+    "markers_intro": "A trail marker is a choice you made once and want to keep, so the same question gets the same answer.",
+    "markers_empty": "No trail markers yet. One appears here when you keep a decision as a rule.",
+    "marker_when": "When it applies",
+    "marker_do": "What to do",
+    "marker_escalate": "When to stop and think again",
+    "records_heading": "Longer write-ups",
+    "open_decision": "Open it",
+    "journal_close": "Close",
+    "page_prev": "Previous page",
+    "page_next": "Next page",
+    "page_of": "Page {n} of {of}",
+    "report_link": "Open the full report (new tab)",
+    "report_council": "Open the council's full report (new tab)",
+    "report_premortem": "Open the premortem's full report (new tab)",
+    "seats_heading": "Where the five scouts stood",
+    "verdict_label": "Bryn's advice",
+    "first_step_label": "First step",
+    "outcome_label": "What you decided",
+    "outcome_none": "Not decided yet.",
+    "revisit_label": "Look again",
+    "premortem_likely": "Most likely way it fails",
+    "premortem_dangerous": "Most damaging way it fails",
+    "premortem_assumption": "The assumption to check",
+    "door_one_way": "Can't be undone",
+    "door_two_way": "Can be undone",
+    "stakes_high": "High stakes",
+    "stakes_low": "Low stakes",
+    "advice_note": "Advice from five viewpoints of one AI model. The decision is yours.",
+    "loading": "Loading",
+    "error_load": "Can't reach Bryn's server. Check it's running on this computer, then reload the page.",
+    "footer": "Bryn runs on this computer only. What you tell her stays in {where}."
+  }
+}
