@@ -4,7 +4,7 @@
  * engine/config.js — where Bryn keeps what you bring her, and which port the dashboard uses.
  * Node built-ins only.
  *
- *   load(home)  { home, key, port, data, decisions, log, stageFile, asksFile, examples, hub, source }
+ *   load(home)  { home, key, port, data, decisions, log, stageFile, asksFile, examples, hub, source, phoneHost }
  *
  * Everything a person tells Bryn lives in one data folder, never in her own folder: her folder is the
  * package (it can be copied, zipped, replaced or archived), and your questions must not travel with it.
@@ -25,6 +25,10 @@
  *
  * The port: "port" in the config, else probe.port in agent.json (the Workspace rewrites it when it installs
  * her where 7550 is taken), else 7550.
+ *
+ * Her phone address: "phone" in bryn.config.json (for example "https://desk.example-tailnet.ts.net:8445/", or a bare
+ * host name), else door.phone in her agent.json. Her dashboard answers that host name as well as 127.0.0.1 and
+ * localhost. load() returns it as phoneHost, and throws, in plain words, when "phone" cannot be read as an address.
  */
 
 const fs = require('fs');
@@ -52,6 +56,10 @@ function findHub(from) {
   return null;
 }
 
+function phoneHostOf(manifest) {
+  try { return manifest && manifest.door && manifest.door.phone ? new URL(manifest.door.phone).hostname.toLowerCase() : null; } catch (_) { return null; }
+}
+
 function load(home) {
   const h = path.resolve(home || HOME);
   const manifest = readJson(path.join(h, 'agent.json')) || {};
@@ -69,8 +77,16 @@ function load(home) {
   else if (hub) { data = path.join(hub, '50-AI', 'agent-data', key); source = 'hub'; }
   else { data = path.join(h, 'data'); source = 'local'; }
 
+  // Her phone address: "phone" in bryn.config.json (this computer's own tailnet address, kept out of agent.json so
+  // it is never committed), else door.phone in agent.json.
+  let phoneHost = phoneHostOf(manifest);
+  if (cfg.phone != null) {
+    phoneHost = phoneHostOf({ door: { phone: String(cfg.phone).includes('://') ? cfg.phone : `https://${cfg.phone}` } });
+    if (!phoneHost) throw new Error(`"phone" in ${key}.config.json must be an address, for example https://desk.example-tailnet.ts.net:8445/.`);
+  }
+
   return {
-    home: h, key, port, hub, source, data,
+    home: h, key, port, hub, source, data, phoneHost,
     decisions: path.join(data, 'decisions'),
     log: path.join(data, 'log'),
     stageFile: path.join(data, 'stage.json'),
