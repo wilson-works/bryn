@@ -85,7 +85,7 @@ if (require.main === module) {
   process.stdout.write([
     `Bryn's data folder: ${c.data} (from ${c.source === 'config' ? 'bryn.config.json' : c.source === 'hub' ? 'the Hub' : 'her own folder'})`,
     `  decisions:        ${c.decisions}`,
-    `  the cairn (log):  ${c.log}`,
+    `  stone path (log): ${c.log}`,
     `  stage:            ${c.stageFile}`,
     `  questions left:   ${c.asksFile}`,
     `Dashboard port:     ${c.port}`, '',

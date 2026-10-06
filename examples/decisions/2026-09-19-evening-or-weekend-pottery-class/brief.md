@@ -8,7 +8,7 @@
 
 **How much is at stake?** Low.
 
-**What Bryn checked first.** The cairn has a standing marker for this: POL-003, hobby sign-ups for a term go to the
+**What Bryn checked first.** A trail marker covers this: POL-003, hobby sign-ups for a term go to the
 slot you can reach without driving. The Tuesday studio is on the bus route.
 
 **What Bryn said.** "This is a small call you can undo, and you already have a marker for it. No council needed. Pick

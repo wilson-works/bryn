@@ -11,7 +11,7 @@ no extra installs. If you have Claude Code and a Workspace, you have everything 
 
 Bring her a decision, big or small.
 
-1. **At the fork.** She reads your question back in fewer words, checks the cairn in case you decided it before, and
+1. **At the fork.** She reads your question back in fewer words, checks the stone path in case you decided it before, and
    asks two things: can you undo it, and how much rides on it? A small call you can undo gets a straight answer and no
    fuss: "You can undo this one. I'd pick X. Your call."
 2. **Laying out the routes.** No options yet? She runs a brainstorm. You go first.
@@ -21,7 +21,7 @@ Bring her a decision, big or small.
    viewpoints from one AI model, not five experts, and she says so.
 4. **Up on the hill.** Committing to a plan? She imagines it is six months on and the plan failed, and works out why:
    the most likely failure, the most damaging one, and the assumption nobody checked.
-5. **Adding a stone.** When you decide and say "file it", your decision goes on the cairn. A choice that keeps coming
+5. **Laying a stone.** When you decide and say "file it", your decision goes on the stone path. A choice that keeps coming
    back, can be undone, and has bounded stakes becomes a trail marker: a standing rule, so the same question gets the
    same answer next time.
 
@@ -34,7 +34,7 @@ A page on your own computer (`http://127.0.0.1:7550/`) with:
 
 - **The trailhead**: a scene for what she is doing right now, what is on the table, and the trail map of the stops
   ahead. You can leave her a question there for your next Claude session.
-- **The cairn**: every decision as a stone. Filter them, search them, or ask Bryn to check whether you have decided
+- **The stone path**: every decision as a stone. Filter them, search them, or ask Bryn to check whether you have decided
   something like it before. Open a stone to read its pages: the question, the options, the council, the premortem and
   what you decided.
 - **The trail markers**: your standing rules, each with when it applies, what to do, and when to stop and think again.
@@ -61,7 +61,7 @@ To run her dashboard straight from this folder: `node dashboard/server.js`.
 In a Claude Code session on your Hub:
 
 - "Bryn, help me decide whether to ..." runs the whole trail (in the session itself, following `CLAUDE.md`).
-- "Bryn, have we decided this before?" checks the cairn.
+- "Bryn, have we decided this before?" checks the stone path and the trail markers.
 - "Bryn, take up the next question" takes the oldest question you left on her dashboard.
 
 ## Where your decisions live
@@ -80,11 +80,11 @@ and your questions must not travel with it):
 |---|---|
 | `agent.json` | Who she is, her colours, her door, how to start her, the skills she needs. |
 | `CLAUDE.md` | Who she is and her runbook, step by step. |
-| `subagent.md` | Her front desk: checks the cairn, frames a question, says the next step. It only reads. |
+| `subagent.md` | Her front desk: checks the stone path and the trail markers, frames a question, says the next step. It only reads. |
 | `brand/` | Her voice (`VOICE.md`), her character sheet, every line on her page (`copy.json`), her palette (`tokens.css`). |
 | `art/`, `art.svg`, `mark.svg` | Her ten scenes, the figure in her office doorway, and her sign. |
 | `dashboard/` | Her page and its server (Node's built-ins only, this computer only). |
-| `engine/` | The small tools her runbook calls: the stage, a decision's record, the cairn reader, questions left for her. |
+| `engine/` | The small tools her runbook calls: the stage, a decision's record, the stone path reader, questions left for her. |
 | `brains/`, `rules/`, `memory/` | What she knows, her standing rules, what she has learned. |
 | `examples/` | The invented examples a fresh install shows. |
 | `tests/` | Checks for the engine, the server and her manifest (`node --test`). |
