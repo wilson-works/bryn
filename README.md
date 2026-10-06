@@ -56,6 +56,8 @@ the four skills she uses from its skills pack. An older one ignores that field: 
 
 To run her dashboard straight from this folder: `node dashboard/server.js`.
 
+To open her door from your phone, put this computer's own address in `bryn.config.json` as `"phone"` (for example `https://desk.example-tailnet.ts.net:8445/` from `tailscale serve`). Her dashboard then answers that name too. It never goes in `agent.json`.
+
 ## Use
 
 In a Claude Code session on your Hub:

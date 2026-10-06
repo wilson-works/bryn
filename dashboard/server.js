@@ -9,7 +9,8 @@
  * The contract (DESIGN.md, section 6):
  *   - Listens on 127.0.0.1 only, on the port engine/config.js gives (7550 unless bryn.config.json or
  *     agent.json says otherwise, or --port). Writes its pid to dashboard/.pid once it listens.
- *   - Answers only Host 127.0.0.1, localhost or the name in its own door.phone. Anything else gets 403.
+ *   - Answers only Host 127.0.0.1, localhost or her phone host: "phone" in bryn.config.json, else the name in
+ *     her own door.phone. Anything else gets 403. A "phone" that is not an address stops her starting, in plain words.
  *   - GET /health is {"ok":true}: no login and no token, ever (the office checks it every 20 seconds).
  *   - Serves files only from dashboard/public/, art/ and brand/ (plus mark.svg and art.svg), by plain file
  *     name only: no folders, no "..", no hidden files, no links.
@@ -54,8 +55,10 @@ function readManifest() {
   return JSON.parse(fs.readFileSync(path.join(HOME, 'agent.json'), 'utf8').replace(/^﻿/, ''));
 }
 
-function hostsAllowed(m) {
+/** 127.0.0.1, localhost and her phone host: phoneHost from engine/config.js ("phone" in bryn.config.json wins), else door.phone. */
+function hostsAllowed(m, phoneHost) {
   const hosts = new Set(['127.0.0.1', 'localhost']);
+  if (phoneHost) { hosts.add(String(phoneHost).toLowerCase()); return hosts; }
   try { if (m && m.door && m.door.phone) hosts.add(new URL(m.door.phone).hostname.toLowerCase()); } catch (_) { /* no phone door */ }
   return hosts;
 }
@@ -173,16 +176,16 @@ async function api(req, res, url, cfg) {
 const makeHandler = (getCfg) => function handler(req, res) {
   let m;
   try { m = readManifest(); } catch (e) { send(res, 500, `agent.json could not be read: ${e.message}`); return; }
+  let cfg;
+  try { cfg = getCfg(); } catch (e) { send(res, 500, `Bryn's settings could not be read: ${e.message}`); return; }
   const host = String(req.headers.host || '').toLowerCase().replace(/:\d+$/, '');
-  if (!hostsAllowed(m).has(host)) { send(res, 403, 'unknown host'); return; }
+  if (!hostsAllowed(m, cfg.phoneHost).has(host)) { send(res, 403, 'unknown host'); return; }
   let url;
   try { url = new URL(req.url, 'http://127.0.0.1'); } catch (_) { send(res, 400, 'bad address'); return; }
   const p = url.pathname;
 
   if (p === '/health') { send(res, 200, '{"ok":true}', 'application/json'); return; }
   if (p.startsWith('/api/')) {
-    let cfg;
-    try { cfg = getCfg(); } catch (e) { json(res, 500, { error: `Bryn's settings could not be read: ${e.message}` }); return; }
     api(req, res, url, cfg).catch((e) => json(res, 500, { error: `Something went wrong reading Bryn's notes: ${e.message}` }));
     return;
   }
@@ -236,7 +239,9 @@ if (require.main === module) {
   if (port !== undefined && !(Number.isInteger(port) && port >= 1024 && port <= 65535)) {
     process.stderr.write('--port needs a number from 1024 to 65535. Nothing was started.\n');
     process.exitCode = 2;
-  } else start({ port });
+  } else {
+    try { start({ port }); } catch (e) { process.stderr.write(`${e.message} Nothing was started.\n`); process.exitCode = 2; }
+  }
 }
 
 module.exports = { handler, makeHandler, start, hostsAllowed, plainFileIn, where };

@@ -1,4 +1,5 @@
 {
   "port": 7550,
+  "_phone": "Optional: \"phone\": \"https://desk.example-tailnet.ts.net:8445/\" is this computer's own address for her door on your phone (for example from tailscale serve). Her dashboard then answers that name too. It stays in this file, never in agent.json.",
   "data_dir": "C:/Users/alex/Hub/50-AI/agent-data/bryn"
 }
