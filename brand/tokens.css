@@ -213,13 +213,38 @@
   --loop-steam: 3.6s;
   --loop-write: 1.4s;
   --loop-route: 7s;     /* draw over the first 40%, hold, fade, repeat */
-  --loop-walk: 0.8s;
   --loop-card: 3.4s;
   --loop-flag: 1.8s;
   --loop-hazard: 2.4s;  /* 0.4 flashes a second, far under SC 2.3.1's three */
   --loop-look: 7s;
   --loop-glint: 6s;     /* one 300ms glint per loop */
-  --once-plant: 700ms;
   --once-stone: 650ms;
-  --once-dust: 900ms;
+
+  /* ---------- motion: liveness (v4). Calm, never busy; nothing here flashes (SC 2.3.1) ---------- */
+  --dur-vignette: 1600ms;  /* the slow crossfade between idle vignettes */
+  --loop-stride: 1.4s;     /* one full walk cycle, two steps */
+  --loop-sway: 4.6s;       /* grass */
+  --loop-flap: 0.5s;       /* one wing stroke each way: a bird, not a flash */
+  --loop-wheel: 28s;       /* birds circling far off */
+  --loop-shimmer: 3.4s;
+  --loop-graze: 16s;       /* head down, look up, head down */
+  --loop-tail: 5s;
+  --loop-row: 2.6s;        /* one paddle stroke, both sides */
+  --loop-rock: 3.6s;       /* the kayak rocking on the water */
+  --loop-wake: 2.6s;
+  --loop-leap: 13s;        /* a fish jumps once per loop */
+  --loop-perch: 30s;       /* a bird lands on the signpost, stays, leaves */
+  --loop-flame: 0.9s;      /* each way: about half a flicker a second */
+  --loop-glow: 1.7s;
+  --loop-spark: 2.8s;
+  --loop-smoke: 8s;
+  --loop-twinkle: 5s;
+  --loop-lean: 6s;         /* the scouts leaning in to the fire */
+  --loop-gesture: 5.2s;
+  --loop-heron: 11s;
+  --drift-near: 18s;       /* the near ground passes at the speed of her planted foot, measured at about 35 px/s */
+  --drift-mid: 34s;
+  --drift-far: 96s;
+  --drift-water: 7s;
+  --loop-traverse: 16s;    /* a scout walking out along a road, then the loop begins again */
 }

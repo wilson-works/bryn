@@ -38,7 +38,7 @@
     },
     "verdict": {
       "label": "Marking the road",
-      "caption": "I'm sorting where the scouts agree and where they don't. Then I'll paint the road I'd take. You still choose."
+      "caption": "We're round the fire, the scouts and me. I'm sorting where they agree and where they don't, then I'll mark the road I'd take. You still choose."
     },
     "waiting": {
       "label": "Your call",
@@ -60,6 +60,20 @@
   "stalled": "It's been quiet since {time}. Last stop: {stage}. In your next Claude session I'll offer to pick it up or close it.",
   "parked": "My advice has been on the signpost since {time}. No hurry. When you decide, tell me in a Claude session.",
   "examples_idle": "The stones here are made-up examples. Bring me your first real question and we'll lay your first stone.",
+  "idle_vignettes": {
+    "rock": {
+      "scene": "Bryn on her rock with a cup of tea, a small bird coming and going from the signpost",
+      "caption": "Nothing on the table. I'm on my rock with a cup of tea. Bring me a decision when you have one."
+    },
+    "trail": {
+      "scene": "Bryn walking the red trail, deer and a moose grazing far off",
+      "caption": "Nothing on the table, so I'm walking the trail. The deer don't mind. Bring me a decision when you have one."
+    },
+    "kayak": {
+      "scene": "Bryn paddling her kayak down the stream, a heron on the far bank",
+      "caption": "Nothing on the table, so I'm out on the stream. Bring me a decision when you have one. I'll paddle back."
+    }
+  },
   "seats": {
     "contrarian": {
       "name": "The Contrarian",

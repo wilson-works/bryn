@@ -46,12 +46,12 @@ She is Louise's opposite on every count: outdoors, daylight, on the move, stone 
 
 | Stage | What the skill does | What you see |
 |---|---|---|
-| `idle` | Nothing on the table | Bryn at the trailhead, sitting on a rock with a tin cup, the stone path climbing away behind her |
+| `idle` | Nothing on the table | One of three living vignettes (`art/README.md` §11), changing every few minutes: Bryn on her rock with a tin cup while a small bird lands on the signpost; walking her red trail with deer and a moose grazing far off; paddling her kayak down the stream past a heron |
 | `framing` | The question is framed: what it is, can it be undone, how much is at stake | A blank signpost at a fork in the trail; Bryn writing the question on a card pinned to it |
 | `brainstorm` | Options generated, then clustered and shortlisted | Bryn kneeling over a map on a flat rock, routes being chalked across it |
 | `council` | Five advisors answer independently | Five scouts, each walking out along a different road from the fork |
 | `review` | Anonymous peer review | The five back at the fork with their props laid down and hoods up: five identical figures, the anonymity visible |
-| `verdict` | The chair's synthesis: agree, clash, blind spots, the call, the first step | Bryn planting the signpost, one arm painted red toward the road she recommends |
+| `verdict` | The chair's synthesis: agree, clash, blind spots, the call, the first step | At dusk, Bryn and the five scouts round a campfire at the fork, the scouts leaning in as she gives the call; the signpost's red board points up the road she recommends |
 | `waiting` | The advice is in; the decision is yours | Bryn leaning on her pole by the finished signpost, a marker flag moving in the wind, the path toward you open |
 | `premortem` | "Six months from now this failed. Why?" | Bryn on the hilltop, hand shading her eyes, looking far down the chosen trail at a washed-out bridge |
 | `filing` | The decision goes in the log; a standing policy, when it qualifies | Bryn laying a new stone along the path, and a painted trail marker on a rock beside it |
@@ -173,8 +173,9 @@ dashboard shows it, marked as examples, until the first real decision lands.
 `dashboard/server.js`, Node built-ins only, `127.0.0.1` only, port 7550 by default. One page, three parts and a
 journal:
 
-1. **The trailhead.** The scene for the current stage (polled every 2 seconds, crossfading), Bryn's caption in her
-   voice, what is on the table and a trail map of the planned stops with the current one lit, and "Bring Bryn a
+1. **The trailhead.** The scene for the current stage (polled every 2 seconds, crossfading; at idle, one of three
+   vignettes, a random one on load and a slow crossfade to another every two and a half minutes, chosen by
+   `dashboard/public/vignettes.js`), Bryn's caption in her voice, what is on the table and a trail map of the planned stops with the current one lit, and "Bring Bryn a
    question" (a question and a line of context, left at the trailhead in `asks.md` for the next session).
 2. **The stone path.** Every decision as a stone, coloured by status, with an indicator per status and its count, a filter,
    a search box, and "Ask Bryn to check", which plays `consulting` and points at the matching marker or past decision.
@@ -200,7 +201,8 @@ The server answers only Host `127.0.0.1`, `localhost` or the name in its own `do
 name from `dashboard/public/`, `art/` and `brand/`; reads only inside her data folder or `examples/`; writes only
 `stage.json` and `asks.md`. The page carries a strict Content-Security-Policy (scripts and styles from itself only), so
 the scenes are plain SVG with no styles of their own and every motion lives in `app.css`, and stops for people who ask
-for reduced motion.
+for reduced motion. Every scene moves (a walk, a paddle stroke, a fire, grass, birds, water), calm and slow; the Pause
+button stops all of it and the vignette change, and reduced motion shows the rock, still, and never changes it.
 
 ## 7. The repo
 
@@ -209,10 +211,10 @@ for reduced motion.
 | `DESIGN.md` | this file | lead |
 | `agent.json` | the Workspace contract, key `bryn`, port 7550, `requires.skills` | lead |
 | `art.svg`, `mark.svg` | her office-door figure and her mark | art |
-| `art/` | the ten scenes | art |
+| `art/` | the ten stage scenes and two more idle vignettes (`idle-trail`, `idle-kayak`) | art |
 | `brand/VOICE.md`, `brand/character.md`, `brand/copy.json` | her voice, her character sheet, every line on the page and at her door | copy |
 | `brand/tokens.css` | palette and type | look |
-| `dashboard/server.js`, `dashboard/public/` | the server and the page (no build step) | lead |
+| `dashboard/server.js`, `dashboard/public/` | the server and the page (no build step); `vignettes.js` picks the idle vignette | lead |
 | `engine/` | `config.js`, `stage.js`, `decisions.js`, `record.js` (opens and updates a decision's `meta.json` for the runbook, added during the build), `asks.js` | lead |
 | `CLAUDE.md`, `subagent.md` | her runbook, her front desk | lead (voice from copy) |
 | `brains/`, `rules/`, `memory/` | what she knows, her standing rules, what she has learned | lead |
