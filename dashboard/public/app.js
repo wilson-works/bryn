@@ -8,6 +8,9 @@
  *   - Polls /api/stage every 2 seconds (not while the tab is hidden) and shows the matching scene from
  *     /art/<stage>.svg, crossfading. The scenes are plain SVG with no styles or scripts of their own; their
  *     motion lives in app.css by class name, and stops for people who ask for reduced motion.
+ *   - While nothing is on the table, the idle scene is one of three vignettes (vignettes.js says which and when):
+ *     a random one on load, a slow crossfade to another every few minutes. Pause stops the motion and the change;
+ *     reduced motion shows the rock, still, and never changes it.
  *   - The stone path (/api/decisions), the trail markers (/api/policies), "Ask Bryn to check" (/api/consult),
  *     and "Bring Bryn a question" (/api/ask).
  *   - The trail journal: one decision's pages, rendered from markdown SAFELY: every character is escaped
@@ -26,7 +29,10 @@
   const state = {
     stage: null, stageKey: '', examples: false, where: '', decisions: [], counts: {}, total: 0,
     filter: '', query: '', trailFor: null, trail: DEFAULT_TRAIL, journal: null, page: 1, svgCache: new Map(),
+    vignette: null, rotation: null, paused: false,
   };
+  const V = window.BrynVignettes;
+  const reducedMotion = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
 
   /* ------------------------------------------------------------------ copy */
 
@@ -89,6 +95,16 @@
     const c = $('caption');
     if (c.textContent !== text) c.textContent = text;
   }
+  // A change nobody asked for (the idle vignette changing, reduced motion switched on) changes the words on screen
+  // without announcing them: a screen reader is not interrupted every few minutes. Stage changes still announce.
+  let quietTimer = null;
+  function setCaptionQuietly(text) {
+    const c = $('caption');
+    clearTimeout(quietTimer);
+    c.setAttribute('aria-live', 'off');
+    setCaption(text);
+    quietTimer = setTimeout(() => c.setAttribute('aria-live', 'polite'), 1000);
+  }
 
   function showError(on) {
     const c = $('caption');
@@ -132,21 +148,65 @@
     return svg.cloneNode(true);
   }
 
-  async function showScene(stage) {
+  // name: the art file (a stage, or an idle vignette). slow: the long crossfade between vignettes.
+  async function showScene(name, stage, slow) {
     const box = $('scene');
     let svg;
-    try { svg = await sceneFor(stage); } catch (_) {
+    try { svg = await sceneFor(name); } catch (_) {
       try { svg = await sceneFor('idle'); } catch (__) { return; }
     }
-    const layer = el('div', 'scene-layer');
+    const layer = el('div', slow ? 'scene-layer is-slow' : 'scene-layer');
     layer.setAttribute('data-stage', stage);
+    layer.setAttribute('data-scene', name);
     layer.appendChild(svg);
     box.appendChild(layer);
     // Two frames so the browser paints the new layer at opacity 0 before it fades in.
     requestAnimationFrame(() => requestAnimationFrame(() => layer.classList.add('is-in')));
     const old = Array.from(box.children).filter((c) => c !== layer);
-    setTimeout(() => old.forEach((c) => c.remove()), 700);
+    setTimeout(() => old.forEach((c) => c.remove()), slow ? 1800 : 700);
     box.setAttribute('data-stage', stage);
+    box.setAttribute('data-scene', name);
+  }
+
+  /* ------------------------------------------------------------------ the idle vignettes */
+
+  function idleArt() {
+    if (!state.vignette || (reducedMotion.matches && state.vignette !== V.STILL)) {
+      state.vignette = V.first({ reduced: reducedMotion.matches, wanted: new URLSearchParams(location.search).get('idle'), rand: Math.random });
+    }
+    return state.vignette;
+  }
+
+  // What the picture is called for a screen reader (the figure's name), and Bryn's line under it.
+  function sceneName(st) {
+    if (st.stage !== 'idle') return stageLabel(st.stage);
+    const what = t(`idle_vignettes.${V.key(state.vignette || V.STILL)}.scene`, '');
+    return what ? `${stageLabel('idle')}. ${what}` : stageLabel('idle');
+  }
+  function captionFor(st) {
+    let caption = t(`stages.${st.stage}.caption`, '');
+    if (st.stalled) caption = t('stalled', caption, { stage: stageLabel(st.stalled.stage), time: clock(st.stalled.since) });
+    else if (st.parked) caption = t('parked', caption, { time: clock(st.parked.since) });
+    else if (st.stage === 'idle' && state.examples) caption = t('examples_idle', caption);
+    else if (st.stage === 'idle') caption = t(`idle_vignettes.${V.key(state.vignette || V.STILL)}.caption`, caption);
+    return caption;
+  }
+
+  function scheduleRotation() {
+    clearTimeout(state.rotation);
+    state.rotation = null;
+    const now = { stage: state.stage && state.stage.stage, reduced: reducedMotion.matches, paused: state.paused, hidden: document.hidden };
+    if (V.rotates(now)) state.rotation = setTimeout(rotate, V.ROTATE_MS);
+  }
+
+  function rotate() {
+    state.rotation = null;
+    if (!state.stage || !V.rotates({ stage: state.stage.stage, reduced: reducedMotion.matches, paused: state.paused, hidden: document.hidden })) return;
+    state.vignette = V.next(state.vignette, Math.random);
+    showScene(state.vignette, 'idle', true);
+    $('scene-title').textContent = sceneName(state.stage);
+    setCaptionQuietly(captionFor(state.stage));
+    scheduleRotation();
   }
 
   /* ------------------------------------------------------------------ the trailhead */
@@ -196,16 +256,15 @@
     const sceneChanged = !state.stage || state.stage.stage !== st.stage;
     state.stageKey = key;
     state.stage = st;
-    if (sceneChanged) showScene(st.stage);
+    if (sceneChanged) {
+      showScene(st.stage === 'idle' ? idleArt() : st.stage, st.stage, false);
+      scheduleRotation();
+    }
 
     $('stage-label').textContent = stageLabel(st.stage);
-    $('scene-title').textContent = stageLabel(st.stage);
-    let caption = t(`stages.${st.stage}.caption`, '');
-    if (st.stalled) caption = t('stalled', caption, { stage: stageLabel(st.stalled.stage), time: clock(st.stalled.since) });
-    else if (st.parked) caption = t('parked', caption, { time: clock(st.parked.since) });
-    else if (st.stage === 'idle' && state.examples) caption = t('examples_idle', caption);
+    $('scene-title').textContent = sceneName(st);
     showError(false);
-    setCaption(caption);
+    setCaption(captionFor(st));
 
     const q = $('table-q');
     const meta = $('table-meta');
@@ -596,6 +655,8 @@
       const paused = !card.classList.contains('is-paused');
       card.classList.toggle('is-paused', paused);
       b.textContent = paused ? t('ui.play_motion', 'Play the scene') : t('ui.pause_motion', 'Pause the scene');
+      state.paused = paused; // a paused scene also keeps its picture: no vignette change until Play
+      scheduleRotation();
     });
 
     $('j-close').addEventListener('click', closeJournal);
@@ -622,7 +683,19 @@
       if (back && back.focus) back.focus();
     });
     $('ask-q').addEventListener('input', () => $('ask-q').removeAttribute('aria-invalid'));
-    document.addEventListener('visibilitychange', () => { if (!document.hidden) pollStage(); });
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) pollStage(); scheduleRotation(); });
+    // Someone turns on reduced motion mid-visit: back to the still rock, and no more changes.
+    if (reducedMotion.addEventListener) {
+      reducedMotion.addEventListener('change', () => {
+        const before = state.vignette;
+        if (state.stage && state.stage.stage === 'idle' && idleArt() !== before) {
+          showScene(state.vignette, 'idle', false);
+          $('scene-title').textContent = sceneName(state.stage);
+          setCaptionQuietly(captionFor(state.stage));
+        }
+        scheduleRotation();
+      });
+    }
   }
 
   async function boot() {
