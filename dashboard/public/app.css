@@ -446,8 +446,15 @@ input::placeholder, textarea::placeholder { color: var(--color-ink-muted); opaci
 .scene .anim-j-thigh-f { animation: thigh var(--loop-stride) linear infinite; animation-delay: calc(var(--phase, 0s) - var(--loop-stride) / 2); }
 .scene .anim-j-shin-n { animation: shin var(--loop-stride) linear infinite; animation-delay: var(--phase, 0s); }
 .scene .anim-j-shin-f { animation: shin var(--loop-stride) linear infinite; animation-delay: calc(var(--phase, 0s) - var(--loop-stride) / 2); }
-.scene .anim-j-arm-n { animation: arm-swing var(--loop-stride) var(--ease-in-out) infinite; animation-delay: calc(var(--phase, 0s) - var(--loop-stride) / 2); }
-.scene .anim-j-arm-f { animation: arm-swing var(--loop-stride) var(--ease-in-out) infinite; animation-delay: var(--phase, 0s); }
+/* arms swing against the legs: each free arm is forward when the leg on its own side is back; the elbow softens as
+   it comes forward. Her pole arm grips near the top of the pole; the pole is planted as the far foot lands. */
+.scene .anim-j-swing-f { animation: free-arm var(--loop-stride) linear infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-j-swelbow-f { animation: free-elbow var(--loop-stride) linear infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-j-swing-n { animation: free-arm var(--loop-stride) linear infinite; animation-delay: calc(var(--phase, 0s) - var(--loop-stride) / 2); }
+.scene .anim-j-swelbow-n { animation: free-elbow var(--loop-stride) linear infinite; animation-delay: calc(var(--phase, 0s) - var(--loop-stride) / 2); }
+.scene .anim-j-polearm { animation: pole-arm var(--loop-stride) linear infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-j-poleelbow { animation: pole-elbow var(--loop-stride) linear infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-j-polestaff { animation: pole-pole var(--loop-stride) linear infinite; animation-delay: var(--phase, 0s); }
 .scene .anim-bob { animation: bob calc(var(--loop-stride) / 4) var(--ease-in-out) infinite alternate; animation-delay: var(--phase, 0s); }
 .scene .anim-j-nod { animation: nod var(--loop-graze) var(--ease-in-out) infinite; }
 .scene .anim-traverse { animation: traverse var(--loop-traverse) linear infinite; animation-delay: var(--phase, 0s); }
@@ -478,8 +485,17 @@ input::placeholder, textarea::placeholder { color: var(--color-ink-muted); opaci
 .scene .anim-ring { transform-origin: 50% 50%; animation: ring var(--loop-leap) var(--ease-out) infinite; }
 
 /* the kayak */
-.scene .anim-j-row { animation: row var(--loop-row) var(--ease-in-out) infinite; }
-.scene .anim-j-blade { animation: blade var(--loop-row) var(--ease-in-out) infinite; }
+/* the stroke: the paddle, her torso and both arms run one solved loop; a splash at each catch; the kayak surges a
+   little with every stroke */
+.scene .anim-j-k-paddle { animation: k-paddle var(--loop-row) linear infinite; }
+.scene .anim-j-k-torso { animation: k-torso var(--loop-row) linear infinite; }
+.scene .anim-j-k-up-n { animation: k-up-n var(--loop-row) linear infinite; }
+.scene .anim-j-k-lo-n { animation: k-lo-n var(--loop-row) linear infinite; }
+.scene .anim-j-k-up-f { animation: k-up-f var(--loop-row) linear infinite; }
+.scene .anim-j-k-lo-f { animation: k-lo-f var(--loop-row) linear infinite; }
+.scene .anim-k-splash-n { transform-origin: 50% 50%; animation: k-splash var(--loop-row) var(--ease-out) infinite; }
+.scene .anim-k-splash-f { transform-origin: 50% 50%; animation: k-splash var(--loop-row) var(--ease-out) infinite; animation-delay: calc(var(--loop-row) / -2); }
+.scene .anim-k-surge { animation: k-surge calc(var(--loop-row) / 2) var(--ease-in-out) infinite; }
 .scene .anim-rock { transform-origin: 50% 70%; animation: rock var(--loop-rock) var(--ease-in-out) infinite alternate; }
 .scene .anim-wake { transform-origin: 0% 50%; animation: wake var(--loop-wake) var(--ease-out) infinite; }
 .scene .anim-wake:nth-of-type(2n) { animation-delay: calc(var(--loop-wake) / -2); }
@@ -523,7 +539,6 @@ input::placeholder, textarea::placeholder { color: var(--color-ink-muted); opaci
   76% { transform: rotate(46deg); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
   100% { transform: rotate(2deg); }
 }
-@keyframes arm-swing { 0%, 100% { transform: rotate(9deg); } 50% { transform: rotate(-9deg); } }
 @keyframes bob { from { transform: translateY(1.2px); } to { transform: translateY(-1.4px); } }
 @keyframes nod { 0%, 30%, 62%, 100% { transform: rotate(0deg); } 40%, 52% { transform: rotate(-5deg); } }
 /* the drawn place is the MIDDLE of the walk, so the still shows the figure where the drawing put it */
@@ -551,8 +566,8 @@ input::placeholder, textarea::placeholder { color: var(--color-ink-muted); opaci
   82%, 100% { transform: translate(24px, 8px) rotate(55deg); opacity: 0; }
 }
 @keyframes ring { 0%, 80% { transform: scale(0.2); opacity: 0; } 81% { opacity: 0.9; } 100% { transform: scale(1.7); opacity: 0; } }
-@keyframes row { 0%, 100% { transform: rotate(-7deg); } 50% { transform: rotate(7deg); } }
-@keyframes blade { 0%, 100% { transform: rotate(-12deg); } 50% { transform: rotate(12deg); } }
+@keyframes k-splash { 0% { transform: scale(0.4); opacity: 0.95; } 28% { transform: scale(1.5); opacity: 0; } 100% { transform: scale(1.5); opacity: 0; } }
+@keyframes k-surge { 0%, 100% { transform: translateX(0); } 45% { transform: translateX(1.8px); } }
 @keyframes rock { from { transform: translateY(-0.8px) rotate(-1deg); } to { transform: translateY(0.8px) rotate(1deg); } }
 @keyframes wake { from { transform: scale(0.6, 0.8); opacity: 0.85; } to { transform: scale(1.5, 1.2); opacity: 0; } }
 @keyframes perch {
@@ -592,10 +607,26 @@ input::placeholder, textarea::placeholder { color: var(--color-ink-muted); opaci
 .scene .anim-tap-b { animation: tap-pop 3s var(--ease-in-out) infinite; animation-delay: -0.4s; }
 .scene .anim-j-turn { animation: head-turn 11s var(--ease-in-out) infinite; }
 .scene .anim-j-turn.turn-b { animation-duration: 14s; animation-delay: -6s; }
-.scene #idle-kayak-boat .anim-j-blade { animation-name: kayak-blade; }
 @keyframes tap-pop { 0%, 60%, 100% { opacity: 0; } 70% { opacity: 1; } 85% { opacity: 0; } }
 @keyframes head-turn { 0%, 52%, 100% { transform: rotate(0deg); } 60%, 74% { transform: rotate(6deg); } 82% { transform: rotate(0deg); } }
-@keyframes kayak-blade { 0%, 100% { transform: rotate(-12deg); } 50% { transform: rotate(20deg); } }
+
+/* BEGIN solved arms: generated by the art tool from its walk and paddle models. Change the model, not the numbers. */
+/* the walk: solved in the art tool. Pole arm: the grip stays near the top of the pole at waist height and the
+   tip stays on the ground through the plant. Free arms swing against the legs, the elbow softening forward. */
+@keyframes pole-arm { 0% { transform: rotate(18.12deg); } 6.25% { transform: rotate(16.57deg); } 12.5% { transform: rotate(12.36deg); } 18.75% { transform: rotate(6.3deg); } 25% { transform: rotate(-0.44deg); } 31.25% { transform: rotate(-6.83deg); } 37.5% { transform: rotate(-12.35deg); } 43.75% { transform: rotate(-16.44deg); } 50% { transform: rotate(-18.07deg); } 56.25% { transform: rotate(-13.43deg); } 62.5% { transform: rotate(-8.91deg); } 68.75% { transform: rotate(-4.45deg); } 75% { transform: rotate(0deg); } 81.25% { transform: rotate(4.47deg); } 87.5% { transform: rotate(8.98deg); } 93.75% { transform: rotate(13.54deg); } 100% { transform: rotate(18.12deg); } }
+@keyframes pole-elbow { 0% { transform: rotate(-13.03deg); } 6.25% { transform: rotate(-13.07deg); } 12.5% { transform: rotate(-12.71deg); } 18.75% { transform: rotate(-10.69deg); } 25% { transform: rotate(-5.74deg); } 31.25% { transform: rotate(2.18deg); } 37.5% { transform: rotate(11.38deg); } 43.75% { transform: rotate(19.07deg); } 50% { transform: rotate(22.24deg); } 56.25% { transform: rotate(15.78deg); } 62.5% { transform: rotate(9.98deg); } 68.75% { transform: rotate(4.74deg); } 75% { transform: rotate(0deg); } 81.25% { transform: rotate(-4.27deg); } 87.5% { transform: rotate(-8.08deg); } 93.75% { transform: rotate(-11.44deg); } 100% { transform: rotate(-13.03deg); } }
+@keyframes pole-pole { 0% { transform: rotate(-0.69deg); } 6.25% { transform: rotate(0.52deg); } 12.5% { transform: rotate(3.37deg); } 18.75% { transform: rotate(6deg); } 25% { transform: rotate(6.18deg); } 31.25% { transform: rotate(3.03deg); } 37.5% { transform: rotate(-2.07deg); } 43.75% { transform: rotate(-6.67deg); } 50% { transform: rotate(-8.58deg); } 56.25% { transform: rotate(-5.66deg); } 62.5% { transform: rotate(-3.27deg); } 68.75% { transform: rotate(-1.39deg); } 75% { transform: rotate(0deg); } 81.25% { transform: rotate(0.9deg); } 87.5% { transform: rotate(1.31deg); } 93.75% { transform: rotate(1.2deg); } 100% { transform: rotate(-0.69deg); } }
+@keyframes free-arm { 0% { transform: rotate(-15deg); } 6.25% { transform: rotate(-14.01deg); } 12.5% { transform: rotate(-11.19deg); } 18.75% { transform: rotate(-6.97deg); } 25% { transform: rotate(-2deg); } 31.25% { transform: rotate(2.97deg); } 37.5% { transform: rotate(7.19deg); } 43.75% { transform: rotate(10.01deg); } 50% { transform: rotate(11deg); } 56.25% { transform: rotate(10.01deg); } 62.5% { transform: rotate(7.19deg); } 68.75% { transform: rotate(2.97deg); } 75% { transform: rotate(-2deg); } 81.25% { transform: rotate(-6.97deg); } 87.5% { transform: rotate(-11.19deg); } 93.75% { transform: rotate(-14.01deg); } 100% { transform: rotate(-15deg); } }
+@keyframes free-elbow { 0% { transform: rotate(-14deg); } 6.25% { transform: rotate(-13.24deg); } 12.5% { transform: rotate(-11.07deg); } 18.75% { transform: rotate(-7.83deg); } 25% { transform: rotate(-4deg); } 31.25% { transform: rotate(-0.17deg); } 37.5% { transform: rotate(3.07deg); } 43.75% { transform: rotate(5.24deg); } 50% { transform: rotate(6deg); } 56.25% { transform: rotate(5.24deg); } 62.5% { transform: rotate(3.07deg); } 68.75% { transform: rotate(-0.17deg); } 75% { transform: rotate(-4deg); } 81.25% { transform: rotate(-7.83deg); } 87.5% { transform: rotate(-11.07deg); } 93.75% { transform: rotate(-13.24deg); } 100% { transform: rotate(-14deg); } }
+/* the kayak: solved in the art tool from a paddle in 3D (catch ahead of the hip, pull to the hip, the other side).
+   Each arm reaches the shaft by two-bone IK at every sample; the paddle frame is relative to the drawn frame. */
+@keyframes k-up-n { 0% { transform: rotate(0deg); } 6.25% { transform: rotate(2.52deg); } 12.5% { transform: rotate(6.67deg); } 18.75% { transform: rotate(8.38deg); } 25% { transform: rotate(10.15deg); } 31.25% { transform: rotate(10.36deg); } 37.5% { transform: rotate(-10deg); } 43.75% { transform: rotate(-41.33deg); } 50% { transform: rotate(-66.57deg); } 56.25% { transform: rotate(-63.36deg); } 62.5% { transform: rotate(-57.47deg); } 68.75% { transform: rotate(-54.68deg); } 75% { transform: rotate(-48.35deg); } 81.25% { transform: rotate(-43.46deg); } 87.5% { transform: rotate(-27.71deg); } 93.75% { transform: rotate(-17.68deg); } 100% { transform: rotate(0deg); } }
+@keyframes k-lo-n { 0% { transform: rotate(0deg); } 6.25% { transform: rotate(-1.49deg); } 12.5% { transform: rotate(-4.57deg); } 18.75% { transform: rotate(-6.07deg); } 25% { transform: rotate(-5.96deg); } 31.25% { transform: rotate(-7.46deg); } 37.5% { transform: rotate(-28deg); } 43.75% { transform: rotate(-21.69deg); } 50% { transform: rotate(11.96deg); } 56.25% { transform: rotate(11.5deg); } 62.5% { transform: rotate(10.8deg); } 68.75% { transform: rotate(10.49deg); } 75% { transform: rotate(7.06deg); } 81.25% { transform: rotate(5.32deg); } 87.5% { transform: rotate(11.97deg); } 93.75% { transform: rotate(10.05deg); } 100% { transform: rotate(0deg); } }
+@keyframes k-up-f { 0% { transform: rotate(0deg); } 6.25% { transform: rotate(5.46deg); } 12.5% { transform: rotate(13.09deg); } 18.75% { transform: rotate(16.24deg); } 25% { transform: rotate(28.71deg); } 31.25% { transform: rotate(33.23deg); } 37.5% { transform: rotate(34.63deg); } 43.75% { transform: rotate(37.86deg); } 50% { transform: rotate(41.34deg); } 56.25% { transform: rotate(46.04deg); } 62.5% { transform: rotate(54.4deg); } 68.75% { transform: rotate(58.3deg); } 75% { transform: rotate(69.47deg); } 81.25% { transform: rotate(77.08deg); } 87.5% { transform: rotate(69.38deg); } 93.75% { transform: rotate(26.74deg); } 100% { transform: rotate(0deg); } }
+@keyframes k-lo-f { 0% { transform: rotate(0deg); } 6.25% { transform: rotate(3.33deg); } 12.5% { transform: rotate(8.96deg); } 18.75% { transform: rotate(11.58deg); } 25% { transform: rotate(23.82deg); } 31.25% { transform: rotate(32.63deg); } 37.5% { transform: rotate(48.58deg); } 43.75% { transform: rotate(51.49deg); } 50% { transform: rotate(41.74deg); } 56.25% { transform: rotate(39.44deg); } 62.5% { transform: rotate(35.78deg); } 68.75% { transform: rotate(34.14deg); } 75% { transform: rotate(24.31deg); } 81.25% { transform: rotate(17.61deg); } 87.5% { transform: rotate(-1.33deg); } 93.75% { transform: rotate(-8.95deg); } 100% { transform: rotate(0deg); } }
+@keyframes k-torso { 0% { transform: rotate(0deg); } 6.25% { transform: rotate(-1.11deg); } 12.5% { transform: rotate(-3.11deg); } 18.75% { transform: rotate(-4.04deg); } 25% { transform: rotate(-6.5deg); } 31.25% { transform: rotate(-7.87deg); } 37.5% { transform: rotate(-5.47deg); } 43.75% { transform: rotate(-3.42deg); } 50% { transform: rotate(0deg); } 56.25% { transform: rotate(-1.11deg); } 62.5% { transform: rotate(-3.11deg); } 68.75% { transform: rotate(-4.04deg); } 75% { transform: rotate(-6.5deg); } 81.25% { transform: rotate(-7.87deg); } 87.5% { transform: rotate(-5.47deg); } 93.75% { transform: rotate(-3.42deg); } 100% { transform: rotate(0deg); } }
+@keyframes k-paddle { 0% { transform: translate(35px, -48px) rotate(62deg) scaleX(1) rotate(-62deg) translate(-35px, 48px); } 6.25% { transform: translate(34.44px, -48.56px) rotate(67.84deg) scaleX(0.98) rotate(-62deg) translate(-35px, 48px); } 12.5% { transform: translate(33.45px, -49.55px) rotate(78.32deg) scaleX(0.96) rotate(-62deg) translate(-35px, 48px); } 18.75% { transform: translate(33.03px, -50px) rotate(83.31deg) scaleX(0.94) rotate(-62deg) translate(-35px, 48px); } 25% { transform: translate(34.87px, -50px) rotate(100.47deg) scaleX(0.91) rotate(-62deg) translate(-35px, 48px); } 31.25% { transform: translate(36.17px, -50.21px) rotate(113.96deg) scaleX(0.89) rotate(-62deg) translate(-35px, 48px); } 37.5% { transform: translate(39.38px, -54.22px) rotate(169.22deg) scaleX(0.94) rotate(-62deg) translate(-35px, 48px); } 43.75% { transform: translate(43.16px, -57.21px) rotate(204.68deg) scaleX(0.96) rotate(-62deg) translate(-35px, 48px); } 50% { transform: translate(50px, -62px) rotate(258deg) scaleX(0.99) rotate(-62deg) translate(-35px, 48px); } 56.25% { transform: translate(48.61px, -60.89px) rotate(261.89deg) scaleX(0.98) rotate(-62deg) translate(-35px, 48px); } 62.5% { transform: translate(46.12px, -58.89px) rotate(268.88deg) scaleX(0.96) rotate(-62deg) translate(-35px, 48px); } 68.75% { transform: translate(44.9px, -57.98px) rotate(272.21deg) scaleX(0.96) rotate(-62deg) translate(-35px, 48px); } 75% { transform: translate(39.39px, -56.75px) rotate(283.85deg) scaleX(0.93) rotate(-62deg) translate(-35px, 48px); } 81.25% { transform: translate(36px, -55.74px) rotate(293.96deg) scaleX(0.91) rotate(-62deg) translate(-35px, 48px); } 87.5% { transform: translate(36px, -50.94px) rotate(349.22deg) scaleX(0.89) rotate(-62deg) translate(-35px, 48px); } 93.75% { transform: translate(35.68px, -49.37px) rotate(379.62deg) scaleX(0.92) rotate(-62deg) translate(-35px, 48px); } 100% { transform: translate(35px, -48px) rotate(422deg) scaleX(1) rotate(-62deg) translate(-35px, 48px); } }
+/* END solved arms */
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
