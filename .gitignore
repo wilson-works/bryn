@@ -6,3 +6,4 @@ data/
 bryn.config.json
 dashboard/.pid
 dashboard/dashboard.log
+.artgen/
