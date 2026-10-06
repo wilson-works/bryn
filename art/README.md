@@ -128,6 +128,10 @@ The motion is held to these rules:
   moving arm is two joints, shoulder and elbow, and its angles are solved from a model, not guessed:
   - A free arm swings against the legs: forward while the leg on its own side is back, the elbow softening as it
     comes forward. Never a straight plank.
+  - Depth (the owner, 23:40: "left hand and arm still swinging on right side of body"). Facing right, her left arm
+    is the far arm. It is painted after the far leg and before the near leg and the coat, in a darker, softer tone,
+    so at most its hand peeks past the back of the coat on the back-swing. It never crosses her front. The same holds
+    for every side-view figure: a far hand resting on a knee sits behind the near leg.
   - Her pole hand grips near the top of the pole at waist height with the elbow bent. The pole is planted beside the
     front foot, stays on the ground while she pushes past it, then swings forward for the next step.
   - Paddling, both hands hold the shaft about a shoulder apart. One blade catches the water ahead of her hip and pulls

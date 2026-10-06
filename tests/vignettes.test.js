@@ -153,6 +153,22 @@ test('walking arms swing against the legs: each free arm is forward while the le
   assert.ok(elbow[0] === Math.min(...elbow), 'the elbow is most bent at the forward swing');
 });
 
+test('a far arm is drawn behind: after the far leg, before the near leg and the torso, never across her front', () => {
+  // the owner, 23:40: "left hand and arm still swinging on right side of body". In a side view facing right her left
+  // arm is the far arm; it may only peek past the coat's edges, so it is painted before the near leg and the coat.
+  // one walker at a time: Bryn on the trail, and the council's Contrarian (inside its own group)
+  const trail = read('art/idle-trail.svg');
+  const council = read('art/council.svg');
+  const contrarian = council.slice(council.indexOf('id="council-contrarian"'));
+  for (const [name, svg] of [['idle-trail', trail], ['council-contrarian', contrarian]]) {
+    const at = (cls) => svg.search(new RegExp(`class="[^"]*\\b${cls}\\b`));
+    assert.ok(at('anim-j-swing-f') > 0, `${name} has a swinging far arm`);
+    assert.ok(at('anim-j-thigh-f') < at('anim-j-swing-f'), `${name}: far leg before far arm`);
+    assert.ok(at('anim-j-swing-f') < at('anim-j-thigh-n'), `${name}: far arm before near leg`);
+  }
+  assert.ok(trail.search(/class="[^"]*\banim-j-swing-f\b/) < trail.search(/class="[^"]*\banim-j-polearm\b/), 'the far arm before the near (pole) arm');
+});
+
 test('the pole arm and the paddle stroke are solved loops, and every arm loop runs on its own clock', () => {
   for (const n of ['pole-arm', 'pole-elbow', 'pole-pole', 'k-up-n', 'k-lo-n', 'k-up-f', 'k-lo-f', 'k-torso', 'k-paddle']) {
     const k = frames(n);
