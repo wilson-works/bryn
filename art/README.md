@@ -124,6 +124,18 @@ The motion is held to these rules:
 - **The land passes, the hills stay.** In the walk and the kayak, the near ground, the middle ground and the far
   animals drift at three speeds. Each drifting layer is drawn twice, 640 px apart, so the loop has no seam. The near
   layer moves at the speed of her feet. The three far hills never move.
+- **Arms move like arms** (the owner, 2026-10-05: "arms are weird", "rowing action animation needs some work"). Every
+  moving arm is two joints, shoulder and elbow, and its angles are solved from a model, not guessed:
+  - A free arm swings against the legs: forward while the leg on its own side is back, the elbow softening as it
+    comes forward. Never a straight plank.
+  - Her pole hand grips near the top of the pole at waist height with the elbow bent. The pole is planted beside the
+    front foot, stays on the ground while she pushes past it, then swings forward for the next step.
+  - Paddling, both hands hold the shaft about a shoulder apart. One blade catches the water ahead of her hip and pulls
+    back to the hip while the other blade stands high above her hat; then the paddle turns through level and the
+    other side does the same. She leans into each catch, the elbows bend, a splash marks each catch, and the kayak
+    surges a little with every stroke. Every frame reads as paddling.
+  - A hand that is not working rests on something (a knee, a thigh, a strap). It never floats palm-out. A reach never
+    asks for more than the arm's length, so the arm is never pulled dead straight.
 - **Pause and reduced motion stop everything.** The page's Pause button stops every scene motion and the vignette
   change. Reduced motion shows the rock and never changes it.
 
@@ -135,8 +147,8 @@ another every two and a half minutes:
 | Scene | What you see | What moves |
 |---|---|---|
 | `idle.svg` (the rock) | The approved idle: Bryn on her boulder with her tin cup | Her breathing, the steam, a small bird that lands on the signpost and leaves, her glance up at it, grass, birds wheeling far off, glints on the stream |
-| `idle-trail.svg` | Bryn walking her red trail | Her walk (thigh, shin, arm swing, a step bob), the ground passing, two deer grazing and a moose far off, birds |
-| `idle-kayak.svg` | Bryn paddling her wooden kayak down the stream | The paddle stroke, the kayak rocking, the water and banks passing, a wake, a heron on the far bank, a fish that jumps once a loop |
+| `idle-trail.svg` | Bryn walking her red trail | Her walk (thigh, shin, a step bob), her free arm swinging against her legs, her pole planted and swung forward, the ground passing, two deer grazing and a moose far off, birds |
+| `idle-kayak.svg` | Bryn paddling her wooden kayak down the stream | Her stroke on both sides (catch ahead of the hip, pull to the hip, the other blade high), a splash at each catch, the kayak surging and rocking, the water and banks passing, a wake, a heron on the far bank, a fish that jumps once a loop |
 
 ## 12. Dusk and the campfire (the verdict)
 

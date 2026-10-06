@@ -107,8 +107,8 @@ const SCENE_RULES = (svg, name) => {
 test('the three vignette scenes keep the scene contract and move', () => {
   const hooks = {
     idle: ['anim-breathe', 'anim-steam', 'anim-perch', 'anim-j-glance'],
-    'idle-trail': ['anim-bob', 'anim-j-thigh-n', 'anim-j-shin-f', 'anim-drift-near', 'anim-drift-far', 'anim-j-graze', 'anim-j-browse'],
-    'idle-kayak': ['anim-rock', 'anim-j-row', 'anim-j-blade', 'anim-drift-water', 'anim-leap', 'anim-j-heron'],
+    'idle-trail': ['anim-bob', 'anim-j-thigh-n', 'anim-j-shin-f', 'anim-j-polearm', 'anim-j-poleelbow', 'anim-j-polestaff', 'anim-j-swing-f', 'anim-j-swelbow-f', 'anim-drift-near', 'anim-drift-far', 'anim-j-graze', 'anim-j-browse'],
+    'idle-kayak': ['anim-rock', 'anim-k-surge', 'anim-j-k-paddle', 'anim-j-k-torso', 'anim-j-k-up-n', 'anim-j-k-lo-n', 'anim-j-k-up-f', 'anim-j-k-lo-f', 'anim-k-splash-n', 'anim-k-splash-f', 'anim-drift-water', 'anim-leap', 'anim-j-heron'],
   };
   for (const v of V.VIGNETTES) {
     const svg = read(`art/${v}.svg`);
@@ -124,6 +124,48 @@ test('the verdict is a campfire at the fork: fire, six figures leaning in, her h
   for (const h of ['anim-flame', 'anim-spark', 'anim-smoke', 'anim-glow', 'anim-j-gesture']) assert.match(svg, new RegExp(`class="[^"]*\\b${h}\\b`), h);
   assert.ok((svg.match(/class="[^"]*\banim-lean\b/g) || []).length >= 5, 'five scouts lean in');
   assert.match(svg, /#C8432F/i, 'the red board and her red trail');
+});
+
+/* ------------------------------------------------------------------ arms (the owner, 2026-10-05: "arms are weird", "rowing action") */
+
+// one @keyframes block (matching its braces, since a frame may carry its own timing function) as [{ at, t }]
+const frames = (name) => {
+  const start = css.indexOf(`@keyframes ${name} {`);
+  assert.ok(start >= 0, `@keyframes ${name}`);
+  let i = css.indexOf('{', start) + 1, depth = 1;
+  for (; depth && i < css.length; i++) depth += css[i] === '{' ? 1 : css[i] === '}' ? -1 : 0;
+  const body = css.slice(start, i);
+  return [...body.matchAll(/([\d.]+)% \{ transform: ([^;]*);/g)].map((x) => ({ at: Number(x[1]), t: x[2] }));
+};
+const rotOf = (t) => Number(/rotate\((-?[\d.]+)deg\)/.exec(t)[1]);
+const rule = (cls) => { const m = new RegExp(`\\.scene \\.${cls}\\s*\\{([^}]*)\\}`).exec(css); assert.ok(m, cls); return m[1]; };
+
+test('walking arms swing against the legs: each free arm is forward while the leg on its own side is back', () => {
+  const thigh = frames('thigh'), arm = frames('free-arm');
+  assert.ok(rotOf(thigh[0].t) < 0, 'the near leg starts forward (negative is forward)');
+  assert.ok(rotOf(arm[0].t) < 0 && rotOf(arm[0].t) === Math.min(...arm.map((k) => rotOf(k.t))), 'a free arm starts at its most forward');
+  // the far arm runs on the near leg's clock (forward together = opposition); the near arm half a stride later
+  const delay = (cls) => /animation-delay:\s*([^;]+);/.exec(rule(cls))[1].trim();
+  assert.equal(delay('anim-j-swing-f'), delay('anim-j-thigh-n'));
+  assert.match(delay('anim-j-swing-n'), /- var\(--loop-stride\) \/ 2/);
+  // the elbow softens most as the arm comes forward, and never locks straight back past the drawn bend
+  const elbow = frames('free-elbow').map((k) => rotOf(k.t));
+  assert.ok(elbow[0] === Math.min(...elbow), 'the elbow is most bent at the forward swing');
+});
+
+test('the pole arm and the paddle stroke are solved loops, and every arm loop runs on its own clock', () => {
+  for (const n of ['pole-arm', 'pole-elbow', 'pole-pole', 'k-up-n', 'k-lo-n', 'k-up-f', 'k-lo-f', 'k-torso', 'k-paddle']) {
+    const k = frames(n);
+    assert.ok(k.length >= 9, `${n} has at least nine samples a loop`);
+    assert.equal(k[0].at, 0); assert.equal(k[k.length - 1].at, 100);
+  }
+  for (const c of ['anim-j-polearm', 'anim-j-poleelbow', 'anim-j-polestaff']) assert.match(rule(c), /var\(--loop-stride\)/);
+  for (const c of ['anim-j-k-paddle', 'anim-j-k-torso', 'anim-j-k-up-n', 'anim-j-k-lo-f']) assert.match(rule(c), /var\(--loop-row\)/);
+  // the paddle turns all the way through two strokes (one each side), never back and forth on one side
+  const turn = frames('k-paddle').map((k) => rotOf(k.t));
+  assert.ok(turn[turn.length - 1] - turn[0] >= 300, 'the paddle comes round to the other side and back');
+  // a splash at each catch: one on each side, half a stroke apart
+  assert.match(rule('anim-k-splash-f'), /animation-delay: calc\(var\(--loop-row\) \/ -2\)/);
 });
 
 test('every anim-* hook in every scene has a rule and keyframes in app.css', () => {
