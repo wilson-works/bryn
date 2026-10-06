@@ -97,3 +97,63 @@ for example:
 
 The page stops all motion for people who ask for reduced motion, and when the Pause button is pressed. The door figure (`art.svg`, 112 by 124) keeps its one `<style>`: the wave, guarded by
 `prefers-reduced-motion: no-preference`.
+
+Two more rules came with the living scenes (v4):
+- Never put a `transform` attribute on an element that carries an `anim-*` class. The animation replaces it. Wrap the
+  transformed drawing inside the class group instead.
+- A part that turns about a joint (a thigh, a shin, an arm, a deer's neck, a paddle) is drawn as
+  `translate(joint) > g.anim-j-NAME > translate(-joint) > the part`. Every `anim-j-*` class turns about its own origin,
+  which is then the joint exactly. The thigh is drawn after the shin inside its joint, so its rounded foot covers the
+  knee.
+
+## 10. Alive, not busy (v4)
+
+The owner asked for more life (2026-10-05): Bryn on her rock, walking the trail with deer, a moose and birds far off,
+paddling down the stream, and round a campfire with the scouts for the call. The art direction above does not change.
+The motion is held to these rules:
+
+- **The drawing is the still.** Someone who asks for reduced motion sees every scene with no animation at all, so the
+  drawn picture is complete on its own. Anything that appears only mid-motion (a spark, a leaping fish, a bird in
+  flight) is drawn with `opacity="0"`.
+- **One or two motions per figure, slow life around it.** Breathing, a walk, a paddle stroke, a lean toward the fire.
+  Around them: grass that sways, birds wheeling far off, glints on the water, clouds.
+- **Never in step.** Loops are long and offset. A `phase-1` to `phase-5` class on a figure carries a different start to
+  its limbs, so two walkers or five scouts never move together.
+- **Nothing flashes.** Every loop is at least 0.4 s. The fire's glow and flames ease in and out about once a second, far
+  under three flashes a second (WCAG 2.3.1).
+- **The land passes, the hills stay.** In the walk and the kayak, the near ground, the middle ground and the far
+  animals drift at three speeds. Each drifting layer is drawn twice, 640 px apart, so the loop has no seam. The near
+  layer moves at the speed of her feet. The three far hills never move.
+- **Pause and reduced motion stop everything.** The page's Pause button stops every scene motion and the vignette
+  change. Reduced motion shows the rock and never changes it.
+
+## 11. The idle vignettes
+
+While nothing is on the table, the trailhead shows one of three scenes, a random one on load and a slow crossfade to
+another every two and a half minutes:
+
+| Scene | What you see | What moves |
+|---|---|---|
+| `idle.svg` (the rock) | The approved idle: Bryn on her boulder with her tin cup | Her breathing, the steam, a small bird that lands on the signpost and leaves, her glance up at it, grass, birds wheeling far off, glints on the stream |
+| `idle-trail.svg` | Bryn walking her red trail | Her walk (thigh, shin, arm swing, a step bob), the ground passing, two deer grazing and a moose far off, birds |
+| `idle-kayak.svg` | Bryn paddling her wooden kayak down the stream | The paddle stroke, the kayak rocking, the water and banks passing, a wake, a heron on the far bank, a fish that jumps once a loop |
+
+## 12. Dusk and the campfire (the verdict)
+
+The verdict is the five scouts and Bryn round a campfire at the fork at dusk, the signpost's red board pointing up her
+trail. Dusk is the same palette under a warm wash of near ink (never black, never grey), with a warm band behind the
+hills and a few stars. The figures and the fire sit above the wash, so they glow. The scouts' hoods catch the fire on
+the side that faces it.
+
+## 13. New colours, all from the same family
+
+| Use | Colour |
+|---|---|
+| Fire: outer flame, ember and sparks, the core | trail red `#C8432F`, `#D9A441`, `#F1DDA6` |
+| Fire glow | soft stacked rings of `#D9A441` and `#F1DDA6` at 4 to 7% each, never a hard disc |
+| Dusk wash | near ink `#6B5A41` at about 20% |
+| Deer | `#A27B52`, belly `#E2CFA8`, a paper tail |
+| Moose | hat felt `#6B5236`, antlers stone `#C4B898`, legs far ink |
+| Heron | the review's grey-blue `#8296A8`, bill rope `#D9C49A` |
+| Songbird | rope `#D9C49A`, cap hat felt `#6B5236` |
+| Kayak | wood `#8A6A45`, deck rope `#D9C49A`, coaming hat felt `#6B5236`, paddle blades rope |
