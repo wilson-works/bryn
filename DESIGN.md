@@ -3,7 +3,7 @@
 Bryn is a WilsonWorks specialist agent built from four free skills that already exist. You bring her a decision. She
 helps you lay out the options, puts the question to five scouts who each walk a different road, has them check each
 other's work without names attached, and makes the call with you. Then she climbs the hill to look six months down the
-trail for where the plan could wash out. When you decide, she leaves a stone on the cairn, so the same question never
+trail for where the plan could wash out. When you decide, she lays a stone on the stone path, so the same question never
 has to be argued from scratch again.
 
 This file records what was chosen and why, before anything was built. The studio that designed her: positioning and
@@ -46,7 +46,7 @@ She is Louise's opposite on every count: outdoors, daylight, on the move, stone 
 
 | Stage | What the skill does | What you see |
 |---|---|---|
-| `idle` | Nothing on the table | Bryn at the trailhead, sitting on a rock with a tin cup, the cairn small behind her |
+| `idle` | Nothing on the table | Bryn at the trailhead, sitting on a rock with a tin cup, the stone path climbing away behind her |
 | `framing` | The question is framed: what it is, can it be undone, how much is at stake | A blank signpost at a fork in the trail; Bryn writing the question on a card pinned to it |
 | `brainstorm` | Options generated, then clustered and shortlisted | Bryn kneeling over a map on a flat rock, routes being chalked across it |
 | `council` | Five advisors answer independently | Five scouts, each walking out along a different road from the fork |
@@ -54,8 +54,8 @@ She is Louise's opposite on every count: outdoors, daylight, on the move, stone 
 | `verdict` | The chair's synthesis: agree, clash, blind spots, the call, the first step | Bryn planting the signpost, one arm painted red toward the road she recommends |
 | `waiting` | The advice is in; the decision is yours | Bryn leaning on her pole by the finished signpost, a marker flag moving in the wind, the path toward you open |
 | `premortem` | "Six months from now this failed. Why?" | Bryn on the hilltop, hand shading her eyes, looking far down the chosen trail at a washed-out bridge |
-| `filing` | The decision goes in the log; a standing policy, when it qualifies | Bryn adding a stone to the cairn, and a painted trail marker on a rock beside it |
-| `consulting` | A lookup in the log before deciding again | Bryn at the cairn, reading the painted markers on its stones |
+| `filing` | The decision goes in the log; a standing policy, when it qualifies | Bryn laying a new stone along the path, and a painted trail marker on a rock beside it |
+| `consulting` | A lookup in the log before deciding again | Bryn at the stone path, reading the painted markers on its stones |
 
 **The five scouts.** One shared, faceless hooded figure, told apart by one prop and one jacket colour, labelled only
 by the role title the skill already gives it, so newcomers meet five roles, not five more names:
@@ -66,14 +66,20 @@ by the role title the skill already gives it, so newcomers meet five roles, not 
 - The Outsider arrives from off the trail in a sun hat, with no map.
 - The Executor has the pack on and one foot already on the path.
 
-**The cairn and the markers.** Past decisions are stones on the cairn. Standing policies are painted trail markers.
-"Check before you decide again" is Bryn checking the cairn at the fork. That turns `decision-policy`, the hardest skill
+**The stone path and the markers.** Past decisions are stones laid along the stone path. Standing policies are painted
+trail markers. "Check before you decide again" is Bryn checking the stone path at the fork. That turns `decision-policy`, the hardest skill
 to explain, into the brand itself.
 
-**The look.** Flat, layered silhouettes, like an old national-park poster: ridgelines in three or four tones of slate
-and fog, a light room, two accents. Trail-marker red for Bryn's shell, the recommended road and the call. Glacier blue
-for the scouts' roads, links and focus. The mark (36 px on her office sign): three stacked stones with a red marker.
-The office-door figure (112 by 124): Bryn standing with her pole, hat on, friendly.
+**The look.** Her world is her own trail map risen into relief (redrawn at the owner's word, 2026-10-05: more
+imaginative, still calm). Parchment with a faint grid; hills drawn as stacks of contour lines with pale elevation
+tints; trees as map symbols; clouds with dotted outlines; trails as dashed map routes. Bryn and the scouts are fine
+pen-and-ink figures with one flat colour each. Trail-marker red for Bryn's shell, her dashed trail, the recommended
+road and the call; each scout's route is dashed in that scout's jacket colour. Bryn always shows a warm face and a
+chestnut braid under a dark felt hat; the scouts' hoods stay dark, so she is never mistaken for one. Her decisions
+are waypoint stones laid along her red trail, in a line, never a pile. The page around the scenes keeps the light
+slate-and-fog room and the two accents (red, glacier blue for links and focus). The mark (36 px on her office sign):
+three waypoint stones along a red dashed path on a scrap of contour map. The office-door figure (112 by 124): Bryn
+standing with her pole on a disc of contour map, hat on, one hand raised, friendly.
 
 **Names refused, and why.** Court words (judge, jury, gavel, bench, "counsel", which is one letter from council and
 means a lawyer): Bryn gives no legal advice. Prophecy words (oracle, seer, crystal ball): a premortem assumes failure,
@@ -86,7 +92,7 @@ office floor. The key is the character's name: `bryn`.
 - **The main session runs the work.** A Claude Code subagent cannot start subagents of its own, and the council and
   the premortem each start five or more. So the full pipeline runs in the session you are talking to, following
   `CLAUDE.md` (her runbook), which calls the skills and sets her stage at the start of every step.
-- **`subagent.md` is the front desk, and only reads.** Three jobs: check the cairn (`POLICIES.md` and the records) and
+- **`subagent.md` is the front desk, and only reads.** Three jobs: check the stone path and the trail markers (`POLICIES.md` and the records) and
   cite what is there or say nothing is; frame a question in one line with whether it can be undone and how much is at
   stake; and route it: "a small call you can undo: just decide" or "open a session as Bryn and run the council on: ...".
   It never runs or imitates a council, a premortem or a brainstorm (one voice playing five loses the independence the
@@ -102,7 +108,7 @@ office floor. The key is the character's name: `bryn`.
   report is advice; Bryn records your decision, she never makes it. Legal, medical, tax and investment questions get
   the options and the questions to take to a licensed professional, and the report says it is not professional
   advice; a safety emergency stops the run and points to help. She never sends, buys, books, posts or edits a project.
-  She files to the cairn only when you say "file it". A decision that cannot be undone never becomes a standing policy.
+  She lays a stone or paints a marker only when you say "file it". A decision that cannot be undone never becomes a standing policy.
 
 ## 4. The stage
 
@@ -131,7 +137,7 @@ and your questions must not travel with it. Her data folder is `data_dir` in `br
 ```
 <data>/stage.json                         the stage
 <data>/asks.md                            questions left at the trailhead from the dashboard
-<data>/log/                               the cairn: POLICIES.md, policies/, adr/   (decision-policy's <decision-log-path>)
+<data>/log/                               trail markers and records: POLICIES.md, policies/, adr/   (decision-policy's <decision-log-path>)
 <data>/decisions/<YYYY-MM-DD>-<slug>/     one per question                      (brainstorm's <sessions-path> too)
     meta.json                             the one file her runbook writes
     brief.md                              the framed question
@@ -168,7 +174,7 @@ journal:
 1. **The trailhead.** The scene for the current stage (polled every 2 seconds, crossfading), Bryn's caption in her
    voice, what is on the table and a trail map of the planned stops with the current one lit, and "Bring Bryn a
    question" (a question and a line of context, left at the trailhead in `asks.md` for the next session).
-2. **The cairn.** Every decision as a stone, coloured by status, with an indicator per status and its count, a filter,
+2. **The stone path.** Every decision as a stone, coloured by status, with an indicator per status and its count, a filter,
    a search box, and "Ask Bryn to check", which plays `consulting` and points at the matching marker or past decision.
 3. **The trail markers.** The standing policies: when it applies, what to do, and when to stop and think again.
 4. **The trail journal.** Open a stone and flip its pages: the question, the options, the council (with where the five

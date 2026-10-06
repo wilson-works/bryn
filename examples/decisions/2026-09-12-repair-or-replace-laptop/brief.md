@@ -17,7 +17,7 @@ it (a new battery and a bigger drive) or replace it?
 **What a good outcome looks like.** A laptop that does email, photos, video calls and the school portal without
 fuss for at least two more years, without spending more than needed.
 
-**What Bryn checked first.** The cairn had no marker for repairs. It had two earlier calls of the same shape: the
+**What Bryn checked first.** No trail marker covered repairs. The stone path had two earlier calls of the same shape: the
 washing machine in March (repaired) and the bike in June (repaired). If this one goes the same way, it is the third
 time, and the decision log's rule says three is when a standing marker is worth writing.
 

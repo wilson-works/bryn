@@ -13,6 +13,6 @@ feeling, so Bryn suggested the full council and Alex agreed.
 **What a good outcome looks like.** Everyone fed and glad they came, and Alex not exhausted in the first months of a
 new job.
 
-**What Bryn checked first.** Nothing in the cairn about hosting. No earlier calls of this shape.
+**What Bryn checked first.** No trail marker about hosting, and no stone for an earlier call of this shape.
 
 **The cost, said before it ran.** A brainstorm on Sonnet, then a council of eleven model runs. Alex said yes.

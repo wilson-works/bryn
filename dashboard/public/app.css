@@ -2,7 +2,7 @@
  * dashboard/public/app.css — how Bryn's dashboard looks and moves. Built on brand/tokens.css (the palette, type,
  * spacing and motion tokens, with their contrast ratios); nothing here invents a colour.
  *
- * Layout: one column at phone width (375 px), the trailhead in two columns from 60em, the cairn as a grid of
+ * Layout: one column at phone width (375 px), the trailhead in two columns from 60em, the stone path as a grid of
  * stones. Motion: every scene animation is keyed to an anim-* class on a group inside the scene SVG, and all of
  * it stops for people who ask for reduced motion. No colour carries meaning alone: every status has its word.
  */
@@ -175,10 +175,10 @@ input::placeholder, textarea::placeholder { color: var(--color-ink-muted); opaci
 .btn:disabled, .btn[aria-disabled="true"] { opacity: 0.45; cursor: default; transform: none; }
 .btn[aria-disabled="true"]:hover { background: var(--color-raised); }
 
-/* ------------------------------------------------------------------ the cairn */
+/* ------------------------------------------------------------------ the stone path */
 
-.cairn, .markers { margin-top: var(--space-8); }
-.cairn:focus { outline: none; }
+.stone-path, .markers { margin-top: var(--space-8); }
+.stone-path:focus:not(:focus-visible) { outline: none; }
 .section-head { display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-4); }
 .section-head h2 { font-size: var(--text-xl); }
 .section-intro { color: var(--color-ink-muted); max-width: var(--measure); }
@@ -188,8 +188,8 @@ input::placeholder, textarea::placeholder { color: var(--color-ink-muted); opaci
   background: var(--color-raised); border: 1.5px dashed var(--color-line-strong); color: var(--color-ink); max-width: 52rem;
 }
 
-.cairn-tools { display: flex; flex-direction: column; gap: var(--space-4); margin-bottom: var(--space-3); }
-@media (min-width: 60em) { .cairn-tools { flex-direction: row; align-items: center; justify-content: space-between; } }
+.path-tools { display: flex; flex-direction: column; gap: var(--space-4); margin-bottom: var(--space-3); }
+@media (min-width: 60em) { .path-tools { flex-direction: row; align-items: center; justify-content: space-between; } }
 .chips { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
 .chips-label { font-size: var(--text-sm); color: var(--color-ink-muted); font-weight: var(--font-weight-strong); margin-right: var(--space-1); }
 .chips-row { display: flex; flex-wrap: wrap; gap: var(--space-2); }

@@ -18,9 +18,19 @@ advice. You decide.
 
 ## Who speaks
 
-- Captions and door jokes: Bryn, in the first person. "I'm checking the cairn."
-- Labels, buttons and headings: plain words, no voice. "Search the cairn." "Can be undone."
+- Captions and door jokes: Bryn, in the first person. "I'm checking the stone path."
+- Labels, buttons and headings: plain words, no voice. "Search the stone path." "Can be undone."
 - The five scouts are roles. They never get personal names.
+
+## The stone path
+
+- As a heading: "The stone path". In running text: "the stone path", lowercase.
+- The verb is "lay a stone". Not "file to", not "add to the pile", not "stack". Stones lie in a line along the
+  path, never in a pile.
+- A stone is one decision. A trail marker is a rule you keep. Keep the two apart.
+- Never "path forward".
+- The stones hold what you decided. They don't tell the future, so no "the stones tell", "the path reveals" or
+  "foresee".
 
 ## Do
 
@@ -76,7 +86,7 @@ advice. You decide.
 
 **Filing**
 - Before: "Your decision has been successfully saved to the decision log database."
-- After: "Your decision is on the cairn. Next time this comes up, I'll check there first."
+- After: "I've laid a stone for it. Next time this comes up, I'll check the stone path first."
 
 **The cost**
 - Before: "Running the council now."

@@ -8,7 +8,7 @@
  *   - Polls /api/stage every 2 seconds (not while the tab is hidden) and shows the matching scene from
  *     /art/<stage>.svg, crossfading. The scenes are plain SVG with no styles or scripts of their own; their
  *     motion lives in app.css by class name, and stops for people who ask for reduced motion.
- *   - The cairn (/api/decisions), the trail markers (/api/policies), "Ask Bryn to check" (/api/consult),
+ *   - The stone path (/api/decisions), the trail markers (/api/policies), "Ask Bryn to check" (/api/consult),
  *     and "Bring Bryn a question" (/api/ask).
  *   - The trail journal: one decision's pages, rendered from markdown SAFELY: every character is escaped
  *     first, then a small set of formatting is added back; links only to http(s), opening in a new tab.
@@ -234,7 +234,7 @@
     try { await renderStage(await getJSON('/api/stage')); } catch (_) { showError(true); }
   }
 
-  /* ------------------------------------------------------------------ the cairn */
+  /* ------------------------------------------------------------------ the stone path */
 
   function chip(status, label, count) {
     const b = el('button', 'chip');
@@ -244,7 +244,7 @@
     b.appendChild(el('span', 'chip-dot'));
     b.appendChild(el('span', 'chip-label', label));
     b.appendChild(el('span', 'chip-count', String(count)));
-    b.addEventListener('click', () => { state.filter = status; loadCairn(); });
+    b.addEventListener('click', () => { state.filter = status; loadPath(); });
     return b;
   }
 
@@ -286,7 +286,7 @@
     return li;
   }
 
-  async function loadCairn() {
+  async function loadPath() {
     const qs = new URLSearchParams();
     if (state.filter) qs.set('status', state.filter);
     if (state.query) qs.set('q', state.query);
@@ -294,8 +294,8 @@
     try { r = await getJSON(`/api/decisions?${qs}`); } catch (_) { showError(true); return; }
     // Redraw only when something changed, so a keyboard user's place is never thrown away by the 20 s refresh.
     const sig = JSON.stringify([r, state.filter]);
-    if (sig === state.cairnSig) return;
-    state.cairnSig = sig;
+    if (sig === state.pathSig) return;
+    state.pathSig = sig;
     const active = document.activeElement;
     const keep = active && active.closest
       ? (active.closest('.chip') ? `chip:${active.getAttribute('data-status')}` : (active.closest('.stone') ? `stone:${active.closest('.stone').id}` : null))
@@ -312,8 +312,8 @@
     const ul = $('stones');
     ul.textContent = '';
     state.decisions.forEach((d, i) => ul.appendChild(stone(d, i)));
-    $('cairn-empty').hidden = state.decisions.length > 0;
-    $('cairn-count').textContent = t('ui.cairn_count', '{n} stones shown', { n: state.decisions.length });
+    $('path-empty').hidden = state.decisions.length > 0;
+    $('path-count').textContent = t('ui.path_count', '{n} stones shown', { n: state.decisions.length });
     if (keep && keep.startsWith('chip:')) { const c = $('chips').querySelector(`[data-status="${keep.slice(5)}"]`); if (c) c.focus(); }
     if (keep && keep.startsWith('stone:')) { const s = document.getElementById(keep.slice(6)); if (s) s.querySelector('button').focus(); }
     $('footer').textContent = t('ui.footer', 'Bryn runs on this computer only. What you tell her stays in {where}.', { where: state.where || 'her data folder' });
@@ -336,7 +336,7 @@
       const d = state.decisions.find((x) => x.id === r.decision);
       out.textContent = t('ui.consult_decision', "You've decided something like this before: {question}", { question: d ? d.question : r.decision });
       out.classList.add('is-decision');
-    } else out.textContent = t('ui.consult_nothing', 'Nothing on the cairn matches. This is new ground.');
+    } else out.textContent = t('ui.consult_nothing', 'No stone or trail marker matches. This is new ground.');
     if (r.decision) {
       const b = el('button', 'link-btn', t('ui.open_decision', 'Open it'));
       b.type = 'button';
@@ -580,7 +580,7 @@
     let timer = null;
     $('search-q').addEventListener('input', () => {
       clearTimeout(timer);
-      timer = setTimeout(() => { state.query = $('search-q').value.trim(); loadCairn(); }, 250);
+      timer = setTimeout(() => { state.query = $('search-q').value.trim(); loadPath(); }, 250);
     });
     $('search-form').addEventListener('submit', (e) => {
       e.preventDefault();
@@ -615,10 +615,10 @@
       if (e.key === 'ArrowRight') flip(1);
       if (e.key === 'ArrowLeft') flip(-1);
     });
-    // When the journal closes, focus goes back to whatever opened it (or its stone, or the cairn).
+    // When the journal closes, focus goes back to whatever opened it (or its stone, or the stone path).
     $('journal').addEventListener('close', () => {
       const back = state.opener && state.opener.isConnected ? state.opener
-        : (state.journal && document.getElementById(`stone-${state.journal.id}`) && document.getElementById(`stone-${state.journal.id}`).querySelector('button')) || $('cairn');
+        : (state.journal && document.getElementById(`stone-${state.journal.id}`) && document.getElementById(`stone-${state.journal.id}`).querySelector('button')) || $('stone-path');
       if (back && back.focus) back.focus();
     });
     $('ask-q').addEventListener('input', () => $('ask-q').removeAttribute('aria-invalid'));
@@ -629,11 +629,11 @@
     try { COPY = await getJSON('/brand/copy.json'); } catch (_) { COPY = {}; }
     fillCopy();
     wire();
-    await loadCairn();
+    await loadPath();
     await pollStage();
     loadMarkers();
     setInterval(pollStage, 2000);
-    setInterval(() => { if (!document.hidden) loadCairn(); }, 20000);
+    setInterval(() => { if (!document.hidden) loadPath(); }, 20000);
     // The examples: ?open=<id> opens a stone on load (used for screenshots and links from a session).
     const open = new URLSearchParams(location.search).get('open');
     if (open && /^[a-z0-9-]{12,82}$/.test(open)) openJournal(open);

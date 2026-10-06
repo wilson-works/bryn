@@ -17,7 +17,7 @@
 <script src="/app.js" defer></script>
 </head>
 <body>
-<a class="skip" href="#cairn" data-copy="ui.skip">Skip to the cairn</a>
+<a class="skip" href="#stone-path" data-copy="ui.skip">Skip to the stone path</a>
 
 <header class="top">
   <a class="brand" href="#trailhead">
@@ -30,7 +30,7 @@
   <span class="examples-badge" id="examples-badge" hidden data-copy="ui.examples_badge">Examples</span>
   <nav class="nav" aria-label="Sections">
     <a href="#trailhead" data-copy="ui.nav_trailhead">The trailhead</a>
-    <a href="#cairn" data-copy="ui.nav_cairn">The cairn</a>
+    <a href="#stone-path" data-copy="ui.nav_path">Stone path</a>
     <a href="#markers" data-copy="ui.nav_markers">Trail markers</a>
   </nav>
 </header>
@@ -82,30 +82,30 @@
     </div>
   </section>
 
-  <section id="cairn" class="cairn" aria-labelledby="cairn-heading" tabindex="-1">
+  <section id="stone-path" class="stone-path" aria-labelledby="path-heading" tabindex="-1">
     <div class="section-head">
-      <h2 id="cairn-heading" data-copy="ui.cairn_heading">The cairn</h2>
-      <p class="section-intro" data-copy="ui.cairn_intro">Every decision is a stone. Open one to read it.</p>
+      <h2 id="path-heading" data-copy="ui.path_heading">The stone path</h2>
+      <p class="section-intro" data-copy="ui.path_intro">Every decision is a stone. Open one to read it.</p>
     </div>
     <p class="examples-banner" id="examples-banner" hidden data-copy="ui.examples_banner">These stones are invented examples for a person called Alex, so you can see how it works.</p>
 
-    <div class="cairn-tools">
+    <div class="path-tools">
       <div class="chips" role="group" aria-labelledby="filter-label">
         <span class="chips-label" id="filter-label" data-copy="ui.filter_label">Show</span>
         <span id="chips" class="chips-row"></span>
       </div>
       <form class="search" id="search-form" role="search" novalidate>
-        <label for="search-q" class="sr-only" data-copy="ui.search_label">Search the cairn</label>
+        <label for="search-q" class="sr-only" data-copy="ui.search_label">Search the stone path</label>
         <input id="search-q" type="search" maxlength="120" autocomplete="off" aria-describedby="search-hint">
         <button type="submit" class="btn btn-quiet" data-copy="ui.consult_button">Ask Bryn to check</button>
       </form>
     </div>
     <p class="search-hint" id="search-hint" data-copy="ui.search_hint">Type to filter the stones. Press Enter to ask Bryn to check.</p>
     <p class="consult-result" id="consult-result" role="status" aria-live="polite"></p>
-    <p class="sr-only" id="cairn-count" role="status"></p>
+    <p class="sr-only" id="path-count" role="status"></p>
 
     <ul class="stones" id="stones" role="list"></ul>
-    <p class="empty" id="cairn-empty" hidden data-copy="ui.cairn_empty">No stones match that.</p>
+    <p class="empty" id="path-empty" hidden data-copy="ui.path_empty">No stones match that.</p>
   </section>
 
   <section id="markers" class="markers" aria-labelledby="markers-heading">
@@ -131,7 +131,7 @@
     <header class="j-head">
       <div class="j-tags" id="j-tags"></div>
       <h2 class="j-question" id="j-question"></h2>
-      <button type="button" class="btn btn-quiet j-close" id="j-close" data-copy="ui.journal_close">Back to the cairn</button>
+      <button type="button" class="btn btn-quiet j-close" id="j-close" data-copy="ui.journal_close">Close</button>
     </header>
     <div class="j-body">
       <aside class="j-glance" id="j-glance"></aside>

@@ -63,7 +63,7 @@
   /* ---------- derived (computed to pass; not in the brief) ---------- */
   --c-white: #FFFFFF;
   --c-fog-50: #F7F9F7;      /* panel: one step lighter than the room */
-  --c-stone-pale: #D6D2C7;  /* second stone face, for variety on the cairn */
+  --c-stone-pale: #D6D2C7;  /* second stone face, for variety on the stone path */
   --c-glacier-700: #2C6A92; /* glacier dark enough for text: 5.19 on page */
   --c-ridge-700: #4B616D;   /* ridge near, darkened to 5.75 on page */
   --c-ochre-700: #835A12;
@@ -118,7 +118,7 @@
   --scout-outsider: var(--c-sand);
   --scout-executor: var(--c-moss);
 
-  /* ---------- stones (the cairn cards) ---------- */
+  /* ---------- stones (the stone path cards) ---------- */
   --stone-face-1: var(--c-stone-light);
   --stone-face-2: var(--c-stone-pale);
   --stone-shade: var(--c-stone-mid);      /* the flat poster underside, an inset shadow */
