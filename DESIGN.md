@@ -63,7 +63,7 @@ by the role title the skill already gives it, so newcomers meet five roles, not 
 - The Contrarian walks back down the trail.
 - The First Principles Thinker kneels at the bedrock with a rock hammer.
 - The Expansionist holds a map wider than they are.
-- The Outsider arrives from off the trail in a sun hat, with no map.
+- The Outsider arrives from off the trail, a straw sun hat hanging on their back, with no map.
 - The Executor has the pack on and one foot already on the path.
 
 **The stone path and the markers.** Past decisions are stones laid along the stone path. Standing policies are painted

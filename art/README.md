@@ -67,10 +67,33 @@ Bryn's shell and the trail share one red, so the eye reads her as the trail's ow
   picture in half.
 - The signpost, the stream and the compass are supporting cast, small and to the right.
 
-## 7. Scene contract (unchanged)
+## 7. The scouts
+
+The five advisors share Bryn's ink, line weights and cross-contour folds, and are never mistaken for her:
+
+- Their hoods are up, round a face in soft shadow (`#5A4C3E`, a lit rim, a hint of chin) with no features.
+- They wear no brim hat, no braid and no red.
+- Each wears a longer anorak in its own colour, and one prop tells the roles apart: the Contrarian walks back down
+  the trail, the First Principles Thinker kneels at bedrock with a rock hammer, the Expansionist holds a map wider
+  than their shoulders, the Outsider has a straw sun hat on their back, and the Executor has the pack on.
+- In the anonymous review all five wear the same grey-blue (`#8296A8`), and their props lie on the grass.
+
+## 8. Every scene is the same valley
+
+- Every scene uses the same three far hills rising out of the land.
+- The compass sits top-left. The top-right corner (about 130 by 60) holds nothing important, because the page's
+  "Pause the scene" button covers it.
+- The signpost stands at the same fork in framing, verdict and waiting: before, during and after the call.
+- Wherever stones appear, they are laid in a line along her red trail, never in a pile.
+
+## 9. Scene contract (unchanged)
 
 `viewBox="0 0 640 360"`, a `<title>`, ids prefixed with the scene name, no `<style>`, `style=`, `<script>`, `<use>`,
-`<image>` or `href`. Motion is by class only: `anim-breathe` on Bryn (her whole figure, hat included, so the hat moves
-with her head), `anim-steam` on the cup's steam, and `anim-cloud` on the clouds. The page stops all motion for people
-who ask for reduced motion. The door figure (`art.svg`, 112 by 124) keeps its one `<style>`: the wave, guarded by
+`<image>` or `href`. Motion is by class only. Each scene keeps exactly the `anim-*` hooks the page animates for it,
+for example:
+- `anim-breathe` on Bryn's whole figure, hat included, so the hat moves with her head;
+- `anim-steam` on the cup's steam;
+- `anim-cloud` on the clouds.
+
+The page stops all motion for people who ask for reduced motion, and when the Pause button is pressed. The door figure (`art.svg`, 112 by 124) keeps its one `<style>`: the wave, guarded by
 `prefers-reduced-motion: no-preference`.
