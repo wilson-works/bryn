@@ -72,14 +72,16 @@ to explain, into the brand itself.
 
 **The look.** Her world is her own trail map risen into relief (redrawn at the owner's word, 2026-10-05: more
 imaginative, still calm). Parchment with a faint grid; hills drawn as stacks of contour lines with pale elevation
-tints; trees as map symbols; clouds with dotted outlines; trails as dashed map routes. Bryn and the scouts are fine
-pen-and-ink figures with one flat colour each. Trail-marker red for Bryn's shell, her dashed trail, the recommended
+tints; trees as map symbols; clouds with dotted outlines; trails as dashed map routes. Bryn and the scouts are drawn
+in the map's own brown ink, never black, with folds that wrap them like contour lines; `art/README.md` is the
+standard every picture is held to. Trail-marker red for Bryn's shell, her dashed trail, the recommended
 road and the call; each scout's route is dashed in that scout's jacket colour. Bryn always shows a warm face and a
 chestnut braid under a dark felt hat; the scouts' hoods stay dark, so she is never mistaken for one. Her decisions
 are waypoint stones laid along her red trail, in a line, never a pile. The page around the scenes keeps the light
 slate-and-fog room and the two accents (red, glacier blue for links and focus). The mark (36 px on her office sign):
 three waypoint stones along a red dashed path on a scrap of contour map. The office-door figure (112 by 124): Bryn
-standing with her pole on a disc of contour map, hat on, one hand raised, friendly.
+standing with her pole on a patch of contour map (open contour lines, never a base), hat on, one hand raised in a
+wave, looking at you.
 
 **Names refused, and why.** Court words (judge, jury, gavel, bench, "counsel", which is one letter from council and
 means a lawyer): Bryn gives no legal advice. Prophecy words (oracle, seer, crystal ball): a premortem assumes failure,
