@@ -4,7 +4,7 @@
  * engine/config.js — where Bryn keeps what you bring her, and which port the dashboard uses.
  * Node built-ins only.
  *
- *   load(home)  { home, key, port, data, decisions, log, stageFile, asksFile, examples, hub, source, phoneHost }
+ *   load(home)  { home, key, port, data, decisions, log, stageFile, asksFile, examples, hub, source, phoneHost, claude }
  *
  * Everything a person tells Bryn lives in one data folder, never in her own folder: her folder is the
  * package (it can be copied, zipped, replaced or archived), and your questions must not travel with it.
@@ -29,6 +29,9 @@
  * Her phone address: "phone" in bryn.config.json (for example "https://desk.example-tailnet.ts.net:8445/", or a bare
  * host name), else door.phone in her agent.json. Her dashboard answers that host name as well as 127.0.0.1 and
  * localhost. load() returns it as phoneHost, and throws, in plain words, when "phone" cannot be read as an address.
+ *
+ * Claude Code for a run from her dashboard (engine/take.js): "claude" in bryn.config.json names its program (a
+ * relative path is read from her folder); otherwise take.js looks on the PATH. load() returns it as claude, or null.
  */
 
 const fs = require('fs');
@@ -87,6 +90,7 @@ function load(home) {
 
   return {
     home: h, key, port, hub, source, data, phoneHost,
+    claude: typeof cfg.claude === 'string' && cfg.claude.trim() ? path.resolve(h, cfg.claude.trim()) : null,
     decisions: path.join(data, 'decisions'),
     log: path.join(data, 'log'),
     stageFile: path.join(data, 'stage.json'),

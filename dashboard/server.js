@@ -15,7 +15,8 @@
  *   - Serves files only from dashboard/public/, art/ and brand/ (plus mark.svg and art.svg), by plain file
  *     name only: no folders, no "..", no hidden files, no links.
  *   - Reads decisions only through engine/decisions.js (her data folder, or examples/ while that is empty).
- *   - Writes only stage.json and asks.md in her data folder.
+ *   - Writes only stage.json and asks.md in her data folder, plus the run files of engine/take.js (take-run.json,
+ *     take-job.json, take.log) when the person starts or stops a run from her dashboard.
  *   - The page and the API refuse to be framed; the skills' HTML reports are served sandboxed (no scripts).
  *
  * The API:
@@ -28,6 +29,9 @@
  *   POST /api/consult  { q }                 { policy, decision, matches }; the stage goes to consulting
  *   POST /api/ask      { question, context } { queued: n }: left at the trailhead for the next session
  *   GET  /api/asks                           { asks: [...] }
+ *   GET  /api/take                           { running, since, waiting, claude, last }: the headless run (engine/take.js)
+ *   POST /api/take                           start a headless run on the oldest question: "Bryn, take up the next question."
+ *   POST /api/take/stop                      stop the run she recorded
  */
 
 const fs = require('fs');
@@ -39,6 +43,7 @@ const config = require('../engine/config');
 const stage = require('../engine/stage');
 const decisions = require('../engine/decisions');
 const asks = require('../engine/asks');
+const take = require('../engine/take');
 
 const PUBLIC = path.join(__dirname, 'public');
 const STATIC_DIRS = { '/art/': path.join(HOME, 'art'), '/brand/': path.join(HOME, 'brand') };
@@ -130,6 +135,7 @@ async function api(req, res, url, cfg) {
   }
   if (get && p === '/api/policies') return json(res, 200, decisions.policies(cfg));
   if (get && p === '/api/asks') return json(res, 200, { asks: asks.list(cfg.asksFile) });
+  if (get && p === '/api/take') return json(res, 200, take.status(cfg, { claude: cfg.claude }));
 
   let m = /^\/api\/decision\/([a-z0-9-]{12,82})$/.exec(p);
   if (get && m) {
@@ -150,6 +156,16 @@ async function api(req, res, url, cfg) {
     return send(res, 200, r.html, 'text/html; charset=utf-8', { 'Content-Security-Policy': REPORT_CSP });
   }
 
+  if (req.method === 'POST' && (p === '/api/take' || p === '/api/take/stop')) {
+    // Same door as the forms: JSON only, so a plain cross-site form post cannot start a run.
+    if (!/^application\/json\b/i.test(String(req.headers['content-type'] || ''))) {
+      return json(res, 415, { error: 'Send JSON (Content-Type: application/json).' });
+    }
+    try {
+      const r = p === '/api/take' ? await take.start(cfg, { claude: cfg.claude }) : take.stop(cfg);
+      return json(res, 200, r);
+    } catch (e) { return json(res, e.status || 500, { error: e.message, reason: e.reason || null }); }
+  }
   if (req.method === 'POST' && (p === '/api/consult' || p === '/api/ask')) {
     if (!/^application\/json\b/i.test(String(req.headers['content-type'] || ''))) {
       return json(res, 415, { error: 'Send JSON (Content-Type: application/json).' });

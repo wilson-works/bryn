@@ -291,6 +291,31 @@
   async function pollStage() {
     if (document.hidden) return;
     try { await renderStage(await getJSON('/api/stage')); } catch (_) { showError(true); }
+    pollTake();
+  }
+
+  /* ------------------------------------------------------------------ the headless run (engine/take.js) */
+
+  // What the run panel last showed, so "she's back" is said once, when a run she was on ends.
+  let takeWas = null;
+  function renderTake(s) {
+    const go = $('take-btn');
+    const stop = $('take-stop');
+    const status = $('take-status');
+    go.hidden = s.running;
+    stop.hidden = !s.running;
+    go.setAttribute('aria-disabled', String(!s.claude || !s.waiting));
+    if (s.running) { status.className = 'ask-status'; status.textContent = t('ui.take_going', "She's out on the trail with your question. Watch the scene above."); }
+    else if (takeWas && s.last) {
+      status.className = 'ask-status';
+      status.textContent = s.last.stopped ? t('ui.take_stopped', 'Called back.') : (s.last.ok ? t('ui.take_done', "She's back.") : t('ui.take_failed', 'She came back early.'));
+      status.classList.add(s.last.ok || s.last.stopped ? 'is-ok' : 'is-error');
+    } else if (!s.claude) { status.className = 'ask-status'; status.textContent = t('ui.take_no_claude', 'She needs Claude Code on this computer to go by herself.'); }
+    if (takeWas && !s.running) loadPath();
+    takeWas = s.running;
+  }
+  async function pollTake() {
+    try { renderTake(await getJSON('/api/take')); } catch (_) { /* the stage poll already says when she is unreachable */ }
   }
 
   /* ------------------------------------------------------------------ the stone path */
@@ -634,6 +659,23 @@
         status.classList.add('is-ok');
         $('ask-form').reset();
       } catch (err) { status.textContent = err.message; status.classList.add('is-error'); }
+    });
+
+    $('take-btn').addEventListener('click', async () => {
+      const status = $('take-status');
+      status.className = 'ask-status';
+      if ($('take-btn').getAttribute('aria-disabled') === 'true') {
+        let s = null;
+        try { s = await getJSON('/api/take'); } catch (_) { s = null; }
+        status.textContent = s && !s.claude ? t('ui.take_no_claude', 'She needs Claude Code on this computer to go by herself.') : t('ui.take_none', 'No questions are waiting. Leave one above first.');
+        status.classList.add('is-error');
+        return;
+      }
+      try { await postJSON('/api/take', {}); takeWas = true; await pollTake(); } catch (err) { status.textContent = err.message; status.classList.add('is-error'); }
+    });
+    $('take-stop').addEventListener('click', async () => {
+      try { await postJSON('/api/take/stop', {}); } catch (err) { $('take-status').textContent = err.message; return; }
+      pollTake();
     });
 
     let timer = null;
