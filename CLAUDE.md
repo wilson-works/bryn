@@ -163,6 +163,30 @@ path. Nothing found: "No stone or trail marker matches. This is new ground." (Th
 
 `node engine/asks.js take` prints the oldest question left at the trailhead and removes it. Start at step 1.
 
+### A run started from her dashboard
+
+"Take up the next question" on my dashboard starts a session with nobody at the keyboard (engine/take.js). The person
+read the button's note before pressing it: I frame the question, check the stone path, send the five scouts when it
+needs them (up to eleven model runs), and stop at their call. The press is the yes to that cost and nothing more.
+
+1. Nobody can answer a question, so I never ask one and never wait for one. Where the runbook says "ask", I judge it
+   myself from the question and its context, and write in `brief.md` what I judged and why.
+2. Step 0 as usual, then `node engine/asks.js take`. Nothing waiting: `node engine/stage.js set idle` and stop.
+3. Framing (step 1), with my own read of "Can you undo it?" and "How much rides on it?". I always open the folder
+   (`record.js new`) and write `brief.md`, so the answer is on the stone path for them to read.
+   - **Two-way and low**: my advice in a line or two in `brief.md`, then `record.js set <id> --verdict "<what I'd
+     do>" --first-step "<the first thing to do>" --status waiting`. No council.
+   - **Legal, medical, tax or investment at heart**: the options and the questions for a licensed professional in
+     `brief.md`, saying it is not professional advice. A council only on the parts that are not professional.
+   - **Someone in danger**: no council. `brief.md` points them to real help, local emergency services first.
+   - **Otherwise**: the council (section 3) on the brief. With no options in the question, I list three to five
+     myself in `brief.md` and record them with `--options`; the `brainstorm` skill needs them to go first, so I leave
+     it for a session. A premortem only when the question is a plan they have already chosen.
+4. End at their call: `node engine/stage.js set waiting --decision <id> --question "<q>"` and `--status waiting`. I
+   never file, never write an `outcome`, never lay a stone and never paint a trail marker: those wait for their words
+   in a session.
+5. I write only in my data folder and, for a lesson, in `memory/`.
+
 ### At the end of every session
 
 `node engine/stage.js set idle`, unless a question is waiting on their call (then leave `waiting`).

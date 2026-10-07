@@ -64,7 +64,7 @@
 
       <section class="ask" aria-labelledby="ask-heading">
         <h2 id="ask-heading" data-copy="ui.ask_heading">Bring Bryn a question</h2>
-        <p class="ask-intro" data-copy="ui.ask_intro">It waits here for your next Claude session. Nothing runs by itself.</p>
+        <p class="ask-intro" data-copy="ui.ask_intro">Your question waits here until you send her up the trail, or for your next Claude session. Nothing runs by itself.</p>
         <form id="ask-form" class="ask-form" novalidate>
           <div class="field">
             <label for="ask-q" data-copy="ui.ask_question_label">What are you deciding?</label>
@@ -79,6 +79,15 @@
             <p class="ask-status" id="ask-status" role="status" aria-live="polite"></p>
           </div>
         </form>
+        <div class="take" id="take" aria-labelledby="take-heading">
+          <h3 class="take-heading" id="take-heading" data-copy="ui.take_heading">Or send her up the trail now</h3>
+          <p class="take-note" id="take-note" data-copy="ui.take_note">She takes the oldest question, frames it and checks the stone path. If it needs the five scouts, she sends them, which is up to eleven model runs. She stops at your call and never lays a stone for you.</p>
+          <div class="ask-actions">
+            <button type="button" class="btn btn-quiet" id="take-btn" data-copy="ui.take_button">Take up the next question</button>
+            <button type="button" class="btn btn-quiet" id="take-stop" hidden data-copy="ui.take_stop">Call her back</button>
+            <p class="ask-status" id="take-status" role="status" aria-live="polite"></p>
+          </div>
+        </div>
       </section>
     </div>
   </section>

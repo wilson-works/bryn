@@ -66,7 +66,7 @@ test('the public-repo fence: no real drive paths and not the refused phrase, in 
   const walk = (rel) => {
     for (const e of fs.readdirSync(path.join(REPO, rel), { withFileTypes: true })) {
       const r = rel ? `${rel}/${e.name}` : e.name;
-      if (e.isDirectory()) { if (!['.git', 'node_modules', 'data'].includes(e.name)) walk(r); } else if (/\.(md|json|js|css|html|svg)$/.test(e.name) && e.name !== 'bryn.config.json') files.push(r);
+      if (e.isDirectory()) { if (!['.git', 'node_modules', 'data', '.claude'].includes(e.name)) walk(r); } else if (/\.(md|json|js|css|html|svg)$/.test(e.name) && e.name !== 'bryn.config.json') files.push(r);
     }
   };
   walk('');
