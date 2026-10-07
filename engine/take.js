@@ -23,7 +23,9 @@
  *   --permission-prompts none                anything not allowed is refused at once, never waits for a person
  *   --allowedTools                           Agent and Skill (the council's scouts and the premortem's investigators
  *                                            are subagents), and Bash only for her own shipped scripts (SCRIPTS)
- *   --disallowedTools                        AskUserQuestion, CronCreate, and Edit on every file in her folder that is
+ *   --disallowedTools                        AskUserQuestion, CronCreate, PowerShell (its calls need a prompt nobody can
+ *                                            answer: the first proof run lost a step to it; her scripts go through
+ *                                            Bash), and Edit on every file in her folder that is
  *                                            code, character or configuration (DENY_EDIT), so a run writes only her
  *                                            memory/ notes and her data folder
  * Not given: --dangerously-skip-permissions, bypassPermissions, any web tool, any bare Bash, Edit or Write rule.
@@ -90,7 +92,7 @@ function ARGS(data) {
     '--add-dir', data,
     '--allowedTools', 'Agent', 'Skill', 'Bash(node engine/config.js)',
     ...SCRIPTS.map((n) => `Bash(node engine/${n}.js *)`),
-    '--disallowedTools', 'AskUserQuestion', 'CronCreate',
+    '--disallowedTools', 'AskUserQuestion', 'CronCreate', 'PowerShell',
     ...DENY_EDIT.map((d) => `Edit(${d})`),
   ];
 }
