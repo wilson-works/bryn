@@ -112,12 +112,31 @@ function launcher(file) {
   return { program: file, args: [], image: path.basename(file), via: file };
 }
 
-/** Claude Code on this computer: "claude" in bryn.config.json, else the PATH, else ~/.local/bin. Null when not found. */
+/** The newest Claude Code the VS Code extension carries (~/.vscode/extensions/anthropic.claude-code-<version>-…), or null. */
+function extensionClaude(platform, home) {
+  const base = path.join(home || os.homedir(), '.vscode', 'extensions');
+  let dirs = [];
+  try { dirs = fs.readdirSync(base).filter((d) => /^anthropic\.claude-code-\d/.test(d)); } catch (_) { return null; }
+  const ver = (d) => (/-(\d+(?:\.\d+)*)/.exec(d) || [0, '0'])[1].split('.').map(Number);
+  dirs.sort((a, b) => { const x = ver(a); const y = ver(b); for (let i = 0; i < Math.max(x.length, y.length); i += 1) if ((x[i] || 0) !== (y[i] || 0)) return (y[i] || 0) - (x[i] || 0); return 0; });
+  for (const d of dirs) {
+    const f = path.join(base, d, 'resources', 'native-binary', platform === 'win32' ? 'claude.exe' : 'claude');
+    if (isFile(f)) return launcher(f);
+  }
+  return null;
+}
+
+/**
+ * Claude Code on this computer: "claude" in bryn.config.json, else the newest one the VS Code extension carries (an npm
+ * install on the PATH can lag far behind it: GO1006 measured 2.1.263 on the PATH, too old for the newest models, beside
+ * 2.1.289 in the extension), else the PATH, else ~/.local/bin. Null when not found.
+ */
 function findClaude(opts) {
   const o = opts || {};
   if (o.claude) return isFile(o.claude) ? launcher(path.resolve(o.claude)) : null;
   const env = o.env || process.env;
   const platform = o.platform || process.platform;
+  if (!o.noExtension) { const x = extensionClaude(platform, o.home); if (x) return x; }
   const dirs = String(env.PATH || env.Path || '').split(path.delimiter).filter(Boolean);
   dirs.push(path.join(os.homedir(), '.local', 'bin'));
   const names = platform === 'win32' ? ['claude.exe', 'claude.cmd'] : ['claude'];
