@@ -209,6 +209,7 @@
   /* ---------- motion: the scenes (stitched frames; app.css owns the rules, tools/stitch/css.js the table) ----------
      A drawing is held 0.4 s at the least (--beat), every loop below is a whole number of beats, and nothing here
      flashes (SC 2.3.1): the quickest thing on the page changes a frame about two and a half times a second. */
+  --dur-vignette: 1600ms;  /* the slow crossfade between idle vignettes (dashboard app.css .scene-layer.is-slow) */
   --beat: 400ms;           /* one stitched frame, the shortest a drawing is held */
   --loop-walk: 1.6s;       /* four frames: contact, passing, contact, passing */
   --loop-row: 2.4s;        /* six frames: catch, pull, level, then the other side */
