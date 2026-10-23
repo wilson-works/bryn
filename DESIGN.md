@@ -50,14 +50,14 @@ She is Louise's opposite on every count: outdoors, daylight, on the move, stone 
 | `framing` | The question is framed: what it is, can it be undone, how much is at stake | A blank signpost at a fork in the trail; Bryn writing the question on a card pinned to it |
 | `brainstorm` | Options generated, then clustered and shortlisted | Bryn kneeling over a map on a flat rock, routes being chalked across it |
 | `council` | Five advisors answer independently | Five scouts, each walking out along a different road from the fork |
-| `review` | Anonymous peer review | The five back at the fork with their props laid down and hoods up: five identical figures, the anonymity visible |
+| `review` | Anonymous peer review | The five back at the fork with their props laid down, all in the same grey-blue coat: five identical figures, the anonymity visible |
 | `verdict` | The chair's synthesis: agree, clash, blind spots, the call, the first step | At dusk, Bryn and the five scouts round a campfire at the fork, the scouts leaning in as she gives the call; the signpost's red board points up the road she recommends |
 | `waiting` | The advice is in; the decision is yours | Bryn leaning on her pole by the finished signpost, a marker flag moving in the wind, the path toward you open |
 | `premortem` | "Six months from now this failed. Why?" | Bryn on the hilltop, hand shading her eyes, looking far down the chosen trail at a washed-out bridge |
 | `filing` | The decision goes in the log; a standing policy, when it qualifies | Bryn laying a new stone along the path, and a painted trail marker on a rock beside it |
 | `consulting` | A lookup in the log before deciding again | Bryn at the stone path, reading the painted markers on its stones |
 
-**The five scouts.** One shared, faceless hooded figure, told apart by one prop and one jacket colour, labelled only
+**The five scouts.** One shared friendly figure (round face, kind eyes, a knit cap with a pom-pom), told apart by one prop and one coat colour, labelled only
 by the role title the skill already gives it, so newcomers meet five roles, not five more names:
 
 - The Contrarian walks back down the trail.
@@ -70,18 +70,19 @@ by the role title the skill already gives it, so newcomers meet five roles, not 
 trail markers. "Check before you decide again" is Bryn checking the stone path at the fork. That turns `decision-policy`, the hardest skill
 to explain, into the brand itself.
 
-**The look.** Her world is her own trail map risen into relief (redrawn at the owner's word, 2026-10-05: more
-imaginative, still calm). Parchment with a faint grid; hills drawn as stacks of contour lines with pale elevation
-tints; trees as map symbols; clouds with dotted outlines; trails as dashed map routes. Bryn and the scouts are drawn
-in the map's own brown ink, never black, with folds that wrap them like contour lines; `art/README.md` is the
-standard every picture is held to. Trail-marker red for Bryn's shell, her dashed trail, the recommended
+**The look.** Her world is needlepoint (redrawn at the owner's word, 2026-10-22: "a more stitch art style, like
+needlepoint art"; before that her own trail map risen into relief). Every picture is cross-stitch on cream aida cloth: a
+visible grid, each colour a patch of X stitches on even cells, a limited thread box taken from her brand colours, a
+sampler border. Hills are stacks of contour tones; trees are map symbols; trails are dashed red stitches. Bryn and
+the scouts are stitched poses outlined in warm brown, never black; `art/README.md` is the standard every picture is
+held to. Trail-marker red for Bryn's shell, her dashed trail, the recommended
 road and the call; each scout's route is dashed in that scout's jacket colour. Bryn always shows a warm face and a
-chestnut braid under a dark felt hat; the scouts' hoods stay dark, so she is never mistaken for one. Her decisions
+chestnut braid under a dark felt hat; the scouts wear knit caps and no red, so she is never mistaken for one. Her decisions
 are waypoint stones laid along her red trail, in a line, never a pile. The page around the scenes keeps the light
 slate-and-fog room and the two accents (red, glacier blue for links and focus). The mark (36 px on her office sign):
-three waypoint stones along a red dashed path on a scrap of contour map. The office-door figure (112 by 124): Bryn
-standing with her pole on a patch of contour map (open contour lines, never a base), hat on, one hand raised in a
-wave, looking at you.
+three waypoint stones along a red dashed path up a stitched hilltop, on a rounded plate. The office-door figure
+(`art.svg`, 120 by 150, transparent): Bryn standing, front on, in stitches on a small patch of stitched grass, hat on,
+one hand raised in a wave, looking at you.
 
 **Names refused, and why.** Court words (judge, jury, gavel, bench, "counsel", which is one letter from council and
 means a lawyer): Bryn gives no legal advice. Prophecy words (oracle, seer, crystal ball): a premortem assumes failure,

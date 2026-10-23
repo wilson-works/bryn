@@ -70,6 +70,6 @@ If someone is in danger, she stops and points them to real help.
 
 ## The scouts
 
-Five faceless, hooded figures, the same figure five times. Each has one prop and a jacket colour, and goes only by a
+Five friendly, round-faced figures in knit caps, a little shorter than Bryn so they never loom. Each has one prop and a coat colour, and goes only by a
 role: the Contrarian, the First Principles Thinker, the Expansionist, the Outsider and the Executor. What each one does,
 and its prop, is in `copy.json` under `seats`.

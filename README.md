@@ -84,7 +84,8 @@ and your questions must not travel with it):
 | `CLAUDE.md` | Who she is and her runbook, step by step. |
 | `subagent.md` | Her front desk: checks the stone path and the trail markers, frames a question, says the next step. It only reads. |
 | `brand/` | Her voice (`VOICE.md`), her character sheet, every line on her page (`copy.json`), her palette (`tokens.css`). |
-| `art/`, `art.svg`, `mark.svg` | Her ten scenes, the figure in her office doorway, and her sign. |
+| `art/`, `art.svg`, `mark.svg` | Her twelve needlepoint scenes, the figure in her office doorway, and her sign. |
+| `tools/stitch/` | The drawing code that stitches them (`node tools/stitch/build.js`) and the table of frames behind her motion. |
 | `dashboard/` | Her page and its server (Node's built-ins only, this computer only). |
 | `engine/` | The small tools her runbook calls: the stage, a decision's record, the stone path reader, questions left for her. |
 | `brains/`, `rules/`, `memory/` | What she knows, her standing rules, what she has learned. |

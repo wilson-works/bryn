@@ -1,175 +1,130 @@
-# Bryn's art: one drawing, not a figure pasted on a map
+# Bryn's art: needlepoint, stitched on aida
 
-This note is the standard every scene, the door figure and the mark are held to. It applies to the Contour Map World
-style. The test for any picture is a single question: **would a stranger say the guide and the land were drawn by the
-same hand, on the same afternoon?**
+This note is the standard every scene, the door figure and the mark are held to. The owner's word (2026-10-22):
+"a more stitch art style (like needlepoint art) ... make her scouts less creepy and clean up her animations." A new look
+means a new art style, not new clothes, so the contour-map drawings are gone: everything is now thread on cloth.
+The test for any picture is one question: **could you count the stitches?** Every colour is a patch of whole X stitches
+on an even grid, and nothing is drawn between the cells.
 
-## 1. One ink, one line
+## 1. How a picture is made
 
-- **No black anywhere.** All line work is one warm brown hue. Its value darkens with nearness, the way pencil on a
-  survey map does:
-  - far ink `#8A7A5C` for distant contours, clouds, trees and the compass;
-  - near ink `#6B5A41` for the near ground, the boulder, the signpost and Bryn's outer outline.
-- **Weights stay in one family.** At scene scale, world contours run 1.0 to 1.2 px. Her outer outline runs 1.3 to 1.5 px,
-  and her interior folds 0.8 to 0.9 px in far ink. No limb is a tube (a dark stroke under a light stroke). Every shape is
-  a filled path with a single stroke.
-- **Lines flow.** Her outline is long, curved strokes that taper into joins, not straight segments meeting at corners.
+- **The cloth.** Aida: a cream ground with a faint woven grid and a hole at every cell corner. Cells are 5 by 5 units,
+  so a 640 by 360 scene is 128 by 72 cells. The door figure (`art.svg`) uses 4-unit cells, the mark (`mark.svg`) 3-unit.
+- **The stitch.** Each colour area is a path of rectangles (whole cells) filled with a pattern: a wash of the thread
+  colour, a darker under stitch and a lighter top stitch crossing it. That is the whole trick; there is no other
+  texture. Every number in a stitched path is a multiple of the cell, and `tests/vignettes.test.js` checks that.
+- **The thread box.** About 70 colours, all from Bryn's palette and its tints (table below). No black anywhere: outlines
+  are a warm brown (`line` `#6E5A40`, `ink` `#4A3A2A` for eyes only).
+- **A frame of stitched sampler border** runs round every scene: trail red outside, sand and ochre stitches inside.
+  The top right corner (about 28 by 12 cells) stays empty because the page's Pause button covers it.
+- **The source is code.** `tools/stitch/` draws every picture from joints, shapes and a few text sprites, and
+  `node tools/stitch/build.js` writes `art/*.svg`, `art.svg` and `mark.svg`. The SVGs are what the page serves; edit the
+  drawing code, then rebuild. `node tools/stitch/css.js --write` rewrites the motion block in `dashboard/public/app.css`
+  from the table of frames in `tools/stitch/css.js`.
 
-## 2. The figure speaks contour
+## 2. The thread box
 
-- Her red shell carries two or three fold lines that run parallel to the body's curve, like contour lines on a slope.
-- The hat brim carries one inner ring, the same way a hilltop carries its last contour.
-- The boulder she sits on is a small hill: nested rings on its top face, tinted with the same elevation ramp as the hills.
-
-## 3. A shared palette
-
-| Use | Colour |
+| Use | Threads |
 |---|---|
-| Paper, grid | `#F3EEDF`, `#D8CFB8` |
-| Elevation tints, low to high | `#E9EBD8` `#DFE3C9` `#D6D9BB` `#E8DAB9` `#E2CFA8` |
-| Trail and her shell (the same red) | `#C8432F`; shell fold shadow `#A63A28` |
-| Hat felt, boots, signpost wood | `#6B5236`; brim top `#7D6343`; band `#5E6B4E` |
-| Skin, brow shadow, cheek | `#D49A72`, `#B97E5C`, `#C0705A` at 35% |
-| Hair (chestnut braid) | `#8A5230` |
-| Trousers (sage, from the tints) | `#B3B48C`; folds in far ink |
-| Tin cup | `#C9CCC4` |
-| Rope coil | `#D9C49A` |
-| Map symbols (trees), stream | `#5E6B4E`, `#7FA7BF` |
+| Her shell, the trail, the signpost's red board (one red) | `red` `#C8432F`, `redD` `#9E3221`, `redDD` `#76241A`, `redL` `#E0705A` |
+| Hat felt, boots, signpost wood | `felt` `#6B5236`, `feltL` `#8A6A45`, `band` `#5E6B4E` |
+| Skin, cheek | `skin` `#E2AD84`, `skinD` `#C98F68`, `blush` `#E58C78` |
+| Hair (chestnut braid) | `hair` `#8A5230`, `hairD` `#6A3E22` |
+| Trousers (sage) | `sage` `#B3B48C`, `sageD` `#939469` |
+| Land, low to high | `g1` `#E4E8CE`, `g2` `#D5DBB6`, `g3` `#C4CC9C`, `g4` `#AFB985`, then `t1` `#E8DAB9`, `t2` `#E2CFA8` |
+| Water | `w1` `#A9C7D8`, `w2` `#7FA7BF`, `w3` `#4F8FB8`, `w4` `#6C98B0` |
+| Stone | `s1` `#D8D4C8` to `s4` `#7E7A6E` |
+| Fire | `ochre` `#E0A643`, `flame` `#F1DDA6`, and the red |
+| The five scouts | plum `#6B5B95`, ochre `#E0A643`, glacier `#4F8FB8`, sand `#D9C49A`, moss `#5F7F4A`, each with a dark and a light |
+| The anonymous review | grey-blue `#8296A8` with a dark and a light |
 
-Bryn's shell and the trail share one red, so the eye reads her as the trail's owner, not as a sticker.
+## 3. Bryn
 
-## 4. The hat sits on her head
+- **Drawn as poses.** Her trunk is set by a hip and a shoulder; her arms and legs are two-bone limbs solved from
+  shoulder to hand and hip to foot, so an elbow bends like an elbow and a knee like a knee. A pose is never a shape
+  turned about its centre: a new pose is a new drawing.
+- **Her outline** is one cell of warm brown. Her shell has a darker hem and a darker rim round each sleeve; the hat has a
+  moss band; the braid hangs from the nape with an ochre tie.
+- **Props she holds show their back.** The notebook she writes in is its leather cover; sheets the scouts read are the
+  blank back of the paper; the Expansionist's wide map is its back. Nothing is held with its printed side toward us.
+- **Grounded.** She stands, sits or kneels on something, with a soft contact shadow of a darker tone of the ground.
+- Her face: a kind, calm one. Two dark eyes, a blush, a small smile.
 
-- The crown's base is as wide as her skull, never wider than her head plus a hair's breadth.
-- The brim's centre line crosses her forehead about a third of the way down from the top of the head. No hair shows
-  above the brim.
-- Draw the brim in two halves: the back half before the head and hair, the front half after. The head is then inside
-  the hat, not under it.
-- A soft brow-shadow band (`#B97E5C`) sits under the front brim. The hat tilts with her head.
-- The braid comes out from under the brim at the nape and falls over one shoulder or down her back.
+## 4. The scouts (friendly, not creepy)
 
-## 5. Grounded, at rest
+The owner (2026-10-22): "make her scouts less creepy". The old scouts were hooded figures with no faces, staring from the
+dark. The new ones are soft and round and a little shorter than Bryn, so they never loom.
 
-- She sits **on** a boulder that belongs to a hillside. Its base sinks behind a ground line with a few grass ticks, a
-  soft contact shadow (near ink at about 12%) spreads under it, and a small shadow sits under her thigh where she
-  meets the stone. It is never a disc or a slab.
-- **Gesture:** one line of action, a gentle C from the hat through a relaxed, slightly rounded back to the hip. Elbows
-  in, both hands round the cup at her chin, one knee up with the foot on a ledge of the rock, the other leg hanging
-  easy. Shoulders soft, never square.
-- Her pole leans against the boulder and the rope coil rests beside her: props set down, because she is resting.
+- **A round face in full light** with big eyes (2 by 2 cells of ink with a white catch-light in one corner), rosy cheeks
+  and a small red smile. Nothing is shadowed and nothing stares from a hood.
+- **A knit cap with a pom-pom** in the scout's own colour, a cream scarf and a coat in the same colour. No red, no
+  brim hat, no braid, so none of them is ever mistaken for Bryn.
+- One thing tells the roles apart: the Contrarian turns back down the trail; the First Principles Thinker kneels at
+  bedrock with a rock hammer; the Expansionist holds a map wider than their shoulders; the Outsider has a straw sun hat
+  on their back; the Executor has the pack on.
+- In the anonymous review all five wear the same grey-blue and each holds up a sheet, back toward us.
+- They blink now and then, never together.
 
-## 6. Calm composition
+## 5. One valley
 
-- Sky gets the top 40% or so of the frame, with two dotted clouds, and nothing crowds it.
-- No hill floats. Every far hill rises from a continuous land band. There is no paper under a hill.
-- She sits in the left third, facing right, looking out over the hills. The trail enters at the bottom, curves past
-  her boulder and climbs away into the central hill. It leads the eye from her to the distance and never cuts the
-  picture in half.
-- The signpost, the stream and the compass are supporting cast, small and to the right.
+Every scene is the same valley: three far hills of nested tones (outer, middle, top), a land of four bands with rolling
+edges, the compass top left, a sampler border. Trail: dashed red, stitched thicker the nearer it is, with cream waypoint
+stones. Signpost, stream and clouds are supporting cast. Wherever stones are laid they go in a line along the red trail.
 
-## 7. The scouts
+| Scene | What you see |
+|---|---|
+| `idle.svg` (the rock) | Bryn on her boulder with a tin cup. Rest, a breath, a sip; steam; grass; far birds; a small bird on the signpost |
+| `idle-trail.svg` | Bryn walking with her pole; the stitched ground passes under her, a cell of ground for every frame of her walk |
+| `idle-kayak.svg` | Bryn paddling: catch, pull, level, then the other side; water passing; a heron on the bank; a fish that jumps once |
+| `framing.svg` | At the signpost, writing the question in her notebook |
+| `brainstorm.svg` | Kneeling at a flat rock, sketching three routes on a map |
+| `council.svg` | Five scouts on five roads from the fork, Bryn at the fork with her pole |
+| `review.svg` | The five in matching grey-blue, each with a sheet |
+| `verdict.svg` | The six round a campfire at dusk, the signpost's red board pointing up her trail |
+| `waiting.svg` | Leaning on her pole beside the signpost, its red board up |
+| `premortem.svg` | On the hilltop, hand over her eyes, a broken bridge and a warning sign across the river |
+| `filing.svg` | Kneeling on the trail, laying a stone |
+| `consulting.svg` | Stooped over the stones, lifting one to check it |
 
-The five advisors share Bryn's ink, line weights and cross-contour folds, and are never mistaken for her:
+`art.svg` is the standing greeting figure for the fleet office door (see section 8) and `mark.svg` is her sign: a hilltop,
+a red dashed trail climbing it, three cream stones, on the same rounded plate as before.
 
-- Their hoods are up, round a face in soft shadow (`#5A4C3E`, a lit rim, a hint of chin) with no features.
-- They wear no brim hat, no braid and no red.
-- Each wears a longer anorak in its own colour, and one prop tells the roles apart: the Contrarian walks back down
-  the trail, the First Principles Thinker kneels at bedrock with a rock hammer, the Expansionist holds a map wider
-  than their shoulders, the Outsider has a straw sun hat on their back, and the Executor has the pack on.
-- In the anonymous review all five wear the same grey-blue (`#8296A8`), and their props lie on the grass.
-
-## 8. Every scene is the same valley
-
-- Every scene uses the same three far hills rising out of the land.
-- The compass sits top-left. The top-right corner (about 130 by 60) holds nothing important, because the page's
-  "Pause the scene" button covers it.
-- The signpost stands at the same fork in framing, verdict and waiting: before, during and after the call.
-- Wherever stones appear, they are laid in a line along her red trail, never in a pile.
-
-## 9. Scene contract (unchanged)
+## 6. Scene contract
 
 `viewBox="0 0 640 360"`, a `<title>`, ids prefixed with the scene name, no `<style>`, `style=`, `<script>`, `<use>`,
-`<image>` or `href`. Motion is by class only. Each scene keeps exactly the `anim-*` hooks the page animates for it,
-for example:
-- `anim-breathe` on Bryn's whole figure, hat included, so the hat moves with her head;
-- `anim-steam` on the cup's steam;
-- `anim-cloud` on the clouds.
+`<image>`, `href` or `<text>`. Motion is by class only. A group that carries an `anim-*` class never carries a
+`transform` attribute (the animation would replace it). The one exception to "no transform" is a plain wrapper inside a
+drifting group, which the animation never touches.
 
-The page stops all motion for people who ask for reduced motion, and when the Pause button is pressed. The door figure (`art.svg`, 112 by 124) keeps its one `<style>`: the wave, guarded by
-`prefers-reduced-motion: no-preference`.
+## 7. Motion: whole drawings, swapped in steps
 
-Two more rules came with the living scenes (v4):
-- Never put a `transform` attribute on an element that carries an `anim-*` class. The animation replaces it. Wrap the
-  transformed drawing inside the class group instead.
-- A part that turns about a joint (a thigh, a shin, an arm, a deer's neck, a paddle) is drawn as
-  `translate(joint) > g.anim-j-NAME > translate(-joint) > the part`. Every `anim-j-*` class turns about its own origin,
-  which is then the joint exactly. The thigh is drawn after the shin inside its joint, so its rounded foot covers the
-  knee.
+The owner (2026-10-22): "clean up her animations". Before, figures were built from parts that rotated about a joint and
+tiles that slid, and they could jitter and shear. Now:
 
-## 10. Alive, not busy (v4)
+- **A pose is a whole drawing (a frame).** A figure is a set of frames, `anim-<set>-a`, `-b`, `-c`..., and the page shows one
+  at a time, swapping with `step-end` timing. Nothing turns about a centre, scales, skews or fades.
+- **A drawing is held a beat (0.4 s) or longer**, so nothing flickers; the quickest thing on the page changes a frame
+  2.5 times a second, far under three flashes a second (SC 2.3.1).
+- **Frames are on the grid too.** A frame is drawn on the same cells as every other, so a changed pose moves a few
+  whole cells, like moving to the next row of a chart.
+- **The still is the first frame.** Every frame after the first starts at `opacity="0"` in the SVG itself, and things that
+  only appear mid-motion (a spark, a leaping fish, a bird on the signpost) are hidden from the start. Reduced motion, a
+  stylesheet that fails to load and the Pause button all leave a complete drawing.
+- **The only things that travel** are the ground under a walker (three cells per step of her feet, 45 steps a loop, a
+  tile drawn twice so there is no seam), the middle ground at a third of that, the water in the kayak scene (two cells
+  a beat), and a far bird crossing the sky a cell a flap. The hills never move.
+- **Never in step.** `phase-1` to `phase-5` give the five scouts and the two far birds different starts.
+- **Walking.** Four frames: contact, passing, contact, passing. A planted foot and the planted end of her pole stay put
+  on the ground because the ground moves exactly as far as they would. The free arm swings against the leg on its side.
+- **Paddling.** Six frames at a beat each: the near blade catches ahead of her hip, the pull brings it to the hip with her
+  leaning back, the paddle comes level, then the other side. A splash marks each catch.
+- **The table of frames** (which drawing shows for which part of each loop) is `tools/stitch/css.js`; the generated block
+  in `dashboard/public/app.css` is checked against it by the tests.
 
-The owner asked for more life (2026-10-05): Bryn on her rock, walking the trail with deer, a moose and birds far off,
-paddling down the stream, and round a campfire with the scouts for the call. The art direction above does not change.
-The motion is held to these rules:
+## 8. The door figure and the mark
 
-- **The drawing is the still.** Someone who asks for reduced motion sees every scene with no animation at all, so the
-  drawn picture is complete on its own. Anything that appears only mid-motion (a spark, a leaping fish, a bird in
-  flight) is drawn with `opacity="0"`.
-- **One or two motions per figure, slow life around it.** Breathing, a walk, a paddle stroke, a lean toward the fire.
-  Around them: grass that sways, birds wheeling far off, glints on the water, clouds.
-- **Never in step.** Loops are long and offset. A `phase-1` to `phase-5` class on a figure carries a different start to
-  its limbs, so two walkers or five scouts never move together.
-- **Nothing flashes.** Every loop is at least 0.4 s. The fire's glow and flames ease in and out about once a second, far
-  under three flashes a second (WCAG 2.3.1).
-- **The land passes, the hills stay.** In the walk and the kayak, the near ground, the middle ground and the far
-  animals drift at three speeds. Each drifting layer is drawn twice, 640 px apart, so the loop has no seam. The near
-  layer moves at the speed of her feet. The three far hills never move.
-- **Arms move like arms** (the owner, 2026-10-05: "arms are weird", "rowing action animation needs some work"). Every
-  moving arm is two joints, shoulder and elbow, and its angles are solved from a model, not guessed:
-  - A free arm swings against the legs: forward while the leg on its own side is back, the elbow softening as it
-    comes forward. Never a straight plank.
-  - Depth (the owner, 23:40: "left hand and arm still swinging on right side of body"). Facing right, her left arm
-    is the far arm. It is painted after the far leg and before the near leg and the coat, in a darker, softer tone,
-    so at most its hand peeks past the back of the coat on the back-swing. It never crosses her front. The same holds
-    for every side-view figure: a far hand resting on a knee sits behind the near leg.
-  - Her pole hand grips near the top of the pole at waist height with the elbow bent. The pole is planted beside the
-    front foot, stays on the ground while she pushes past it, then swings forward for the next step.
-  - Paddling, both hands hold the shaft about a shoulder apart. One blade catches the water ahead of her hip and pulls
-    back to the hip while the other blade stands high above her hat; then the paddle turns through level and the
-    other side does the same. She leans into each catch, the elbows bend, a splash marks each catch, and the kayak
-    surges a little with every stroke. Every frame reads as paddling.
-  - A hand that is not working rests on something (a knee, a thigh, a strap). It never floats palm-out. A reach never
-    asks for more than the arm's length, so the arm is never pulled dead straight.
-- **Pause and reduced motion stop everything.** The page's Pause button stops every scene motion and the vignette
-  change. Reduced motion shows the rock and never changes it.
-
-## 11. The idle vignettes
-
-While nothing is on the table, the trailhead shows one of three scenes, a random one on load and a slow crossfade to
-another every two and a half minutes:
-
-| Scene | What you see | What moves |
-|---|---|---|
-| `idle.svg` (the rock) | The approved idle: Bryn on her boulder with her tin cup | Her breathing, the steam, a small bird that lands on the signpost and leaves, her glance up at it, grass, birds wheeling far off, glints on the stream |
-| `idle-trail.svg` | Bryn walking her red trail | Her walk (thigh, shin, a step bob), her free arm swinging against her legs, her pole planted and swung forward, the ground passing, two deer grazing and a moose far off, birds |
-| `idle-kayak.svg` | Bryn paddling her wooden kayak down the stream | Her stroke on both sides (catch ahead of the hip, pull to the hip, the other blade high), a splash at each catch, the kayak surging and rocking, the water and banks passing, a wake, a heron on the far bank, a fish that jumps once a loop |
-
-## 12. Dusk and the campfire (the verdict)
-
-The verdict is the five scouts and Bryn round a campfire at the fork at dusk, the signpost's red board pointing up her
-trail. Dusk is the same palette under a warm wash of near ink (never black, never grey), with a warm band behind the
-hills and a few stars. The figures and the fire sit above the wash, so they glow. The scouts' hoods catch the fire on
-the side that faces it.
-
-## 13. New colours, all from the same family
-
-| Use | Colour |
-|---|---|
-| Fire: outer flame, ember and sparks, the core | trail red `#C8432F`, `#D9A441`, `#F1DDA6` |
-| Fire glow | soft stacked rings of `#D9A441` and `#F1DDA6` at 4 to 7% each, never a hard disc |
-| Dusk wash | near ink `#6B5A41` at about 20% |
-| Deer | `#A27B52`, belly `#E2CFA8`, a paper tail |
-| Moose | hat felt `#6B5236`, antlers stone `#C4B898`, legs far ink |
-| Heron | the review's grey-blue `#8296A8`, bill rope `#D9C49A` |
-| Songbird | rope `#D9C49A`, cap hat felt `#6B5236` |
-| Kayak | wood `#8A6A45`, deck rope `#D9C49A`, coaming hat felt `#6B5236`, paddle blades rope |
+- `art.svg`: Bryn standing and greeting you, front on, 120 by 150, with a transparent ground (only a small stitched
+  patch of grass under her boots). One `<style>` holds the wave: three drawings (hand high, hand out at the shoulder,
+  hand down) swapped in steps over 2.4 s, guarded by `prefers-reduced-motion: no-preference`. Without it, you see the raised
+  hand. The fleet office door can reuse it as it is.
+- `mark.svg`: 36 by 36, her sign, static.

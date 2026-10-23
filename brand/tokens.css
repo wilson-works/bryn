@@ -206,45 +206,36 @@
   --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1); /* sine: every looping scene motion */
   --ease-settle: cubic-bezier(0.3, 1.3, 0.6, 1); /* a small overshoot: a post or a stone landing */
 
-  /* ---------- motion: the scenes (one per anim-* class; app.css owns the keyframes) ---------- */
-  --loop-cloud: 80s;
-  --loop-fog: 22s;
-  --loop-breathe: 5.2s;
-  --loop-steam: 3.6s;
-  --loop-write: 1.4s;
-  --loop-route: 7s;     /* draw over the first 40%, hold, fade, repeat */
-  --loop-card: 3.4s;
-  --loop-flag: 1.8s;
-  --loop-hazard: 2.4s;  /* 0.4 flashes a second, far under SC 2.3.1's three */
-  --loop-look: 7s;
-  --loop-glint: 6s;     /* one 300ms glint per loop */
-  --once-stone: 650ms;
-
-  /* ---------- motion: liveness (v4). Calm, never busy; nothing here flashes (SC 2.3.1) ---------- */
-  --dur-vignette: 1600ms;  /* the slow crossfade between idle vignettes */
-  --loop-stride: 1.4s;     /* one full walk cycle, two steps */
-  --loop-sway: 4.6s;       /* grass */
-  --loop-flap: 0.5s;       /* one wing stroke each way: a bird, not a flash */
-  --loop-wheel: 28s;       /* birds circling far off */
-  --loop-shimmer: 3.4s;
-  --loop-graze: 16s;       /* head down, look up, head down */
-  --loop-tail: 5s;
-  --loop-row: 2.6s;        /* one paddle stroke, both sides */
-  --loop-rock: 3.6s;       /* the kayak rocking on the water */
-  --loop-wake: 2.6s;
-  --loop-leap: 13s;        /* a fish jumps once per loop */
+  /* ---------- motion: the scenes (stitched frames; app.css owns the rules, tools/stitch/css.js the table) ----------
+     A drawing is held 0.4 s at the least (--beat), every loop below is a whole number of beats, and nothing here
+     flashes (SC 2.3.1): the quickest thing on the page changes a frame about two and a half times a second. */
+  --beat: 400ms;           /* one stitched frame, the shortest a drawing is held */
+  --loop-walk: 1.6s;       /* four frames: contact, passing, contact, passing */
+  --loop-row: 2.4s;        /* six frames: catch, pull, level, then the other side */
+  --loop-calm: 7.8s;       /* a standing figure: rest, a breath, rest, a blink */
+  --loop-rock: 10.4s;      /* Bryn on her rock: rest, a breath, rest, a sip */
+  --loop-steam: 2.4s;
+  --loop-sway: 3.6s;       /* grass */
+  --loop-flap: 0.8s;       /* a bird's wings, two frames */
+  --loop-fly: 16s;         /* a far bird crossing the sky, a cell a flap */
   --loop-perch: 30s;       /* a bird lands on the signpost, stays, leaves */
-  --loop-flame: 0.9s;      /* each way: about half a flicker a second */
-  --loop-glow: 1.7s;
-  --loop-spark: 2.8s;
-  --loop-smoke: 8s;
-  --loop-twinkle: 5s;
-  --loop-lean: 6s;         /* the scouts leaning in to the fire */
-  --loop-gesture: 5.2s;
+  --loop-graze: 14s;
   --loop-heron: 11s;
-  --drift-near: 18s;       /* the near ground passes at the speed of her planted foot, measured at about 35 px/s */
-  --drift-mid: 34s;
-  --drift-far: 96s;
-  --drift-water: 7s;
-  --loop-traverse: 16s;    /* a scout walking out along a road, then the loop begins again */
+  --loop-leap: 13s;        /* a fish jumps once per loop */
+  --loop-write: 4.8s;
+  --loop-sketch: 2.4s;
+  --loop-check: 4s;
+  --loop-lay: 5s;
+  --loop-scan: 6s;
+  --loop-warn: 1.6s;       /* the warning sign swaps its fill every 0.8 s */
+  --loop-tap: 3s;
+  --loop-glow: 1.6s;
+  --loop-flame: 1.2s;      /* three frames of fire, 0.4 s each */
+  --loop-spark: 3s;
+  --loop-smoke: 2.4s;
+  --loop-lean: 6s;         /* the scouts leaning in to the fire */
+  --loop-call: 8s;
+  --drift-near: 18s;       /* 45 steps of 3 cells, one a step of her feet (0.4 s) */
+  --drift-mid: 54s;        /* 135 steps: the middle ground at a third of the speed */
+  --drift-water: 6.4s;     /* 16 steps of 2 cells, a beat each */
 }
