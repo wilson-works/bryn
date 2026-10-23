@@ -106,9 +106,9 @@ const SCENE_RULES = (svg, name) => {
 
 test('the three vignette scenes keep the scene contract and move', () => {
   const hooks = {
-    idle: ['anim-breathe', 'anim-steam', 'anim-perch', 'anim-j-glance'],
-    'idle-trail': ['anim-bob', 'anim-j-thigh-n', 'anim-j-shin-f', 'anim-j-polearm', 'anim-j-poleelbow', 'anim-j-polestaff', 'anim-j-swing-f', 'anim-j-swelbow-f', 'anim-drift-near', 'anim-drift-far', 'anim-j-graze', 'anim-j-browse'],
-    'idle-kayak': ['anim-rock', 'anim-k-surge', 'anim-j-k-paddle', 'anim-j-k-torso', 'anim-j-k-up-n', 'anim-j-k-lo-n', 'anim-j-k-up-f', 'anim-j-k-lo-f', 'anim-k-splash-n', 'anim-k-splash-f', 'anim-drift-water', 'anim-leap', 'anim-j-heron'],
+    idle: ['anim-rock-a', 'anim-rock-b', 'anim-rock-c', 'anim-steam-a', 'anim-perch-a', 'anim-sway-a', 'anim-fly', 'anim-flap-a'],
+    'idle-trail': ['anim-walk-a', 'anim-walk-b', 'anim-walk-c', 'anim-walk-d', 'anim-drift-near', 'anim-drift-mid', 'anim-fly'],
+    'idle-kayak': ['anim-row-a', 'anim-row-b', 'anim-row-c', 'anim-row-d', 'anim-row-e', 'anim-row-f', 'anim-drift-water', 'anim-heron-a', 'anim-leap-a'],
   };
   for (const v of V.VIGNETTES) {
     const svg = read(`art/${v}.svg`);
@@ -117,82 +117,129 @@ test('the three vignette scenes keep the scene contract and move', () => {
   }
 });
 
-test('the verdict is a campfire at the fork: fire, six figures leaning in, her hand giving the call, the signpost still there', () => {
+test('the verdict is a campfire at the fork: fire, six figures, her hand giving the call, the signpost still there', () => {
   const svg = read('art/verdict.svg');
   SCENE_RULES(svg, 'verdict');
   assert.match(svg, /<title>[^<]*fire[^<]*<\/title>/i);
-  for (const h of ['anim-flame', 'anim-spark', 'anim-smoke', 'anim-glow', 'anim-j-gesture']) assert.match(svg, new RegExp(`class="[^"]*\\b${h}\\b`), h);
-  assert.ok((svg.match(/class="[^"]*\banim-lean\b/g) || []).length >= 5, 'five scouts lean in');
+  for (const h of ['anim-flame-a', 'anim-flame-c', 'anim-spark-a', 'anim-smoke-a', 'anim-glow-a', 'anim-call-a', 'anim-call-b']) assert.match(svg, new RegExp(`class="[^"]*\\b${h}\\b`), h);
+  assert.equal((svg.match(/class="[^"]*\banim-lean-a\b/g) || []).length, 5, 'five scouts lean in');
   assert.match(svg, /#C8432F/i, 'the red board and her red trail');
 });
 
-/* ------------------------------------------------------------------ arms (the owner, 2026-10-05: "arms are weird", "rowing action") */
+/* ------------------------------------------------------------------ the new art style (the owner, 2026-10-22: a needlepoint look, scouts that are not creepy, cleaner animation) */
 
-// one @keyframes block (matching its braces, since a frame may carry its own timing function) as [{ at, t }]
-const frames = (name) => {
-  const start = css.indexOf(`@keyframes ${name} {`);
-  assert.ok(start >= 0, `@keyframes ${name}`);
-  let i = css.indexOf('{', start) + 1, depth = 1;
-  for (; depth && i < css.length; i++) depth += css[i] === '{' ? 1 : css[i] === '}' ? -1 : 0;
-  const body = css.slice(start, i);
-  return [...body.matchAll(/([\d.]+)% \{ transform: ([^;]*);/g)].map((x) => ({ at: Number(x[1]), t: x[2] }));
-};
-const rotOf = (t) => Number(/rotate\((-?[\d.]+)deg\)/.exec(t)[1]);
-const rule = (cls) => { const m = new RegExp(`\\.scene \\.${cls}\\s*\\{([^}]*)\\}`).exec(css); assert.ok(m, cls); return m[1]; };
+const cellsOf = (svg) => [...svg.matchAll(/<path fill="url\(#[^"]+\)" d="([^"]+)"/g)].flatMap((m) => m[1].match(/-?\d+(\.\d+)?/g).map(Number));
 
-test('walking arms swing against the legs: each free arm is forward while the leg on its own side is back', () => {
-  const thigh = frames('thigh'), arm = frames('free-arm');
-  assert.ok(rotOf(thigh[0].t) < 0, 'the near leg starts forward (negative is forward)');
-  assert.ok(rotOf(arm[0].t) < 0 && rotOf(arm[0].t) === Math.min(...arm.map((k) => rotOf(k.t))), 'a free arm starts at its most forward');
-  // the far arm runs on the near leg's clock (forward together = opposition); the near arm half a stride later
-  const delay = (cls) => /animation-delay:\s*([^;]+);/.exec(rule(cls))[1].trim();
-  assert.equal(delay('anim-j-swing-f'), delay('anim-j-thigh-n'));
-  assert.match(delay('anim-j-swing-n'), /- var\(--loop-stride\) \/ 2/);
-  // the elbow softens most as the arm comes forward, and never locks straight back past the drawn bend
-  const elbow = frames('free-elbow').map((k) => rotOf(k.t));
-  assert.ok(elbow[0] === Math.min(...elbow), 'the elbow is most bent at the forward swing');
-});
-
-test('a far arm is drawn behind: after the far leg, before the near leg and the torso, never across her front', () => {
-  // the owner, 23:40: "left hand and arm still swinging on right side of body". In a side view facing right her left
-  // arm is the far arm; it may only peek past the coat's edges, so it is painted before the near leg and the coat.
-  // one walker at a time: Bryn on the trail, and the council's Contrarian (inside its own group)
-  const trail = read('art/idle-trail.svg');
-  const council = read('art/council.svg');
-  const contrarian = council.slice(council.indexOf('id="council-contrarian"'));
-  for (const [name, svg] of [['idle-trail', trail], ['council-contrarian', contrarian]]) {
-    const at = (cls) => svg.search(new RegExp(`class="[^"]*\\b${cls}\\b`));
-    assert.ok(at('anim-j-swing-f') > 0, `${name} has a swinging far arm`);
-    assert.ok(at('anim-j-thigh-f') < at('anim-j-swing-f'), `${name}: far leg before far arm`);
-    assert.ok(at('anim-j-swing-f') < at('anim-j-thigh-n'), `${name}: far arm before near leg`);
+test('every picture is stitched: whole cells on a grid, each thread painted by an X-stitch pattern', () => {
+  for (const n of ART) {
+    const svg = read(`art/${n}`);
+    const nums = cellsOf(svg);
+    assert.ok(nums.length > 200, `${n} has stitches`);
+    for (const v of nums) assert.equal(Math.abs(v) % 5, 0, `${n}: ${v} is off the 5 px cell grid`);
+    assert.ok((svg.match(/<pattern id="[a-z-]+-[A-Za-z0-9]+" width="5" height="5"/g) || []).length >= 8, `${n} has its threads`);
+    assert.ok(!/<(circle|ellipse|polygon|polyline|line)\b/.test(svg), `${n}: stitched shapes are paths of cells only`);
+    for (const m of svg.matchAll(/<rect\b[^>]*fill="url\(#([^)]+)\)/g)) assert.ok(m[1].endsWith('-aida'), `${n}: only the cloth is a rectangle`);
+    assert.match(svg, /<pattern id="[a-z-]+-aida"/, `${n} is worked on aida cloth`);
   }
-  assert.ok(trail.search(/class="[^"]*\banim-j-swing-f\b/) < trail.search(/class="[^"]*\banim-j-polearm\b/), 'the far arm before the near (pole) arm');
 });
 
-test('the pole arm and the paddle stroke are solved loops, and every arm loop runs on its own clock', () => {
-  for (const n of ['pole-arm', 'pole-elbow', 'pole-pole', 'k-up-n', 'k-lo-n', 'k-up-f', 'k-lo-f', 'k-torso', 'k-paddle']) {
-    const k = frames(n);
-    assert.ok(k.length >= 9, `${n} has at least nine samples a loop`);
-    assert.equal(k[0].at, 0); assert.equal(k[k.length - 1].at, 100);
+test('the scouts have faces: kind eyes with a catch-light, cheeks, a smile, no hood hiding them', () => {
+  const S = require('../tools/stitch/scouts');
+  const g = S.front('contrarian', { leftHand: [-0.5, 6], rightHand: [0.5, 6] });
+  const { NAMES } = require('../tools/stitch/lib');
+  const count = (name) => g.d.reduce((n, v) => n + (NAMES[v - 1] === name ? 1 : 0), 0);
+  assert.ok(count('white') >= 2, 'a white catch-light in each eye');
+  assert.ok(count('ink') >= 6, 'two big eyes of ink cells');
+  assert.ok(count('blush') >= 4, 'rosy cheeks');
+  assert.ok(count('redD') >= 4, 'a smile');
+  for (const n of ['council', 'review', 'verdict']) assert.ok(!/hood|faceless/i.test(read(`art/${n}.svg`).match(/<title>[^<]*/)[0]), `${n}: the title does not call them hooded`);
+});
+
+test('the door figure is a 120 x 150 standing greeting on a transparent ground, one guarded style, the raised hand as its still', () => {
+  const svg = read('art.svg');
+  assert.match(svg, /viewBox="0 0 120 150"/);
+  assert.match(svg, /<title>Bryn the Trail Guide[^<]*<\/title>/);
+  assert.equal((svg.match(/<style>/g) || []).length, 1);
+  assert.match(svg, /<style>@media \(prefers-reduced-motion: no-preference\)\{/);
+  assert.ok(!/<rect\b[^>]*width="120"/.test(svg), 'no background rectangle: the ground is transparent');
+  assert.match(svg, /class="bryn-w1"(?! opacity)/, 'the first drawing is the visible still');
+  assert.match(svg, /class="bryn-w2" opacity="0"/);
+  assert.match(svg, /class="bryn-w0" opacity="0"/);
+  for (const v of cellsOf(svg)) assert.equal(Math.abs(v) % 4, 0, `${v} is off the 4 px cell grid`);
+  const mark = read('mark.svg');
+  assert.match(mark, /viewBox="0 0 36 36"/);
+  assert.match(mark, /<title>Bryn<\/title>/);
+});
+
+/* ------------------------------------------------------------------ motion: whole drawings, swapped in steps */
+
+const CSSGEN = require('../tools/stitch/css');
+const tokenSeconds = (name) => { const m = new RegExp(`--${name}:\\s*([\\d.]+)(m?s)`).exec(tokens); assert.ok(m, name); return Number(m[1]) / (m[2] === 'ms' ? 1000 : 1); };
+const BEAT = 0.4;
+
+test('a pose is a whole drawing: every frame set in the table covers its loop once and holds each drawing a beat or longer', () => {
+  assert.ok(CSSGEN.SETS.length >= 20);
+  for (const s of CSSGEN.SETS) {
+    const loop = tokenSeconds(s.loop.slice(2));
+    const spans = Object.values(s.slots).flat().sort((a, b) => a[0] - b[0]);
+    for (let i = 1; i < spans.length; i++) assert.ok(spans[i][0] >= spans[i - 1][1], `${s.name}: two drawings at once`);
+    for (const [a, b] of spans) assert.ok(((b - a) / 100) * loop >= BEAT - 1e-9, `${s.name}: a drawing held for ${(((b - a) / 100) * loop).toFixed(2)} s`);
+    if (!s.hidden) {
+      const covered = spans.reduce((n, [a, b]) => n + (b - a), 0);
+      assert.ok(Math.abs(covered - 100) < 0.01 || s.name === 'calm' || s.name === 'perch', `${s.name}: a gap where no drawing shows (${covered}%)`);
+    }
   }
-  for (const c of ['anim-j-polearm', 'anim-j-poleelbow', 'anim-j-polestaff']) assert.match(rule(c), /var\(--loop-stride\)/);
-  for (const c of ['anim-j-k-paddle', 'anim-j-k-torso', 'anim-j-k-up-n', 'anim-j-k-lo-f']) assert.match(rule(c), /var\(--loop-row\)/);
-  // the paddle turns all the way through two strokes (one each side), never back and forth on one side
-  const turn = frames('k-paddle').map((k) => rotOf(k.t));
-  assert.ok(turn[turn.length - 1] - turn[0] >= 300, 'the paddle comes round to the other side and back');
-  // a splash at each catch: one on each side, half a stroke apart
-  assert.match(rule('anim-k-splash-f'), /animation-delay: calc\(var\(--loop-row\) \/ -2\)/);
 });
 
+test('the frames in each scene match the table: the first is the still, the rest start hidden, and hidden sets start all hidden', () => {
+  const sets = Object.fromEntries(CSSGEN.SETS.map((s) => [s.name, s]));
+  for (const n of ART) {
+    const svg = read(`art/${n}`);
+    for (const m of svg.matchAll(/<g class="([^"]*\banim-([a-z]+)-([a-h])\b[^"]*)"([^>]*)>/g)) {
+      const [, , set, frame, rest] = m;
+      if (set === 'drift') continue;
+      assert.ok(sets[set], `${n}: ${set} is not in the table`);
+      assert.ok(sets[set].slots[frame], `${n}: ${set}-${frame} is not in the table`);
+      const first = frame === 'a';
+      const hidden = /opacity="0"/.test(rest);
+      assert.equal(hidden, sets[set].hidden ? true : !first, `${n}: ${set}-${frame} ${hidden ? 'hidden' : 'visible'} at rest`);
+    }
+  }
+});
+
+test('the ground moves in step with her feet: a cell of ground per frame of the walk, and the water a beat a step', () => {
+  const walk = tokenSeconds('loop-walk') / 4;
+  assert.ok(Math.abs(walk - BEAT) < 1e-9);
+  assert.ok(Math.abs(tokenSeconds('drift-near') / 45 - walk) < 1e-9, '45 steps of 3 cells at one step per frame');
+  assert.ok(Math.abs(tokenSeconds('drift-mid') / 135 - walk) < 1e-9);
+  assert.ok(Math.abs(tokenSeconds('drift-water') / 16 - BEAT) < 1e-9);
+  assert.match(css, /anim-drift-near \{ animation: drift-near var\(--drift-near\) steps\(45\) infinite; \}/);
+  assert.match(css, /@keyframes drift-near \{ to \{ transform: translateX\(-675px\); \} \}/, '45 steps of 15 px: three cells a step');
+  assert.ok(Math.abs(tokenSeconds('loop-row') / 6 - BEAT) < 1e-9, 'six frames of paddling at a beat each');
+});
+
+test('the generated block in app.css is the table: nothing hand-edited', () => {
+  const a = css.indexOf('/* BEGIN stitched frames');
+  const b = css.indexOf('/* END stitched frames */') + '/* END stitched frames */'.length;
+  assert.equal(css.slice(a, b).replace(/\r/g, ''), CSSGEN.block());
+});
+
+test('nothing slides or spins: no scene rule turns, scales or fades a figure, only swaps frames, steps the ground or steps a bird', () => {
+  const motion = css.slice(css.indexOf('scene motion (anim-*'), css.indexOf('@media (prefers-reduced-motion: reduce)'));
+  assert.ok(!/rotate\(|scale\(|skew|translateY|ease-in-out|linear infinite/.test(motion.replace(/fly-fade[^\n]*/g, '')), 'a figure is swapped, not tweened');
+  for (const m of motion.matchAll(/^\.scene \.anim-[a-z-]+ \{ animation: [^;]+;/gm)) assert.match(m[0], /step-end|steps\(\d+\)/, m[0]);
+});
+
+// every anim-* hook in every scene has a rule and keyframes in app.css
 test('every anim-* hook in every scene has a rule and keyframes in app.css', () => {
   const used = new Set();
   for (const n of ART) for (const m of read(`art/${n}`).matchAll(/class="([^"]+)"/g)) for (const c of m[1].split(/\s+/)) if (c.startsWith('anim-')) used.add(c);
   assert.ok(used.size > 20, `only ${used.size} hooks`);
-  const frames = new Set([...css.matchAll(/@keyframes\s+([a-z-]+)/g)].map((m) => m[1]));
+  const frames = new Set([...css.matchAll(/@keyframes\s+([a-z0-9-]+)/g)].map((m) => m[1]));
   for (const c of used) {
     const rule = new RegExp(`\\.scene \\.${c}\\s*\\{([^}]*)\\}`).exec(css);
     assert.ok(rule, `app.css has a rule for .${c}`);
-    const anim = /animation:\s*([a-z-]+)/.exec(rule[1]);
+    const anim = /animation:\s*([a-z0-9-]+)/.exec(rule[1]);
     assert.ok(anim && frames.has(anim[1]), `.${c} names keyframes that exist`);
   }
 });
@@ -207,15 +254,16 @@ test('no animated element carries a transform attribute (the animation would thr
   }
 });
 
-test('Pause and reduced motion stop every scene motion, and jointed parts turn about their joint', () => {
+test('Pause and reduced motion stop every scene motion, and the still is a complete drawing', () => {
   assert.match(css, /\.scene-card\.is-paused \[class\*="anim-"\]\s*\{\s*animation-play-state: paused !important;/);
   const reduced = /@media \(prefers-reduced-motion: reduce\)\s*\{([\s\S]*?)\n\}/.exec(css);
   assert.ok(reduced, 'a reduced-motion block');
   assert.match(reduced[1], /\.scene \[class\*="anim-"\]\s*\{\s*animation: none !important;/);
   assert.match(reduced[1], /\.scene-pause\s*\{\s*display: none;/);
   assert.match(reduced[1], /\.scene-layer, \.scene-layer\.is-slow\s*\{\s*transition-duration: 160ms;/, 'the slow vignette crossfade is short too');
-  assert.match(css, /\.scene \[class\*="anim-j-"\]\s*\{\s*transform-box: view-box; transform-origin: 0 0;/);
   assert.match(css, /\.scene-layer\.is-slow\s*\{\s*transition-duration: var\(--dur-vignette\);/);
+  // with the animation gone, only first frames show (the rest carry opacity="0" in the art itself)
+  for (const n of ART) assert.ok(/\banim-[a-z]+-a\b/.test(read(`art/${n}`)), `${n} has a first drawing`);
 });
 
 test('no scene loop is fast enough to flash (SC 2.3.1): every loop and drift token is at least 0.4 s', () => {

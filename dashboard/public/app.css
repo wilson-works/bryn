@@ -399,237 +399,166 @@ input::placeholder, textarea::placeholder { color: var(--color-ink-muted); opaci
 .md th { color: var(--color-ink-muted); }
 
 /* ------------------------------------------------------------------ scene motion (anim-* groups in art/*.svg) */
+/* The scenes are needlepoint, and they move the way a stitched flip book would. A figure is a set of whole drawings
+   (frames) and the page shows one at a time, swapping with step-end timing: a pose change is a new drawing, never a
+   shape turning about a centre or sliding. The only things that travel are the ground (a cell at a time, in step with
+   her feet) and a bird (a cell a flap). Every loop is slow (a frame is held 0.4 s or longer), the stills are the first
+   frames, and the two rules at the end of this block stop all of it. */
 
-.scene [class*="anim-"] { transform-box: fill-box; }
-.scene .anim-cloud { animation: cloud var(--loop-cloud) var(--ease-in-out) infinite alternate; }
-.scene .anim-fog { animation: fog var(--loop-fog) var(--ease-in-out) infinite alternate; }
-.scene .anim-fog:nth-of-type(2n) { animation-delay: calc(var(--loop-fog) / -2); }
-.scene .anim-breathe { transform-origin: 50% 100%; animation: breathe var(--loop-breathe) var(--ease-in-out) infinite alternate; animation-delay: var(--phase, 0s); }
-.scene .anim-steam { transform-origin: 50% 100%; animation: steam var(--loop-steam) var(--ease-in-out) infinite; }
-.scene .anim-write { transform-origin: 20% 90%; animation: write var(--loop-write) var(--ease-in-out) infinite alternate; }
-.scene .anim-route { animation: route var(--loop-route) var(--ease-in-out) infinite; }
-.scene .anim-route:nth-of-type(2n) { animation-delay: -1.6s; }
-.scene .anim-route:nth-of-type(3n) { animation-delay: -3.1s; }
-.scene .anim-card { transform-origin: 50% 50%; animation: card var(--loop-card) var(--ease-in-out) infinite; }
-.scene .anim-card:nth-of-type(2n) { animation-delay: calc(var(--loop-card) / -3); }
-.scene .anim-flag { transform-origin: 0% 50%; animation: flag var(--loop-flag) var(--ease-in-out) infinite alternate; }
-.scene .anim-hazard { transform-origin: 50% 50%; animation: hazard var(--loop-hazard) var(--ease-in-out) infinite alternate; }
-.scene .anim-stone { transform-origin: 50% 100%; animation: stone 5s var(--ease-settle) infinite; }
-.scene .anim-look { transform-origin: 50% 90%; animation: look var(--loop-look) var(--ease-in-out) infinite alternate; }
-.scene .anim-glint { animation: glint var(--loop-glint) var(--ease-in-out) infinite; }
+/* a custom property carries a figure's phase, so five scouts never breathe in time */
+.scene .phase-1 { --phase: -1.3s; }
+.scene .phase-2 { --phase: -2.9s; }
+.scene .phase-3 { --phase: -4.1s; }
+.scene .phase-4 { --phase: -5.6s; }
+.scene .phase-5 { --phase: -6.7s; }
 
-@keyframes cloud { from { transform: translateX(-24px); } to { transform: translateX(24px); } }
-@keyframes fog { from { transform: translateX(-30px); } to { transform: translateX(30px); } }
-@keyframes breathe { from { transform: scaleY(1); } to { transform: scaleY(1.018); } }
-@keyframes steam { 0% { transform: translateY(4px); opacity: 0; } 30% { opacity: 0.85; } 100% { transform: translateY(-10px); opacity: 0; } }
-@keyframes write { from { transform: translate(-1.5px, 0); } to { transform: translate(1.5px, -1px); } }
-@keyframes route { 0% { stroke-dashoffset: 72; opacity: 0.25; } 40% { stroke-dashoffset: 0; opacity: 1; } 85% { stroke-dashoffset: 0; opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 0.25; } }
-@keyframes card { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg) translateX(3px); } }
-@keyframes flag { from { transform: skewY(-4deg) scaleX(0.96); } to { transform: skewY(4deg) scaleX(1); } }
-@keyframes hazard { from { opacity: 0.45; } to { opacity: 1; } }
-@keyframes stone { 0% { transform: translateY(-10px); } 14% { transform: translateY(0); } 100% { transform: translateY(0); } }
-@keyframes look { from { transform: rotate(-3deg); } to { transform: rotate(3deg); } }
-@keyframes glint { 0%, 86%, 100% { opacity: 1; } 91% { opacity: 0.55; } }
+/* the ground that passes under a walker or a kayak: three cells a step while she takes a step (15 px, 0.4 s), the
+   near layer twice as fast as the middle one; the water goes two cells a step. Each tile is drawn twice (or long
+   enough), so the loop has no seam. The far hills never move. */
+.scene .anim-drift-near { animation: drift-near var(--drift-near) steps(45) infinite; }
+.scene .anim-drift-mid { animation: drift-mid var(--drift-mid) steps(135) infinite; }
+.scene .anim-drift-water { animation: drift-water var(--drift-water) steps(16) infinite; }
+@keyframes drift-near { to { transform: translateX(-675px); } }
+@keyframes drift-mid { to { transform: translateX(-675px); } }
+@keyframes drift-water { to { transform: translateX(-160px); } }
 
-/* ------------------------------------------------------------------ liveness (v4): the same rules, more of the world moving
-   Jointed parts: a part that turns about a joint is drawn inside translate(joint) > g.anim-j-* > translate(-joint), so
-   these classes turn about their own origin (view-box box, origin 0 0), which is the joint exactly. Everything is
-   transform or opacity, every loop is slow, and the two rules at the end of this block stop all of it. */
+/* a bird far off crosses the sky a cell a flap and is gone; its wings are a frame set (flap) */
+.scene .anim-fly { animation: fly var(--loop-fly) steps(40) infinite, fly-fade var(--loop-fly) linear infinite; animation-delay: var(--phase, 0s); }
+@keyframes fly { to { transform: translateX(200px); } }
+@keyframes fly-fade { 0% { opacity: 0; } 6% { opacity: 1; } 90% { opacity: 1; } 100% { opacity: 0; } }
 
-.scene [class*="anim-j-"] { transform-box: view-box; transform-origin: 0 0; }
-/* a custom property carries a figure's phase down to its limbs, so two walkers never step in time */
-.scene .phase-1 { --phase: -0.35s; }
-.scene .phase-2 { --phase: -0.8s; }
-.scene .phase-3 { --phase: -1.1s; }
-.scene .phase-4 { --phase: -1.9s; }
-.scene .phase-5 { --phase: -2.6s; }
-
-/* walking: thigh and shin, near and far half a stride apart; arms swing against the legs; the body bobs twice a stride */
-.scene .anim-j-thigh-n { animation: thigh var(--loop-stride) linear infinite; animation-delay: var(--phase, 0s); }
-.scene .anim-j-thigh-f { animation: thigh var(--loop-stride) linear infinite; animation-delay: calc(var(--phase, 0s) - var(--loop-stride) / 2); }
-.scene .anim-j-shin-n { animation: shin var(--loop-stride) linear infinite; animation-delay: var(--phase, 0s); }
-.scene .anim-j-shin-f { animation: shin var(--loop-stride) linear infinite; animation-delay: calc(var(--phase, 0s) - var(--loop-stride) / 2); }
-/* arms swing against the legs: each free arm is forward when the leg on its own side is back; the elbow softens as
-   it comes forward. Her pole arm grips near the top of the pole; the pole is planted as the far foot lands. */
-.scene .anim-j-swing-f { animation: free-arm var(--loop-stride) linear infinite; animation-delay: var(--phase, 0s); }
-.scene .anim-j-swelbow-f { animation: free-elbow var(--loop-stride) linear infinite; animation-delay: var(--phase, 0s); }
-.scene .anim-j-swing-n { animation: free-arm var(--loop-stride) linear infinite; animation-delay: calc(var(--phase, 0s) - var(--loop-stride) / 2); }
-.scene .anim-j-swelbow-n { animation: free-elbow var(--loop-stride) linear infinite; animation-delay: calc(var(--phase, 0s) - var(--loop-stride) / 2); }
-.scene .anim-j-polearm { animation: pole-arm var(--loop-stride) linear infinite; animation-delay: var(--phase, 0s); }
-.scene .anim-j-poleelbow { animation: pole-elbow var(--loop-stride) linear infinite; animation-delay: var(--phase, 0s); }
-.scene .anim-j-polestaff { animation: pole-pole var(--loop-stride) linear infinite; animation-delay: var(--phase, 0s); }
-.scene .anim-bob { animation: bob calc(var(--loop-stride) / 4) var(--ease-in-out) infinite alternate; animation-delay: var(--phase, 0s); }
-.scene .anim-j-nod { animation: nod var(--loop-graze) var(--ease-in-out) infinite; }
-.scene .anim-traverse { animation: traverse var(--loop-traverse) linear infinite; animation-delay: var(--phase, 0s); }
-
-/* the land passing a walker or a paddler: each layer is drawn twice, 640 px apart, so the loop has no seam */
-.scene .anim-drift-near { animation: drift var(--drift-near) linear infinite; }
-.scene .anim-drift-mid { animation: drift var(--drift-mid) linear infinite; }
-.scene .anim-drift-far { animation: drift var(--drift-far) linear infinite; }
-.scene .anim-drift-water { animation: drift-half var(--drift-water) linear infinite; }
-
-/* grass, birds, water */
-.scene .anim-sway { transform-origin: 50% 100%; animation: sway var(--loop-sway) var(--ease-in-out) infinite alternate; }
-.scene .anim-sway:nth-of-type(2n) { animation-delay: -1.7s; }
-.scene .anim-sway:nth-of-type(3n) { animation-delay: -3.1s; }
-.scene .anim-flap { transform-origin: 50% 100%; animation: flap var(--loop-flap) var(--ease-in-out) infinite alternate; }
-.scene .anim-j-wheel { animation: wheel var(--loop-wheel) linear infinite; }
-.scene .anim-j-unwheel { animation: wheel var(--loop-wheel) linear infinite reverse; }  /* keeps each bird level while the circle turns */
-.scene .anim-shimmer { animation: shimmer var(--loop-shimmer) var(--ease-in-out) infinite; }
-.scene .anim-shimmer:nth-of-type(2n) { animation-delay: -1.2s; }
-.scene .anim-shimmer:nth-of-type(3n) { animation-delay: -2.3s; }
-
-/* animals */
-.scene .anim-j-graze { animation: graze var(--loop-graze) var(--ease-in-out) infinite; }
-.scene .anim-j-browse { animation: browse var(--loop-graze) var(--ease-in-out) infinite; animation-delay: -6s; }
-.scene .anim-tail { transform-origin: 100% 0%; animation: tail var(--loop-tail) var(--ease-in-out) infinite; }
-.scene .anim-j-heron { animation: heron var(--loop-heron) var(--ease-in-out) infinite; }
-.scene .anim-leap { animation: leap var(--loop-leap) var(--ease-in-out) infinite; }
-.scene .anim-ring { transform-origin: 50% 50%; animation: ring var(--loop-leap) var(--ease-out) infinite; }
-
-/* the kayak */
-/* the stroke: the paddle, her torso and both arms run one solved loop; a splash at each catch; the kayak surges a
-   little with every stroke */
-.scene .anim-j-k-paddle { animation: k-paddle var(--loop-row) linear infinite; }
-.scene .anim-j-k-torso { animation: k-torso var(--loop-row) linear infinite; }
-.scene .anim-j-k-up-n { animation: k-up-n var(--loop-row) linear infinite; }
-.scene .anim-j-k-lo-n { animation: k-lo-n var(--loop-row) linear infinite; }
-.scene .anim-j-k-up-f { animation: k-up-f var(--loop-row) linear infinite; }
-.scene .anim-j-k-lo-f { animation: k-lo-f var(--loop-row) linear infinite; }
-.scene .anim-k-splash-n { transform-origin: 50% 50%; animation: k-splash var(--loop-row) var(--ease-out) infinite; }
-.scene .anim-k-splash-f { transform-origin: 50% 50%; animation: k-splash var(--loop-row) var(--ease-out) infinite; animation-delay: calc(var(--loop-row) / -2); }
-.scene .anim-k-surge { animation: k-surge calc(var(--loop-row) / 2) var(--ease-in-out) infinite; }
-.scene .anim-rock { transform-origin: 50% 70%; animation: rock var(--loop-rock) var(--ease-in-out) infinite alternate; }
-.scene .anim-wake { transform-origin: 0% 50%; animation: wake var(--loop-wake) var(--ease-out) infinite; }
-.scene .anim-wake:nth-of-type(2n) { animation-delay: calc(var(--loop-wake) / -2); }
-
-/* the rock: a bird lands on the signpost, stays a while, and goes; she looks up while it is there */
-.scene .anim-perch { animation: perch var(--loop-perch) var(--ease-in-out) infinite; }
-.scene .anim-perch-fly { animation: perch-fly var(--loop-perch) linear infinite; }
-.scene .anim-perch-sit { animation: perch-sit var(--loop-perch) linear infinite; }
-.scene .anim-j-glance { animation: glance var(--loop-perch) var(--ease-in-out) infinite; }
-
-/* the campfire at dusk */
-.scene .anim-flame { transform-origin: 50% 100%; animation: flame var(--loop-flame) var(--ease-in-out) infinite alternate; }
-.scene .anim-flame-b { transform-origin: 50% 100%; animation: flame-b calc(var(--loop-flame) * 1.3) var(--ease-in-out) infinite alternate; }
-.scene .anim-glow { animation: glow var(--loop-glow) var(--ease-in-out) infinite alternate; }
-.scene .anim-glow-b { animation: glow calc(var(--loop-glow) * 1.45) var(--ease-in-out) infinite alternate-reverse; }
-.scene .anim-spark { animation: spark var(--loop-spark) var(--ease-out) infinite; }
-.scene .anim-spark:nth-of-type(2n) { animation-delay: -0.9s; animation-duration: calc(var(--loop-spark) * 1.2); }
-.scene .anim-spark:nth-of-type(3n) { animation-delay: -1.8s; animation-duration: calc(var(--loop-spark) * 0.9); }
-.scene .anim-spark:nth-of-type(5n) { animation-delay: -2.4s; }
-.scene .anim-smoke { transform-origin: 50% 100%; animation: smoke var(--loop-smoke) linear infinite; }
-.scene .anim-smoke:nth-of-type(2n) { animation-delay: calc(var(--loop-smoke) / -3); }
-.scene .anim-smoke:nth-of-type(3n) { animation-delay: calc(var(--loop-smoke) / -1.5); }
-.scene .anim-twinkle { animation: twinkle var(--loop-twinkle) var(--ease-in-out) infinite alternate; }
-.scene .anim-twinkle:nth-of-type(2n) { animation-delay: -1.6s; animation-duration: 6.4s; }
-.scene .anim-twinkle:nth-of-type(3n) { animation-delay: -3.3s; animation-duration: 7.6s; }
-.scene .anim-lean { transform-origin: 50% 100%; animation: lean var(--loop-lean) var(--ease-in-out) infinite alternate; }
-.scene .anim-lean:nth-of-type(2n) { animation-delay: -2.2s; }
-.scene .anim-lean:nth-of-type(3n) { animation-delay: -4.1s; }
-.scene .anim-j-warm { animation: warm var(--loop-lean) var(--ease-in-out) infinite alternate; animation-delay: var(--phase, 0s); }
-.scene .anim-j-gesture { animation: gesture var(--loop-gesture) var(--ease-in-out) infinite; }
-
-@keyframes thigh {
-  0% { transform: rotate(-19deg); }                                           /* heel down, leg forward */
-  58% { transform: rotate(17deg); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); } /* toe off, then the swing */
-  100% { transform: rotate(-19deg); }
-}
-@keyframes shin {
-  0% { transform: rotate(2deg); }
-  45% { transform: rotate(6deg); }
-  60% { transform: rotate(24deg); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-  76% { transform: rotate(46deg); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-  100% { transform: rotate(2deg); }
-}
-@keyframes bob { from { transform: translateY(1.2px); } to { transform: translateY(-1.4px); } }
-@keyframes nod { 0%, 30%, 62%, 100% { transform: rotate(0deg); } 40%, 52% { transform: rotate(-5deg); } }
-/* the drawn place is the MIDDLE of the walk, so the still shows the figure where the drawing put it */
-@keyframes traverse {
-  0% { transform: translate(calc(var(--dx, 30px) / -2), calc(var(--dy, 0px) / -2)); opacity: 0; }
-  12% { opacity: 1; }
-  86% { opacity: 1; }
-  100% { transform: translate(calc(var(--dx, 30px) / 2), calc(var(--dy, 0px) / 2)); opacity: 0; }
-}
-@keyframes drift { from { transform: translateX(0); } to { transform: translateX(-640px); } }
-@keyframes drift-half { from { transform: translateX(0); } to { transform: translateX(-320px); } }
-@keyframes sway { from { transform: rotate(-3.5deg); } to { transform: rotate(3.5deg); } }
-@keyframes flap { from { transform: scaleY(1); } to { transform: scaleY(0.35); } }
-@keyframes wheel { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-@keyframes shimmer { 0%, 100% { opacity: 0; } 45%, 60% { opacity: 0.9; } }
-@keyframes graze { 0%, 8% { transform: rotate(0deg); } 18%, 56% { transform: rotate(84deg); } 66%, 92% { transform: rotate(-4deg); } 100% { transform: rotate(0deg); } }
-@keyframes browse { 0%, 20% { transform: rotate(0deg); } 32%, 60% { transform: rotate(30deg); } 72%, 100% { transform: rotate(0deg); } }
-@keyframes tail { 0%, 70%, 100% { transform: rotate(0deg); } 76% { transform: rotate(-24deg); } 82% { transform: rotate(10deg); } 88% { transform: rotate(-16deg); } }
-@keyframes heron { 0%, 20%, 100% { transform: rotate(0deg); } 34%, 58% { transform: rotate(-9deg) translateY(-2px); } 70% { transform: rotate(14deg); } 80% { transform: rotate(0deg); } }
-@keyframes leap {
-  0%, 70% { transform: translate(0, 6px) rotate(-50deg); opacity: 0; }
-  71% { opacity: 1; }
-  76% { transform: translate(12px, -16px) rotate(0deg); opacity: 1; }
-  81% { transform: translate(24px, 6px) rotate(55deg); opacity: 1; }
-  82%, 100% { transform: translate(24px, 8px) rotate(55deg); opacity: 0; }
-}
-@keyframes ring { 0%, 80% { transform: scale(0.2); opacity: 0; } 81% { opacity: 0.9; } 100% { transform: scale(1.7); opacity: 0; } }
-@keyframes k-splash { 0% { transform: scale(0.4); opacity: 0.95; } 28% { transform: scale(1.5); opacity: 0; } 100% { transform: scale(1.5); opacity: 0; } }
-@keyframes k-surge { 0%, 100% { transform: translateX(0); } 45% { transform: translateX(1.8px); } }
-@keyframes rock { from { transform: translateY(-0.8px) rotate(-1deg); } to { transform: translateY(0.8px) rotate(1deg); } }
-@keyframes wake { from { transform: scale(0.6, 0.8); opacity: 0.85; } to { transform: scale(1.5, 1.2); opacity: 0; } }
-@keyframes perch {
-  0% { transform: translate(200px, -110px); }                  /* off the right edge */
-  9% { transform: translate(0, 0); }
-  34% { transform: translate(0, 0); }
-  36% { transform: translate(0, -5px); }
-  38%, 60% { transform: translate(0, 0); }
-  70%, 100% { transform: translate(-230px, -240px); }            /* up and out of the top, well clear of her hat */
-}
-@keyframes perch-fly { 0%, 8.5% { opacity: 1; } 9%, 60% { opacity: 0; } 60.5%, 67% { opacity: 1; } 70%, 100% { opacity: 0; } }
-@keyframes perch-sit { 0%, 8.5% { opacity: 0; } 9%, 60% { opacity: 1; } 60.5%, 100% { opacity: 0; } }
-@keyframes glance { 0%, 10% { transform: rotate(0deg); } 15%, 55% { transform: rotate(-9deg); } 62%, 100% { transform: rotate(0deg); } }
-@keyframes flame { from { transform: scale(0.94, 0.9) skewX(-3deg); } to { transform: scale(1.04, 1.08) skewX(3deg); } }
-@keyframes flame-b { from { transform: scale(1.03, 1.06) skewX(2deg); } to { transform: scale(0.95, 0.9) skewX(-4deg); } }
-@keyframes glow { from { opacity: 0.72; } to { opacity: 1; } }
-@keyframes spark {
-  0% { transform: translate(0, 0); opacity: 0; }
-  12% { opacity: 1; }
-  100% { transform: translate(6px, -54px); opacity: 0; }
-}
-@keyframes smoke {
-  0% { transform: translate(0, 0) scale(0.7); opacity: 0; }
-  15% { opacity: 0.75; }
-  100% { transform: translate(16px, -60px) scale(1.7); opacity: 0; }
-}
-@keyframes twinkle { from { opacity: 0.35; } to { opacity: 1; } }
-@keyframes lean { from { transform: rotate(-1.4deg); } to { transform: rotate(1.6deg); } }
-@keyframes warm { from { transform: rotate(-4deg); } to { transform: rotate(5deg); } }
-@keyframes gesture { 0%, 20%, 100% { transform: rotate(0deg); } 34%, 52% { transform: rotate(-14deg); } 66% { transform: rotate(-6deg); } }
-
-/* per scene: where the council's two walkers go (an amble: a slower stride, so the feet barely slip), the tap at the
-   bedrock, the review's two hooded heads turning to the next card, and the kayak blade reaching the water */
-.scene #council-contrarian { --dx: -30px; --dy: 5px; --loop-stride: 2.2s; }
-.scene #council-executor { --dx: 26px; --dy: -14px; --loop-stride: 2.2s; }
-.scene .anim-tap { animation: tap-pop 2.4s var(--ease-in-out) infinite; }
-.scene .anim-tap-b { animation: tap-pop 3s var(--ease-in-out) infinite; animation-delay: -0.4s; }
-.scene .anim-j-turn { animation: head-turn 11s var(--ease-in-out) infinite; }
-.scene .anim-j-turn.turn-b { animation-duration: 14s; animation-delay: -6s; }
-@keyframes tap-pop { 0%, 60%, 100% { opacity: 0; } 70% { opacity: 1; } 85% { opacity: 0; } }
-@keyframes head-turn { 0%, 52%, 100% { transform: rotate(0deg); } 60%, 74% { transform: rotate(6deg); } 82% { transform: rotate(0deg); } }
-
-/* BEGIN solved arms: generated by the art tool from its walk and paddle models. Change the model, not the numbers. */
-/* the walk: solved in the art tool. Pole arm: the grip stays near the top of the pole at waist height and the
-   tip stays on the ground through the plant. Free arms swing against the legs, the elbow softening forward. */
-@keyframes pole-arm { 0% { transform: rotate(18.12deg); } 6.25% { transform: rotate(16.57deg); } 12.5% { transform: rotate(12.36deg); } 18.75% { transform: rotate(6.3deg); } 25% { transform: rotate(-0.44deg); } 31.25% { transform: rotate(-6.83deg); } 37.5% { transform: rotate(-12.35deg); } 43.75% { transform: rotate(-16.44deg); } 50% { transform: rotate(-18.07deg); } 56.25% { transform: rotate(-13.43deg); } 62.5% { transform: rotate(-8.91deg); } 68.75% { transform: rotate(-4.45deg); } 75% { transform: rotate(0deg); } 81.25% { transform: rotate(4.47deg); } 87.5% { transform: rotate(8.98deg); } 93.75% { transform: rotate(13.54deg); } 100% { transform: rotate(18.12deg); } }
-@keyframes pole-elbow { 0% { transform: rotate(-13.03deg); } 6.25% { transform: rotate(-13.07deg); } 12.5% { transform: rotate(-12.71deg); } 18.75% { transform: rotate(-10.69deg); } 25% { transform: rotate(-5.74deg); } 31.25% { transform: rotate(2.18deg); } 37.5% { transform: rotate(11.38deg); } 43.75% { transform: rotate(19.07deg); } 50% { transform: rotate(22.24deg); } 56.25% { transform: rotate(15.78deg); } 62.5% { transform: rotate(9.98deg); } 68.75% { transform: rotate(4.74deg); } 75% { transform: rotate(0deg); } 81.25% { transform: rotate(-4.27deg); } 87.5% { transform: rotate(-8.08deg); } 93.75% { transform: rotate(-11.44deg); } 100% { transform: rotate(-13.03deg); } }
-@keyframes pole-pole { 0% { transform: rotate(-0.69deg); } 6.25% { transform: rotate(0.52deg); } 12.5% { transform: rotate(3.37deg); } 18.75% { transform: rotate(6deg); } 25% { transform: rotate(6.18deg); } 31.25% { transform: rotate(3.03deg); } 37.5% { transform: rotate(-2.07deg); } 43.75% { transform: rotate(-6.67deg); } 50% { transform: rotate(-8.58deg); } 56.25% { transform: rotate(-5.66deg); } 62.5% { transform: rotate(-3.27deg); } 68.75% { transform: rotate(-1.39deg); } 75% { transform: rotate(0deg); } 81.25% { transform: rotate(0.9deg); } 87.5% { transform: rotate(1.31deg); } 93.75% { transform: rotate(1.2deg); } 100% { transform: rotate(-0.69deg); } }
-@keyframes free-arm { 0% { transform: rotate(-9deg); } 6.25% { transform: rotate(-8.01deg); } 12.5% { transform: rotate(-5.19deg); } 18.75% { transform: rotate(-0.97deg); } 25% { transform: rotate(4deg); } 31.25% { transform: rotate(8.97deg); } 37.5% { transform: rotate(13.19deg); } 43.75% { transform: rotate(16.01deg); } 50% { transform: rotate(17deg); } 56.25% { transform: rotate(16.01deg); } 62.5% { transform: rotate(13.19deg); } 68.75% { transform: rotate(8.97deg); } 75% { transform: rotate(4deg); } 81.25% { transform: rotate(-0.97deg); } 87.5% { transform: rotate(-5.19deg); } 93.75% { transform: rotate(-8.01deg); } 100% { transform: rotate(-9deg); } }
-@keyframes free-elbow { 0% { transform: rotate(-4deg); } 6.25% { transform: rotate(-3.54deg); } 12.5% { transform: rotate(-2.24deg); } 18.75% { transform: rotate(-0.3deg); } 25% { transform: rotate(2deg); } 31.25% { transform: rotate(4.3deg); } 37.5% { transform: rotate(6.24deg); } 43.75% { transform: rotate(7.54deg); } 50% { transform: rotate(8deg); } 56.25% { transform: rotate(7.54deg); } 62.5% { transform: rotate(6.24deg); } 68.75% { transform: rotate(4.3deg); } 75% { transform: rotate(2deg); } 81.25% { transform: rotate(-0.3deg); } 87.5% { transform: rotate(-2.24deg); } 93.75% { transform: rotate(-3.54deg); } 100% { transform: rotate(-4deg); } }
-/* the kayak: solved in the art tool from a paddle in 3D (catch ahead of the hip, pull to the hip, the other side).
-   Each arm reaches the shaft by two-bone IK at every sample; the paddle frame is relative to the drawn frame. */
-@keyframes k-up-n { 0% { transform: rotate(0deg); } 6.25% { transform: rotate(2.52deg); } 12.5% { transform: rotate(6.67deg); } 18.75% { transform: rotate(8.38deg); } 25% { transform: rotate(10.15deg); } 31.25% { transform: rotate(10.36deg); } 37.5% { transform: rotate(-10deg); } 43.75% { transform: rotate(-41.33deg); } 50% { transform: rotate(-66.57deg); } 56.25% { transform: rotate(-63.36deg); } 62.5% { transform: rotate(-57.47deg); } 68.75% { transform: rotate(-54.68deg); } 75% { transform: rotate(-48.35deg); } 81.25% { transform: rotate(-43.46deg); } 87.5% { transform: rotate(-27.71deg); } 93.75% { transform: rotate(-17.68deg); } 100% { transform: rotate(0deg); } }
-@keyframes k-lo-n { 0% { transform: rotate(0deg); } 6.25% { transform: rotate(-1.49deg); } 12.5% { transform: rotate(-4.57deg); } 18.75% { transform: rotate(-6.07deg); } 25% { transform: rotate(-5.96deg); } 31.25% { transform: rotate(-7.46deg); } 37.5% { transform: rotate(-28deg); } 43.75% { transform: rotate(-21.69deg); } 50% { transform: rotate(11.96deg); } 56.25% { transform: rotate(11.5deg); } 62.5% { transform: rotate(10.8deg); } 68.75% { transform: rotate(10.49deg); } 75% { transform: rotate(7.06deg); } 81.25% { transform: rotate(5.32deg); } 87.5% { transform: rotate(11.97deg); } 93.75% { transform: rotate(10.05deg); } 100% { transform: rotate(0deg); } }
-@keyframes k-up-f { 0% { transform: rotate(0deg); } 6.25% { transform: rotate(5.46deg); } 12.5% { transform: rotate(13.09deg); } 18.75% { transform: rotate(16.24deg); } 25% { transform: rotate(28.71deg); } 31.25% { transform: rotate(33.23deg); } 37.5% { transform: rotate(34.63deg); } 43.75% { transform: rotate(37.86deg); } 50% { transform: rotate(41.34deg); } 56.25% { transform: rotate(46.04deg); } 62.5% { transform: rotate(54.4deg); } 68.75% { transform: rotate(58.3deg); } 75% { transform: rotate(69.47deg); } 81.25% { transform: rotate(77.08deg); } 87.5% { transform: rotate(69.38deg); } 93.75% { transform: rotate(26.74deg); } 100% { transform: rotate(0deg); } }
-@keyframes k-lo-f { 0% { transform: rotate(0deg); } 6.25% { transform: rotate(3.33deg); } 12.5% { transform: rotate(8.96deg); } 18.75% { transform: rotate(11.58deg); } 25% { transform: rotate(23.82deg); } 31.25% { transform: rotate(32.63deg); } 37.5% { transform: rotate(48.58deg); } 43.75% { transform: rotate(51.49deg); } 50% { transform: rotate(41.74deg); } 56.25% { transform: rotate(39.44deg); } 62.5% { transform: rotate(35.78deg); } 68.75% { transform: rotate(34.14deg); } 75% { transform: rotate(24.31deg); } 81.25% { transform: rotate(17.61deg); } 87.5% { transform: rotate(-1.33deg); } 93.75% { transform: rotate(-8.95deg); } 100% { transform: rotate(0deg); } }
-@keyframes k-torso { 0% { transform: rotate(0deg); } 6.25% { transform: rotate(-1.11deg); } 12.5% { transform: rotate(-3.11deg); } 18.75% { transform: rotate(-4.04deg); } 25% { transform: rotate(-6.5deg); } 31.25% { transform: rotate(-7.87deg); } 37.5% { transform: rotate(-5.47deg); } 43.75% { transform: rotate(-3.42deg); } 50% { transform: rotate(0deg); } 56.25% { transform: rotate(-1.11deg); } 62.5% { transform: rotate(-3.11deg); } 68.75% { transform: rotate(-4.04deg); } 75% { transform: rotate(-6.5deg); } 81.25% { transform: rotate(-7.87deg); } 87.5% { transform: rotate(-5.47deg); } 93.75% { transform: rotate(-3.42deg); } 100% { transform: rotate(0deg); } }
-@keyframes k-paddle { 0% { transform: translate(35px, -48px) rotate(62deg) scaleX(1) rotate(-62deg) translate(-35px, 48px); } 6.25% { transform: translate(34.44px, -48.56px) rotate(67.84deg) scaleX(0.98) rotate(-62deg) translate(-35px, 48px); } 12.5% { transform: translate(33.45px, -49.55px) rotate(78.32deg) scaleX(0.96) rotate(-62deg) translate(-35px, 48px); } 18.75% { transform: translate(33.03px, -50px) rotate(83.31deg) scaleX(0.94) rotate(-62deg) translate(-35px, 48px); } 25% { transform: translate(34.87px, -50px) rotate(100.47deg) scaleX(0.91) rotate(-62deg) translate(-35px, 48px); } 31.25% { transform: translate(36.17px, -50.21px) rotate(113.96deg) scaleX(0.89) rotate(-62deg) translate(-35px, 48px); } 37.5% { transform: translate(39.38px, -54.22px) rotate(169.22deg) scaleX(0.94) rotate(-62deg) translate(-35px, 48px); } 43.75% { transform: translate(43.16px, -57.21px) rotate(204.68deg) scaleX(0.96) rotate(-62deg) translate(-35px, 48px); } 50% { transform: translate(50px, -62px) rotate(258deg) scaleX(0.99) rotate(-62deg) translate(-35px, 48px); } 56.25% { transform: translate(48.61px, -60.89px) rotate(261.89deg) scaleX(0.98) rotate(-62deg) translate(-35px, 48px); } 62.5% { transform: translate(46.12px, -58.89px) rotate(268.88deg) scaleX(0.96) rotate(-62deg) translate(-35px, 48px); } 68.75% { transform: translate(44.9px, -57.98px) rotate(272.21deg) scaleX(0.96) rotate(-62deg) translate(-35px, 48px); } 75% { transform: translate(39.39px, -56.75px) rotate(283.85deg) scaleX(0.93) rotate(-62deg) translate(-35px, 48px); } 81.25% { transform: translate(36px, -55.74px) rotate(293.96deg) scaleX(0.91) rotate(-62deg) translate(-35px, 48px); } 87.5% { transform: translate(36px, -50.94px) rotate(349.22deg) scaleX(0.89) rotate(-62deg) translate(-35px, 48px); } 93.75% { transform: translate(35.68px, -49.37px) rotate(379.62deg) scaleX(0.92) rotate(-62deg) translate(-35px, 48px); } 100% { transform: translate(35px, -48px) rotate(422deg) scaleX(1) rotate(-62deg) translate(-35px, 48px); } }
-/* END solved arms */
+/* BEGIN stitched frames: generated by tools/stitch/css.js from its table of slots. Change the table, not the numbers. */
+.scene .anim-rock-a { animation: rock-a var(--loop-rock) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-rock-b { animation: rock-b var(--loop-rock) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-rock-c { animation: rock-c var(--loop-rock) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes rock-a { 0% { opacity: 1; } 20% { opacity: 0; } 40% { opacity: 1; } 60% { opacity: 0; } 70% { opacity: 1; } }
+@keyframes rock-b { 0% { opacity: 0; } 20% { opacity: 1; } 40% { opacity: 0; } }
+@keyframes rock-c { 0% { opacity: 0; } 60% { opacity: 1; } 70% { opacity: 0; } }
+.scene .anim-steam-a { animation: steam-a var(--loop-steam) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-steam-b { animation: steam-b var(--loop-steam) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes steam-a { 0% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes steam-b { 0% { opacity: 0; } 50% { opacity: 1; } }
+.scene .anim-sway-a { animation: sway-a var(--loop-sway) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-sway-b { animation: sway-b var(--loop-sway) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes sway-a { 0% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes sway-b { 0% { opacity: 0; } 50% { opacity: 1; } }
+.scene .anim-perch-a { animation: perch-a var(--loop-perch) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-perch-b { animation: perch-b var(--loop-perch) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-perch-c { animation: perch-c var(--loop-perch) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes perch-a { 0% { opacity: 0; } 10% { opacity: 1; } 34% { opacity: 0; } 40% { opacity: 1; } 60% { opacity: 0; } }
+@keyframes perch-b { 0% { opacity: 0; } 34% { opacity: 1; } 40% { opacity: 0; } }
+@keyframes perch-c { 0% { opacity: 0; } 60% { opacity: 1; } 63% { opacity: 0; } }
+.scene .anim-flap-a { animation: flap-a var(--loop-flap) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-flap-b { animation: flap-b var(--loop-flap) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes flap-a { 0% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes flap-b { 0% { opacity: 0; } 50% { opacity: 1; } }
+.scene .anim-walk-a { animation: walk-a var(--loop-walk) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-walk-b { animation: walk-b var(--loop-walk) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-walk-c { animation: walk-c var(--loop-walk) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-walk-d { animation: walk-d var(--loop-walk) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes walk-a { 0% { opacity: 1; } 25% { opacity: 0; } }
+@keyframes walk-b { 0% { opacity: 0; } 25% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes walk-c { 0% { opacity: 0; } 50% { opacity: 1; } 75% { opacity: 0; } }
+@keyframes walk-d { 0% { opacity: 0; } 75% { opacity: 1; } }
+.scene .anim-graze-a { animation: graze-a var(--loop-graze) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-graze-b { animation: graze-b var(--loop-graze) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes graze-a { 0% { opacity: 1; } 55% { opacity: 0; } 75% { opacity: 1; } }
+@keyframes graze-b { 0% { opacity: 0; } 55% { opacity: 1; } 75% { opacity: 0; } }
+.scene .anim-row-a { animation: row-a var(--loop-row) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-row-b { animation: row-b var(--loop-row) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-row-c { animation: row-c var(--loop-row) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-row-d { animation: row-d var(--loop-row) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-row-e { animation: row-e var(--loop-row) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-row-f { animation: row-f var(--loop-row) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes row-a { 0% { opacity: 1; } 16.67% { opacity: 0; } }
+@keyframes row-b { 0% { opacity: 0; } 16.67% { opacity: 1; } 33.33% { opacity: 0; } }
+@keyframes row-c { 0% { opacity: 0; } 33.33% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes row-d { 0% { opacity: 0; } 50% { opacity: 1; } 66.67% { opacity: 0; } }
+@keyframes row-e { 0% { opacity: 0; } 66.67% { opacity: 1; } 83.33% { opacity: 0; } }
+@keyframes row-f { 0% { opacity: 0; } 83.33% { opacity: 1; } }
+.scene .anim-heron-a { animation: heron-a var(--loop-heron) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-heron-b { animation: heron-b var(--loop-heron) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes heron-a { 0% { opacity: 1; } 45% { opacity: 0; } 60% { opacity: 1; } }
+@keyframes heron-b { 0% { opacity: 0; } 45% { opacity: 1; } 60% { opacity: 0; } }
+.scene .anim-leap-a { animation: leap-a var(--loop-leap) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-leap-b { animation: leap-b var(--loop-leap) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-leap-c { animation: leap-c var(--loop-leap) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes leap-a { 0% { opacity: 0; } 70% { opacity: 1; } 73.5% { opacity: 0; } }
+@keyframes leap-b { 0% { opacity: 0; } 73.5% { opacity: 1; } 77% { opacity: 0; } }
+@keyframes leap-c { 0% { opacity: 0; } 77% { opacity: 1; } 80.5% { opacity: 0; } }
+.scene .anim-write-a { animation: write-a var(--loop-write) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-write-b { animation: write-b var(--loop-write) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-write-c { animation: write-c var(--loop-write) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes write-a { 0% { opacity: 1; } 33.33% { opacity: 0; } }
+@keyframes write-b { 0% { opacity: 0; } 33.33% { opacity: 1; } 66.67% { opacity: 0; } }
+@keyframes write-c { 0% { opacity: 0; } 66.67% { opacity: 1; } }
+.scene .anim-sketch-a { animation: sketch-a var(--loop-sketch) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-sketch-b { animation: sketch-b var(--loop-sketch) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-sketch-c { animation: sketch-c var(--loop-sketch) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes sketch-a { 0% { opacity: 1; } 33.33% { opacity: 0; } }
+@keyframes sketch-b { 0% { opacity: 0; } 33.33% { opacity: 1; } 66.67% { opacity: 0; } }
+@keyframes sketch-c { 0% { opacity: 0; } 66.67% { opacity: 1; } }
+.scene .anim-check-a { animation: check-a var(--loop-check) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-check-b { animation: check-b var(--loop-check) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes check-a { 0% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes check-b { 0% { opacity: 0; } 50% { opacity: 1; } }
+.scene .anim-lay-a { animation: lay-a var(--loop-lay) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-lay-b { animation: lay-b var(--loop-lay) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-lay-c { animation: lay-c var(--loop-lay) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes lay-a { 0% { opacity: 1; } 35% { opacity: 0; } }
+@keyframes lay-b { 0% { opacity: 0; } 35% { opacity: 1; } 60% { opacity: 0; } }
+@keyframes lay-c { 0% { opacity: 0; } 60% { opacity: 1; } }
+.scene .anim-calm-a { animation: calm-a var(--loop-calm) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-calm-b { animation: calm-b var(--loop-calm) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-calm-c { animation: calm-c var(--loop-calm) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes calm-a { 0% { opacity: 1; } 35% { opacity: 0; } 55% { opacity: 1; } 92% { opacity: 0; } }
+@keyframes calm-b { 0% { opacity: 0; } 35% { opacity: 1; } 55% { opacity: 0; } }
+@keyframes calm-c { 0% { opacity: 0; } 92% { opacity: 1; } }
+.scene .anim-scan-a { animation: scan-a var(--loop-scan) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-scan-b { animation: scan-b var(--loop-scan) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes scan-a { 0% { opacity: 1; } 40% { opacity: 0; } 60% { opacity: 1; } }
+@keyframes scan-b { 0% { opacity: 0; } 40% { opacity: 1; } 60% { opacity: 0; } }
+.scene .anim-warn-a { animation: warn-a var(--loop-warn) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-warn-b { animation: warn-b var(--loop-warn) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes warn-a { 0% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes warn-b { 0% { opacity: 0; } 50% { opacity: 1; } }
+.scene .anim-tap-a { animation: tap-a var(--loop-tap) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-tap-b { animation: tap-b var(--loop-tap) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-tap-c { animation: tap-c var(--loop-tap) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes tap-a { 0% { opacity: 1; } 40% { opacity: 0; } }
+@keyframes tap-b { 0% { opacity: 0; } 40% { opacity: 1; } 55% { opacity: 0; } }
+@keyframes tap-c { 0% { opacity: 0; } 55% { opacity: 1; } }
+.scene .anim-glow-a { animation: glow-a var(--loop-glow) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-glow-b { animation: glow-b var(--loop-glow) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes glow-a { 0% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes glow-b { 0% { opacity: 0; } 50% { opacity: 1; } }
+.scene .anim-flame-a { animation: flame-a var(--loop-flame) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-flame-b { animation: flame-b var(--loop-flame) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-flame-c { animation: flame-c var(--loop-flame) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes flame-a { 0% { opacity: 1; } 33.33% { opacity: 0; } }
+@keyframes flame-b { 0% { opacity: 0; } 33.33% { opacity: 1; } 66.67% { opacity: 0; } }
+@keyframes flame-c { 0% { opacity: 0; } 66.67% { opacity: 1; } }
+.scene .anim-spark-a { animation: spark-a var(--loop-spark) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-spark-b { animation: spark-b var(--loop-spark) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-spark-c { animation: spark-c var(--loop-spark) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes spark-a { 0% { opacity: 0; } 10% { opacity: 1; } 30% { opacity: 0; } }
+@keyframes spark-b { 0% { opacity: 0; } 30% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes spark-c { 0% { opacity: 0; } 50% { opacity: 1; } 70% { opacity: 0; } }
+.scene .anim-smoke-a { animation: smoke-a var(--loop-smoke) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-smoke-b { animation: smoke-b var(--loop-smoke) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes smoke-a { 0% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes smoke-b { 0% { opacity: 0; } 50% { opacity: 1; } }
+.scene .anim-lean-a { animation: lean-a var(--loop-lean) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-lean-b { animation: lean-b var(--loop-lean) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-lean-c { animation: lean-c var(--loop-lean) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes lean-a { 0% { opacity: 1; } 30% { opacity: 0; } 70% { opacity: 1; } 92% { opacity: 0; } }
+@keyframes lean-b { 0% { opacity: 0; } 30% { opacity: 1; } 70% { opacity: 0; } }
+@keyframes lean-c { 0% { opacity: 0; } 92% { opacity: 1; } }
+.scene .anim-call-a { animation: call-a var(--loop-call) step-end infinite; animation-delay: var(--phase, 0s); }
+.scene .anim-call-b { animation: call-b var(--loop-call) step-end infinite; animation-delay: var(--phase, 0s); }
+@keyframes call-a { 0% { opacity: 1; } 45% { opacity: 0; } 70% { opacity: 1; } }
+@keyframes call-b { 0% { opacity: 0; } 45% { opacity: 1; } 70% { opacity: 0; } }
+/* END stitched frames */
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
