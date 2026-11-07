@@ -2,7 +2,7 @@
   "key": "bryn",
   "name": "Bryn",
   "title": "The Trail Guide",
-  "line": "Helps you think a decision through. Five scouts weigh it on their own, she looks for where the plan could fail, and she keeps your call so you never argue it twice.",
+  "line": "Helps you think a decision through. Five rangers weigh it on their own, she looks for where the plan could fail, and she keeps your call so you never argue it twice.",
   "status": "live",
   "door": {
     "local": "http://127.0.0.1:7550/",

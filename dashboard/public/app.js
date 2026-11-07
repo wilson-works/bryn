@@ -538,7 +538,7 @@
 
     if (d.seats && d.seats.length) {
       const s = el('section', 'glance-block seats');
-      s.appendChild(el('h3', null, t('ui.seats_heading', 'Where the five scouts stood')));
+      s.appendChild(el('h3', null, t('ui.seats_heading', 'Where the five rangers stood')));
       const ul = el('ul', 'seat-list');
       const bySeat = new Map(d.seats.map((x) => [x.seat, x]));
       for (const k of SEAT_ORDER) {

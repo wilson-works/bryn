@@ -1,6 +1,6 @@
 # Bryn, the Trail Guide
 
-Helps you think a decision through. Five scouts weigh it on their own, she looks for where the plan could fail, and
+Helps you think a decision through. Five rangers weigh it on their own, she looks for where the plan could fail, and
 she keeps your call so you never argue it twice.
 
 Bryn is a specialist agent for the WilsonWorks Workspace. She is built from four free skills that already exist:
@@ -15,7 +15,7 @@ Bring her a decision, big or small.
    asks two things: can you undo it, and how much rides on it? A small call you can undo gets a straight answer and no
    fuss: "You can undo this one. I'd pick X. Your call."
 2. **Laying out the routes.** No options yet? She runs a brainstorm. You go first.
-3. **Scouts on the trail.** For a bigger call, five scouts each take a different road: the Contrarian, the First
+3. **Rangers on the trail.** For a bigger call, five rangers each take a different road: the Contrarian, the First
    Principles Thinker, the Expansionist, the Outsider and the Executor. They answer alone, then review each other's
    notes without names attached, and Bryn pulls it together into her advice and one first step. They are five
    viewpoints from one AI model, not five experts, and she says so.
@@ -84,8 +84,8 @@ and your questions must not travel with it):
 | `CLAUDE.md` | Who she is and her runbook, step by step. |
 | `subagent.md` | Her front desk: checks the stone path and the trail markers, frames a question, says the next step. It only reads. |
 | `brand/` | Her voice (`VOICE.md`), her character sheet, every line on her page (`copy.json`), her palette (`tokens.css`). |
-| `art/`, `art.svg`, `mark.svg` | Her twelve needlepoint scenes, the figure in her office doorway, and her sign. |
-| `tools/stitch/` | The drawing code that stitches them (`node tools/stitch/build.js`) and the table of frames behind her motion. |
+| `art/`, `art.svg`, `mark.svg` | Her twelve scenes in the WilsonWorks vinyl-toy style, the figure in her office doorway, and her sign. |
+| `tools/art/` | The drawing code that draws them (`node tools/art/build.js`) and the table of frames behind her motion. |
 | `dashboard/` | Her page and its server (Node's built-ins only, this computer only). |
 | `engine/` | The small tools her runbook calls: the stage, a decision's record, the stone path reader, questions left for her. |
 | `brains/`, `rules/`, `memory/` | What she knows, her standing rules, what she has learned. |
