@@ -122,58 +122,67 @@ test('the verdict is a campfire at the fork: fire, six figures, her hand giving 
   SCENE_RULES(svg, 'verdict');
   assert.match(svg, /<title>[^<]*fire[^<]*<\/title>/i);
   for (const h of ['anim-flame-a', 'anim-flame-c', 'anim-spark-a', 'anim-smoke-a', 'anim-glow-a', 'anim-call-a', 'anim-call-b']) assert.match(svg, new RegExp(`class="[^"]*\\b${h}\\b`), h);
-  assert.equal((svg.match(/class="[^"]*\banim-lean-a\b/g) || []).length, 5, 'five scouts lean in');
+  assert.equal((svg.match(/class="[^"]*\banim-lean-a\b/g) || []).length, 5, 'five rangers lean in');
   assert.match(svg, /#C8432F/i, 'the red board and her red trail');
 });
 
-/* ------------------------------------------------------------------ the new art style (the owner, 2026-10-22: a needlepoint look, scouts that are not creepy, cleaner animation) */
+/* ------------------------------------------------------------------ the house style (the owner, 2026-11-06: "Make Brynn match the rest of the wilson works character", her council "higher ranking trail park rangers"; before that, 2026-10-22: scouts that are not creepy, cleaner animation) */
 
-const cellsOf = (svg) => [...svg.matchAll(/<path fill="url\(#[^"]+\)" d="([^"]+)"/g)].flatMap((m) => m[1].match(/-?\d+(\.\d+)?/g).map(Number));
+const P = require('../tools/art/people');
+const HEAD_D = P.HEAD;
 
-test('every picture is stitched: whole cells on a grid, each thread painted by an X-stitch pattern', () => {
+test('every picture is drawn in the vinyl-toy house style: the Kody and Louise head, a lit face, soft shadows, flat fills', () => {
   for (const n of ART) {
     const svg = read(`art/${n}`);
-    const nums = cellsOf(svg);
-    assert.ok(nums.length > 200, `${n} has stitches`);
-    for (const v of nums) assert.equal(Math.abs(v) % 5, 0, `${n}: ${v} is off the 5 px cell grid`);
-    assert.ok((svg.match(/<pattern id="[a-z-]+-[A-Za-z0-9]+" width="5" height="5"/g) || []).length >= 8, `${n} has its threads`);
-    assert.ok(!/<(circle|ellipse|polygon|polyline|line)\b/.test(svg), `${n}: stitched shapes are paths of cells only`);
-    for (const m of svg.matchAll(/<rect\b[^>]*fill="url\(#([^)]+)\)/g)) assert.ok(m[1].endsWith('-aida'), `${n}: only the cloth is a rectangle`);
-    assert.match(svg, /<pattern id="[a-z-]+-aida"/, `${n} is worked on aida cloth`);
+    const heads = svg.split(`d="${HEAD_D}"`).length - 1;
+    assert.ok(heads >= 2, `${n} has a figure on the house head model`);
+    assert.ok((svg.match(/<radialGradient id="[a-z-]+-sk\d+"/g) || []).length >= 1, `${n}: each face is lit by its own gradient`);
+    assert.ok(/<ellipse [^>]*fill="#2A1D14" opacity="0?\.[12]\d?"/.test(svg), `${n}: a soft contact shadow`);
+    assert.ok(!/<pattern|<filter|feGaussianBlur|<mask/.test(svg), `${n}: flat fills, no patterns or blurs`);
+    for (const m of svg.matchAll(/<[a-z]+\b[^>]*stroke="#2A1D14"[^>]*>/g)) assert.match(m[0], /opacity="\.35"|stroke-width="2\.6"/, `${n}: no ink outline inside a figure: ${m[0].slice(0, 100)}`);
+    assert.match(svg, /<linearGradient id="[a-z-]+-sky\d+"/, `${n} is set in her valley under its sky`);
   }
 });
 
-test('the scouts have faces: kind eyes with a catch-light, cheeks, a smile, no hood hiding them', () => {
-  const S = require('../tools/stitch/scouts');
-  const g = S.front('contrarian', { leftHand: [-0.5, 6], rightHand: [0.5, 6] });
-  const { NAMES } = require('../tools/stitch/lib');
-  const count = (name) => g.d.reduce((n, v) => n + (NAMES[v - 1] === name ? 1 : 0), 0);
-  assert.ok(count('white') >= 2, 'a white catch-light in each eye');
-  assert.ok(count('ink') >= 6, 'two big eyes of ink cells');
-  assert.ok(count('blush') >= 4, 'rosy cheeks');
-  assert.ok(count('redD') >= 4, 'a smile');
-  for (const n of ['council', 'review', 'verdict']) assert.ok(!/hood|faceless/i.test(read(`art/${n}.svg`).match(/<title>[^<]*/)[0]), `${n}: the title does not call them hooded`);
+test('the rangers have faces: kind eyes with a catch-light, cheeks, a smile, and their seniority in gold', () => {
+  const K = require('../tools/art/kit');
+  K.reset('t');
+  for (const role of ['plum', 'ochre', 'glacier', 'sand', 'moss']) {
+    const g = P.front(P.RANGERS[role]);
+    assert.ok((g.match(/fill="#FFFDF7"/g) || []).length >= 2, `${role}: two eye whites`);
+    assert.ok((g.match(/<circle cx="-3\.4" cy="-3\.2" r="2\.9" fill="#FFF"\/>/g) || []).length >= 2, `${role}: a white catch-light in each eye`);
+    assert.match(g, new RegExp(`fill="${K.C.blush}" opacity="\.4"`), `${role}: rosy cheeks`);
+    assert.match(g, new RegExp(`stroke="${K.C.mouth}"|fill="${K.C.mouth}"`), `${role}: a smile`);
+    assert.ok((g.match(new RegExp(K.C.gold, 'g')) || []).length >= 4, `${role}: the gold of a senior ranger (hat cord, shield, bars)`);
+    assert.match(g, new RegExp(K.ROLE[role][0]), `${role}: wears their own colour`);
+  }
+  const anon = P.front(P.anonymous(P.RANGERS.plum));
+  assert.ok(!new RegExp(K.ROLE.plum[0]).test(anon), 'the review hides whose colour is whose');
+  for (const n of ['council', 'review', 'verdict']) {
+    const title = read(`art/${n}.svg`).match(/<title>[^<]*/)[0];
+    assert.ok(!/hood|faceless/i.test(title), `${n}: the title does not call them hooded`);
+    assert.match(title, /senior trail rangers/, `${n}: the council are senior trail rangers`);
+  }
 });
 
-test('the door figure is a 120 x 150 standing greeting on a transparent ground, one guarded style, the raised hand as its still', () => {
+test('the door figure is a 200 x 220 standing greeting on a transparent ground, one guarded style, the wave as its still', () => {
   const svg = read('art.svg');
-  assert.match(svg, /viewBox="0 0 120 150"/);
-  assert.match(svg, /<title>Bryn the Trail Guide[^<]*<\/title>/);
+  assert.match(svg, /viewBox="0 0 200 220"/, 'the same door box as Kody and Louise');
+  assert.match(svg, /<title id="bryn-door-title">Bryn the Trail Guide[^<]*<\/title>/);
   assert.equal((svg.match(/<style>/g) || []).length, 1);
   assert.match(svg, /<style>@media \(prefers-reduced-motion: no-preference\)\{/);
-  assert.ok(!/<rect\b[^>]*width="120"/.test(svg), 'no background rectangle: the ground is transparent');
-  assert.match(svg, /class="bryn-w1"(?! opacity)/, 'the first drawing is the visible still');
-  assert.match(svg, /class="bryn-w2" opacity="0"/);
-  assert.match(svg, /class="bryn-w0" opacity="0"/);
-  for (const v of cellsOf(svg)) assert.equal(Math.abs(v) % 4, 0, `${v} is off the 4 px cell grid`);
+  assert.ok(!/<rectb[^>]*width="200"/.test(svg), 'no background rectangle: the ground is transparent');
+  assert.match(svg, /<g class="bryn-door-wave">/, 'the waving forearm');
+  assert.ok(!/opacity="0"/.test(svg), 'the still is the whole figure, mid-wave');
+  assert.ok(svg.includes(`d="${HEAD_D}"`), 'the head is the house model');
   const mark = read('mark.svg');
-  assert.match(mark, /viewBox="0 0 36 36"/);
-  assert.match(mark, /<title>Bryn<\/title>/);
+  assert.match(mark, /viewBox="0 0 48 48"/, 'the same mark box as Louise');
+  assert.match(mark, /<title id="bryn-mark-title">Bryn<\/title>/);
 });
 
 /* ------------------------------------------------------------------ motion: whole drawings, swapped in steps */
 
-const CSSGEN = require('../tools/stitch/css');
+const CSSGEN = require('../tools/art/css');
 const tokenSeconds = (name) => { const m = new RegExp(`--${name}:\\s*([\\d.]+)(m?s)`).exec(tokens); assert.ok(m, name); return Number(m[1]) / (m[2] === 'ms' ? 1000 : 1); };
 const BEAT = 0.4;
 
@@ -207,20 +216,20 @@ test('the frames in each scene match the table: the first is the still, the rest
   }
 });
 
-test('the ground moves in step with her feet: a cell of ground per frame of the walk, and the water a beat a step', () => {
+test('the ground moves in step with her feet: a step of ground per frame of the walk, and the water a beat a step', () => {
   const walk = tokenSeconds('loop-walk') / 4;
   assert.ok(Math.abs(walk - BEAT) < 1e-9);
-  assert.ok(Math.abs(tokenSeconds('drift-near') / 45 - walk) < 1e-9, '45 steps of 3 cells at one step per frame');
+  assert.ok(Math.abs(tokenSeconds('drift-near') / 45 - walk) < 1e-9, '45 steps of 15 px at one step per frame');
   assert.ok(Math.abs(tokenSeconds('drift-mid') / 135 - walk) < 1e-9);
   assert.ok(Math.abs(tokenSeconds('drift-water') / 16 - BEAT) < 1e-9);
   assert.match(css, /anim-drift-near \{ animation: drift-near var\(--drift-near\) steps\(45\) infinite; \}/);
-  assert.match(css, /@keyframes drift-near \{ to \{ transform: translateX\(-675px\); \} \}/, '45 steps of 15 px: three cells a step');
+  assert.match(css, /@keyframes drift-near \{ to \{ transform: translateX\(-675px\); \} \}/, '45 steps of 15 px');
   assert.ok(Math.abs(tokenSeconds('loop-row') / 6 - BEAT) < 1e-9, 'six frames of paddling at a beat each');
 });
 
 test('the generated block in app.css is the table: nothing hand-edited', () => {
-  const a = css.indexOf('/* BEGIN stitched frames');
-  const b = css.indexOf('/* END stitched frames */') + '/* END stitched frames */'.length;
+  const a = css.indexOf('/* BEGIN scene frames');
+  const b = css.indexOf('/* END scene frames */') + '/* END scene frames */'.length;
   assert.equal(css.slice(a, b).replace(/\r/g, ''), CSSGEN.block());
 });
 

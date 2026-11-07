@@ -1,7 +1,7 @@
 {
   "name": "Bryn",
   "title": "The Trail Guide",
-  "line": "Helps you think a decision through. Five scouts weigh it on their own, she looks for where the plan could fail, and she keeps your call so you never argue it twice.",
+  "line": "Helps you think a decision through. Five rangers weigh it on their own, she looks for where the plan could fail, and she keeps your call so you never argue it twice.",
   "jokes": [
     "Come in. Boots off if they're muddy. They're always muddy.",
     "Stones stay where you lay them. Most decisions should be so lucky.",
@@ -29,16 +29,16 @@
       "caption": "I'm chalking every route onto the map, odd ones included. We'll rub most of them out soon."
     },
     "council": {
-      "label": "Scouts on the trail",
-      "caption": "Five scouts are out, each on a different road. They don't talk to each other until they're back."
+      "label": "Rangers on the trail",
+      "caption": "Five rangers are out, each on a different road. They don't talk to each other until they're back."
     },
     "review": {
       "label": "Comparing notes",
-      "caption": "The scouts are back in matching coats. Each one reads the others' notes without knowing whose they are."
+      "caption": "The rangers are back in matching coats. Each one reads the others' notes without knowing whose they are."
     },
     "verdict": {
       "label": "Marking the road",
-      "caption": "We're round the fire, the scouts and me. I'm sorting where they agree and where they don't, then I'll mark the road I'd take. You still choose."
+      "caption": "We're round the fire, the rangers and me. I'm sorting where they agree and where they don't, then I'll mark the road I'd take. You still choose."
     },
     "waiting": {
       "label": "Your call",
@@ -137,7 +137,7 @@
     "ask_waiting": "Questions waiting: {n}",
     "ask_too_short": "Write your question in a few words first.",
     "take_heading": "Or send her up the trail now",
-    "take_note": "She takes the oldest question, frames it and checks the stone path. If it needs the five scouts, she sends them, which is up to eleven model runs. She stops at your call and never lays a stone for you.",
+    "take_note": "She takes the oldest question, frames it and checks the stone path. If it needs the five rangers, she sends them, which is up to eleven model runs. She stops at your call and never lays a stone for you.",
     "take_button": "Take up the next question",
     "take_stop": "Call her back",
     "take_none": "No questions are waiting. Leave one above first.",
@@ -177,7 +177,7 @@
     "report_link": "Open the full report (new tab)",
     "report_council": "Open the council's full report (new tab)",
     "report_premortem": "Open the premortem's full report (new tab)",
-    "seats_heading": "Where the five scouts stood",
+    "seats_heading": "Where the five rangers stood",
     "verdict_label": "Bryn's advice",
     "first_step_label": "First step",
     "outcome_label": "What you decided",
