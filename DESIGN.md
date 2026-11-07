@@ -1,7 +1,7 @@
 # Bryn the Trail Guide: the design
 
 Bryn is a WilsonWorks specialist agent built from four free skills that already exist. You bring her a decision. She
-helps you lay out the options, puts the question to five scouts who each walk a different road, has them check each
+helps you lay out the options, puts the question to five rangers who each walk a different road, has them check each
 other's work without names attached, and makes the call with you. Then she climbs the hill to look six months down the
 trail for where the plan could wash out. When you decide, she lays a stone on the stone path, so the same question never
 has to be argued from scratch again.
@@ -49,40 +49,41 @@ She is Louise's opposite on every count: outdoors, daylight, on the move, stone 
 | `idle` | Nothing on the table | One of three living vignettes (`art/README.md` §11), changing every few minutes: Bryn on her rock with a tin cup while a small bird lands on the signpost; walking her red trail with deer and a moose grazing far off; paddling her kayak down the stream past a heron |
 | `framing` | The question is framed: what it is, can it be undone, how much is at stake | A blank signpost at a fork in the trail; Bryn writing the question on a card pinned to it |
 | `brainstorm` | Options generated, then clustered and shortlisted | Bryn kneeling over a map on a flat rock, routes being chalked across it |
-| `council` | Five advisors answer independently | Five scouts, each walking out along a different road from the fork |
+| `council` | Five advisors answer independently | Five rangers, each walking out along a different road from the fork |
 | `review` | Anonymous peer review | The five back at the fork with their props laid down, all in the same grey-blue coat: five identical figures, the anonymity visible |
-| `verdict` | The chair's synthesis: agree, clash, blind spots, the call, the first step | At dusk, Bryn and the five scouts round a campfire at the fork, the scouts leaning in as she gives the call; the signpost's red board points up the road she recommends |
+| `verdict` | The chair's synthesis: agree, clash, blind spots, the call, the first step | At dusk, Bryn and the five rangers round a campfire at the fork, the rangers leaning in as she gives the call; the signpost's red board points up the road she recommends |
 | `waiting` | The advice is in; the decision is yours | Bryn leaning on her pole by the finished signpost, a marker flag moving in the wind, the path toward you open |
 | `premortem` | "Six months from now this failed. Why?" | Bryn on the hilltop, hand shading her eyes, looking far down the chosen trail at a washed-out bridge |
 | `filing` | The decision goes in the log; a standing policy, when it qualifies | Bryn laying a new stone along the path, and a painted trail marker on a rock beside it |
 | `consulting` | A lookup in the log before deciding again | Bryn at the stone path, reading the painted markers on its stones |
 
-**The five scouts.** One shared friendly figure (round face, kind eyes, a knit cap with a pom-pom), told apart by one prop and one coat colour, labelled only
+**The five rangers.** Five senior trail rangers, older and friendly (silver hair, kind eyes, gold rank on a campaign hat), told apart by one prop and one neckerchief colour, labelled only
 by the role title the skill already gives it, so newcomers meet five roles, not five more names:
 
-- The Contrarian walks back down the trail.
+- The Contrarian turns back toward the fork, a thumb over the shoulder.
 - The First Principles Thinker kneels at the bedrock with a rock hammer.
 - The Expansionist holds a map wider than they are.
-- The Outsider arrives from off the trail, a straw sun hat hanging on their back, with no map.
+- The Outsider waves back from up the road, binoculars on their chest, with no map.
 - The Executor has the pack on and one foot already on the path.
 
 **The stone path and the markers.** Past decisions are stones laid along the stone path. Standing policies are painted
 trail markers. "Check before you decide again" is Bryn checking the stone path at the fork. That turns `decision-policy`, the hardest skill
 to explain, into the brand itself.
 
-**The look.** Her world is needlepoint (redrawn at the owner's word, 2026-10-22: "a more stitch art style, like
-needlepoint art"; before that her own trail map risen into relief). Every picture is cross-stitch on cream aida cloth: a
-visible grid, each colour a patch of X stitches on even cells, a limited thread box taken from her brand colours, a
-sampler border. Hills are stacks of contour tones; trees are map symbols; trails are dashed red stitches. Bryn and
-the scouts are stitched poses outlined in warm brown, never black; `art/README.md` is the standard every picture is
-held to. Trail-marker red for Bryn's shell, her dashed trail, the recommended
-road and the call; each scout's route is dashed in that scout's jacket colour. Bryn always shows a warm face and a
-chestnut braid under a dark felt hat; the scouts wear knit caps and no red, so she is never mistaken for one. Her decisions
-are waypoint stones laid along her red trail, in a line, never a pile. The page around the scenes keeps the light
-slate-and-fog room and the two accents (red, glacier blue for links and focus). The mark (36 px on her office sign):
-three waypoint stones along a red dashed path up a stitched hilltop, on a rounded plate. The office-door figure
-(`art.svg`, 120 by 150, transparent): Bryn standing, front on, in stitches on a small patch of stitched grass, hat on,
-one hand raised in a wave, looking at you.
+**The look.** Bryn and her council are WilsonWorks vinyl-toy figures, drawn on the same model as Kody and Louise (the
+owner, 2026-11-06: "Make Brynn match the rest of the wilson works character ... the art style as the clear winner for
+our branding and cohesion"; before that, needlepoint, and before that her trail map risen into relief). A big rounded
+head on a small body, big kind cartoon eyes with catch-lights, flat fills with one shadow shape per part and the light
+from the upper left, soft highlights and glossy dots, a soft shadow underfoot, no ink outlines. Her valley is a soft
+diorama in the same recipe: a warm sky, three far hills, meadow, round pines, puffy clouds, her stream. `art/README.md` is
+the standard every picture is held to. Trail-marker red for Bryn's shell, her dashed trail, the recommended road and the
+call; each ranger's road is blazed in that ranger's colour. Bryn always shows a freckled face and a chestnut braid under
+a dark felt hat. Her council are five senior trail rangers, older and friendly, their rank in the gold on their campaign
+hats, shoulders and chests, each with a neckerchief in their own colour and no red, so she is never mistaken for one. Her
+decisions are waypoint stones laid along her red trail, in a line, never a pile. The page around the scenes keeps the
+light slate-and-fog room and the two accents (red, glacier blue for links and focus). The mark (48 by 48): a round trail
+badge, her red dashed trail climbing a hill past three cream stones. The office-door figure (`art.svg`, 200 by 220,
+transparent, the same box as Kody's and Louise's): Bryn standing, front on, waving, her pole in her other hand.
 
 **Names refused, and why.** Court words (judge, jury, gavel, bench, "counsel", which is one letter from council and
 means a lawyer): Bryn gives no legal advice. Prophecy words (oracle, seer, crystal ball): a premortem assumes failure,
@@ -120,7 +121,7 @@ office floor. The key is the character's name: `bryn`.
 
 ```json
 { "stage": "council", "question": "Repair the old laptop or replace it?", "decision": "2026-10-03-repair-or-replace-laptop",
-  "step": { "n": 3, "of": 7 }, "since": "2026-10-05T19:40:00.000Z", "note": "Five scouts out" }
+  "step": { "n": 3, "of": 7 }, "since": "2026-10-05T19:40:00.000Z", "note": "Five rangers out" }
 ```
 
 Stages: `idle`, `framing`, `brainstorm`, `council`, `review`, `verdict`, `waiting`, `premortem`, `filing`, `consulting`.
@@ -182,7 +183,7 @@ journal:
    a search box, and "Ask Bryn to check", which plays `consulting` and points at the matching marker or past decision.
 3. **The trail markers.** The standing policies: when it applies, what to do, and when to stop and think again.
 4. **The trail journal.** Open a stone and flip its pages: the question, the options, the council (with where the five
-   scouts stood), the premortem, your decision. Markdown is rendered safely (everything escaped, then a small set of
+   rangers stood), the premortem, your decision. Markdown is rendered safely (everything escaped, then a small set of
    formatting). The skills' own HTML reports open in a new tab, served with `Content-Security-Policy: sandbox`.
 
 | Request | Answer |

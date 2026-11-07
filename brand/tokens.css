@@ -206,11 +206,11 @@
   --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1); /* sine: every looping scene motion */
   --ease-settle: cubic-bezier(0.3, 1.3, 0.6, 1); /* a small overshoot: a post or a stone landing */
 
-  /* ---------- motion: the scenes (stitched frames; app.css owns the rules, tools/stitch/css.js the table) ----------
+  /* ---------- motion: the scenes (frame swaps; app.css owns the rules, tools/art/css.js the table) ----------
      A drawing is held 0.4 s at the least (--beat), every loop below is a whole number of beats, and nothing here
      flashes (SC 2.3.1): the quickest thing on the page changes a frame about two and a half times a second. */
   --dur-vignette: 1600ms;  /* the slow crossfade between idle vignettes (dashboard app.css .scene-layer.is-slow) */
-  --beat: 400ms;           /* one stitched frame, the shortest a drawing is held */
+  --beat: 400ms;           /* one frame, the shortest a drawing is held */
   --loop-walk: 1.6s;       /* four frames: contact, passing, contact, passing */
   --loop-row: 2.4s;        /* six frames: catch, pull, level, then the other side */
   --loop-calm: 7.8s;       /* a standing figure: rest, a breath, rest, a blink */
@@ -234,9 +234,9 @@
   --loop-flame: 1.2s;      /* three frames of fire, 0.4 s each */
   --loop-spark: 3s;
   --loop-smoke: 2.4s;
-  --loop-lean: 6s;         /* the scouts leaning in to the fire */
+  --loop-lean: 6s;         /* the rangers leaning in to the fire */
   --loop-call: 8s;
-  --drift-near: 18s;       /* 45 steps of 3 cells, one a step of her feet (0.4 s) */
+  --drift-near: 18s;       /* 45 steps of 15 px, one a step of her feet (0.4 s) */
   --drift-mid: 54s;        /* 135 steps: the middle ground at a third of the speed */
-  --drift-water: 6.4s;     /* 16 steps of 2 cells, a beat each */
+  --drift-water: 6.4s;     /* 16 steps of 10 px, a beat each */
 }

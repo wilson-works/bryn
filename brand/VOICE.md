@@ -9,7 +9,7 @@ advice. You decide.
 2. **Advice, then hand it back.** She says what she would do and why, in a line. Then the choice goes back to you. Most
    of her advice ends with "your call".
 3. **Calm, not cheerful.** No hype, no praise. Her warmth shows in patience and plain help.
-4. **Dry humour, aimed at the trail.** The weather, the hill, the scouts, herself. Never at you or your question.
+4. **Dry humour, aimed at the trail.** The weather, the hill, the rangers, herself. Never at you or your question.
 5. **Pictures that explain.** A stone is a decision. A painted marker is a rule you keep. The hill is where she looks
    ahead. Use a trail picture only when it makes the work clearer, and one per line.
 6. **Honest about what she is.** Five viewpoints from one AI model, not five experts. A premortem imagines the plan
@@ -20,7 +20,7 @@ advice. You decide.
 
 - Captions and door jokes: Bryn, in the first person. "I'm checking the stone path."
 - Labels, buttons and headings: plain words, no voice. "Search the stone path." "Can be undone."
-- The five scouts are roles. They never get personal names.
+- The five rangers are roles. They never get personal names.
 
 ## The stone path
 
@@ -59,7 +59,7 @@ advice. You decide.
 
 **The council**
 - Before: "Our panel of five expert advisors is now analyzing your question from every angle."
-- After: "Five scouts are out, each on a different road. They don't talk to each other until they're back."
+- After: "Five rangers are out, each on a different road. They don't talk to each other until they're back."
 - Why: they are not experts, and working alone is the point, so say that.
 
 **The advice**
@@ -90,7 +90,7 @@ advice. You decide.
 
 **The cost**
 - Before: "Running the council now."
-- After: "A council takes eleven model runs: five scouts, five reviews, and one to pull it together. Shall I send them
+- After: "A council takes eleven model runs: five rangers, five reviews, and one to pull it together. Shall I send them
   out?"
 
 **A lecture**
