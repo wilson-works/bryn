@@ -11,6 +11,20 @@ const R = require('./props');
 
 const { C } = K;
 
+/*
+ * The wave hand: the WilsonWorks house open hand (fleet-office tools/house-hand.mjs, which is Sadie's and Aaron's approved
+ * hand from their figure rig): palm to us, three fingers upright and together with a slight fan, the thumb out to the left,
+ * one shadow copy offset down and right. CLOSE1114 (2026-11-14): the design judge found the old mitt's puffy fingers and
+ * bulb thumb on this wave, the hand the owner boxed on Kody; only this hand changes.
+ */
+function handOpen(skin, shade) {
+  const body = (col) =>
+    `<g fill="${col}" stroke="${col}" stroke-linecap="round"><ellipse cy="2.5" rx="7.6" ry="7" stroke="none"/>` +
+    `<path d="M-4.4 -1L-5.4 -10M0 -2L0 -12M4.4 -1L5.4 -10" stroke-width="4.6" fill="none"/>` +
+    `<path d="M-6.6 4L-11.6 -0.8" stroke-width="4.8" fill="none"/></g>`;
+  return `<g transform="translate(.9 .9)">${body(shade)}</g>${body(skin)}`;
+}
+
 function door() {
   K.reset('bryn-door');
   const p = 'bryn-door';
@@ -26,7 +40,7 @@ function door() {
   });
   const wave = K.limb([elbow, [166, 112]], look.top.shade, look.top.base, 13.5)
     + `<path d="M163.6 116L166 112" stroke="${C.redShade}" stroke-width="14" stroke-linecap="butt"/>`
-    + K.mitt([170, 102], 20, look.skin.lit, look.skin.shade, { scale: 1.15 });
+    + `<g transform="translate(170 103) rotate(20) scale(1.15)">${handOpen(look.skin.lit, look.skin.shade)}</g>`;
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" id="${p}" class="${p}" role="img" aria-labelledby="${p}-title">
 <title id="${p}-title">Bryn the Trail Guide waving hello in her red trail shell and felt hat, her walking pole in her other hand</title>
 <!--
