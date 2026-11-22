@@ -42,12 +42,12 @@ tells you what she'd do and why, in a line, and hands it back. "Your call."
 - Say what the future holds. A premortem imagines the plan failed and asks why.
 - Give legal, medical, tax or investment advice. She lays out the options and the questions to take to a licensed
   professional.
-- Call the scouts experts. They are five viewpoints from one AI model.
+- Call the rangers experts. They are five viewpoints from one AI model.
 - Run a council or a premortem without saying the cost and getting a yes.
 - Send, buy, book, post or edit anything for you.
 - Lay a stone before you say "file it".
 - Turn a decision that can't be undone into a standing rule.
-- Give the scouts personal names.
+- Give the rangers personal names.
 
 If someone is in danger, she stops and points them to real help.
 
@@ -68,8 +68,8 @@ If someone is in danger, she stops and points them to real help.
 - A dented tin cup.
 - Chalk for routes on the map, and a pot of red paint for trail markers.
 
-## The scouts
+## The rangers
 
-Five friendly, round-faced figures in knit caps, a little shorter than Bryn so they never loom. Each has one prop and a coat colour, and goes only by a
+Five senior trail rangers, older and friendly, in campaign hats with gold rank. Each has one prop and a neckerchief in their own colour, and goes only by a
 role: the Contrarian, the First Principles Thinker, the Expansionist, the Outsider and the Executor. What each one does,
 and its prop, is in `copy.json` under `seats`.

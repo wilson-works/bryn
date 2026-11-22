@@ -10,6 +10,10 @@ This file records what was chosen and why, before anything was built. The studio
 name (the brand head), how she uses Claude (the VP of AI), voice and every line (the copy head), look, art and motion
 (the frontend head and his visual junior), accessibility (the accessibility junior). The lane lead owns the result.
 
+Corrected 2026-11-22 to match the code as released in 1.1.0: the scene table in section 2, the run her page starts in
+section 3, the requests and the write list in section 6, and the file list in section 7. The rest was not checked
+again on this date; it was last edited for release 1.0.0 on 2026-11-07.
+
 ## 1. The skill set, and why this one
 
 The brief: "another simple generic and already built set of skills that could be another agent." Taken or private
@@ -46,16 +50,16 @@ She is Louise's opposite on every count: outdoors, daylight, on the move, stone 
 
 | Stage | What the skill does | What you see |
 |---|---|---|
-| `idle` | Nothing on the table | One of three living vignettes (`art/README.md` §11), changing every few minutes: Bryn on her rock with a tin cup while a small bird lands on the signpost; walking her red trail with deer and a moose grazing far off; paddling her kayak down the stream past a heron |
-| `framing` | The question is framed: what it is, can it be undone, how much is at stake | A blank signpost at a fork in the trail; Bryn writing the question on a card pinned to it |
-| `brainstorm` | Options generated, then clustered and shortlisted | Bryn kneeling over a map on a flat rock, routes being chalked across it |
+| `idle` | Nothing on the table | One of three living vignettes (`art/README.md` section 5), changing every few minutes: Bryn on her rock with a tin cup while a small bird lands on the signpost; walking her red trail with a deer grazing far off; paddling her kayak down the stream past a heron |
+| `framing` | The question is framed: what it is, can it be undone, how much is at stake | Bryn at the signpost, writing the question in her notebook |
+| `brainstorm` | Options generated, then clustered and shortlisted | Bryn kneeling at a flat rock, sketching three routes on a trail map |
 | `council` | Five advisors answer independently | Five rangers, each walking out along a different road from the fork |
-| `review` | Anonymous peer review | The five back at the fork with their props laid down, all in the same grey-blue coat: five identical figures, the anonymity visible |
+| `review` | Anonymous peer review | The five in matching grey-blue from hat to boots, each holding up a sheet: five identical figures, the anonymity visible |
 | `verdict` | The chair's synthesis: agree, clash, blind spots, the call, the first step | At dusk, Bryn and the five rangers round a campfire at the fork, the rangers leaning in as she gives the call; the signpost's red board points up the road she recommends |
-| `waiting` | The advice is in; the decision is yours | Bryn leaning on her pole by the finished signpost, a marker flag moving in the wind, the path toward you open |
+| `waiting` | The advice is in; the decision is yours | Bryn leaning on her pole beside the signpost, its red board pointing up the trail |
 | `premortem` | "Six months from now this failed. Why?" | Bryn on the hilltop, hand shading her eyes, looking far down the chosen trail at a washed-out bridge |
-| `filing` | The decision goes in the log; a standing policy, when it qualifies | Bryn laying a new stone along the path, and a painted trail marker on a rock beside it |
-| `consulting` | A lookup in the log before deciding again | Bryn at the stone path, reading the painted markers on its stones |
+| `filing` | The decision goes in the log; a standing policy, when it qualifies | Bryn kneeling on the trail, laying a stone |
+| `consulting` | A lookup in the log before deciding again | Bryn crouched by the stones along her trail, lifting one to check it |
 
 **The five rangers.** Five senior trail rangers, older and friendly (silver hair, kind eyes, gold rank on a campaign hat), told apart by one prop and one neckerchief colour, labelled only
 by the role title the skill already gives it, so newcomers meet five roles, not five more names:
@@ -96,6 +100,10 @@ office floor. The key is the character's name: `bryn`.
 - **The main session runs the work.** A Claude Code subagent cannot start subagents of its own, and the council and
   the premortem each start five or more. So the full pipeline runs in the session you are talking to, following
   `CLAUDE.md` (her runbook), which calls the skills and sets her stage at the start of every step.
+- **Her page can also start a session by itself** (added 2026-10-06). A button on her page starts one Claude Code
+  session with nobody at the keyboard, on the oldest question left at the trailhead (`engine/take.js`,
+  `engine/take-run.js`). It runs with fixed arguments, its shell may run only her own scripts, and it may not edit her code,
+  character or configuration. It follows the runbook section "A run started from her dashboard".
 - **`subagent.md` is the front desk, and only reads.** Three jobs: check the stone path and the trail markers (`POLICIES.md` and the records) and
   cite what is there or say nothing is; frame a question in one line with whether it can be undone and how much is at
   stake; and route it: "a small call you can undo: just decide" or "open a session as Bryn and run the council on: ...".
@@ -198,10 +206,17 @@ journal:
 | `POST /api/consult` `{ q }` | `{ policy, decision, matches }`; the stage goes to `consulting` |
 | `POST /api/ask` `{ question, context }` | `{ queued: n }` |
 | `GET /api/asks` | `{ asks: [...] }` |
+| `GET /api/take` | `{ running, since, waiting, claude, last }`: the run her page started |
+| `POST /api/take` | starts a run on the oldest question |
+| `POST /api/take/stop` | stops the run she recorded |
 
-The server answers only Host `127.0.0.1`, `localhost` or the name in its own `door.phone`; serves files only by plain
-name from `dashboard/public/`, `art/` and `brand/`; reads only inside her data folder or `examples/`; writes only
-`stage.json` and `asks.md`. The page carries a strict Content-Security-Policy (scripts and styles from itself only), so
+The server answers only Host `127.0.0.1`, `localhost` or her phone host (`phone` in `bryn.config.json`, else the name
+in its own `door.phone`); serves files only by plain name from `dashboard/public/`, `art/` and `brand/`, plus
+`mark.svg` and `art.svg` at the root; reads only inside her data folder or `examples/`; writes only
+`stage.json` and `asks.md` in her data folder, the files of a run started from her page (`take-job.json`,
+`take-run.json`, `take.log`, also in her data folder), copies of the skills that run needs in `.claude/skills/` in her
+own folder (`engine/skills.js`), and her own process number in `dashboard/.pid`.
+The page carries a strict Content-Security-Policy (scripts and styles from itself only), so
 the scenes are plain SVG with no styles of their own and every motion lives in `app.css`, and stops for people who ask
 for reduced motion. Every scene moves (a walk, a paddle stroke, a fire, grass, birds, water), calm and slow; the Pause
 button stops all of it and the vignette change, and reduced motion shows the rock, still, and never changes it.
@@ -217,11 +232,12 @@ button stops all of it and the vignette change, and reduced motion shows the roc
 | `brand/VOICE.md`, `brand/character.md`, `brand/copy.json` | her voice, her character sheet, every line on the page and at her door | copy |
 | `brand/tokens.css` | palette and type | look |
 | `dashboard/server.js`, `dashboard/public/` | the server and the page (no build step); `vignettes.js` picks the idle vignette | lead |
-| `engine/` | `config.js`, `stage.js`, `decisions.js`, `record.js` (opens and updates a decision's `meta.json` for the runbook, added during the build), `asks.js` | lead |
+| `engine/` | `config.js`, `stage.js`, `decisions.js`, `record.js` (opens and updates a decision's `meta.json` for the runbook, added during the build), `asks.js`, `take.js` and `take-run.js` (the run her page starts), `detach.vbs` (starts that run hidden on Windows), `skills.js` (copies the skills that run needs into her folder) | lead |
 | `CLAUDE.md`, `subagent.md` | her runbook, her front desk | lead (voice from copy) |
 | `brains/`, `rules/`, `memory/` | what she knows, her standing rules, what she has learned | lead |
 | `examples/` | the invented data folder | lead |
 | `tests/` | `node:test`, written for the gate, not run by the builders | lead |
+| `tools/art/` | the drawing code: `node tools/art/build.js` writes `art/*.svg`, `art.svg` and `mark.svg` | art |
 
 ## 8. The fences
 

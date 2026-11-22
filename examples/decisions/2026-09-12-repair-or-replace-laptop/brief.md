@@ -21,4 +21,4 @@ fuss for at least two more years, without spending more than needed.
 washing machine in March (repaired) and the bike in June (repaired). If this one goes the same way, it is the third
 time, and the decision log's rule says three is when a standing marker is worth writing.
 
-**The cost, said before it ran.** A council is eleven model runs: five scouts, five reviewers, one chair. Alex said yes.
+**The cost, said before it ran.** A council is eleven model runs: five rangers, five reviewers, one chair. Alex said yes.
