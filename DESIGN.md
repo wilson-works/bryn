@@ -11,8 +11,8 @@ name (the brand head), how she uses Claude (the VP of AI), voice and every line 
 (the frontend head and his visual junior), accessibility (the accessibility junior). The lane lead owns the result.
 
 Corrected 2026-11-22 to match the code as released in 1.1.0: the scene table in section 2, the run her page starts in
-section 3, the requests and the write list in section 6, and the file list in section 7. The rest stands as first
-written.
+section 3, the requests and the write list in section 6, and the file list in section 7. The rest was not checked
+again on this date; it was last edited for release 1.0.0 on 2026-11-07.
 
 ## 1. The skill set, and why this one
 
@@ -210,10 +210,12 @@ journal:
 | `POST /api/take` | starts a run on the oldest question |
 | `POST /api/take/stop` | stops the run she recorded |
 
-The server answers only Host `127.0.0.1`, `localhost` or the name in its own `door.phone`; serves files only by plain
-name from `dashboard/public/`, `art/` and `brand/`; reads only inside her data folder or `examples/`; writes only
+The server answers only Host `127.0.0.1`, `localhost` or her phone host (`phone` in `bryn.config.json`, else the name
+in its own `door.phone`); serves files only by plain name from `dashboard/public/`, `art/` and `brand/`, plus
+`mark.svg` and `art.svg` at the root; reads only inside her data folder or `examples/`; writes only
 `stage.json` and `asks.md` in her data folder, the files of a run started from her page (`take-job.json`,
-`take-run.json`, `take.log`, also in her data folder) and her own process number in `dashboard/.pid`.
+`take-run.json`, `take.log`, also in her data folder), copies of the skills that run needs in `.claude/skills/` in her
+own folder (`engine/skills.js`), and her own process number in `dashboard/.pid`.
 The page carries a strict Content-Security-Policy (scripts and styles from itself only), so
 the scenes are plain SVG with no styles of their own and every motion lives in `app.css`, and stops for people who ask
 for reduced motion. Every scene moves (a walk, a paddle stroke, a fire, grass, birds, water), calm and slow; the Pause
