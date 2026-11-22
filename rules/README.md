@@ -9,5 +9,3 @@ Each rule is checkable. It says:
 - **Why**, in one line: the mistake it prevents.
 
 A rule that cannot be checked is a wish. Rewrite it until it can be.
-
-The dashboard counts every `.md` file here except this README.

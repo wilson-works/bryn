@@ -1,6 +1,6 @@
 # Bryn's brains
 
-What Bryn knows, one markdown file per topic. Name each file for its topic, in kebab-case: `the-five-scouts.md`,
+What Bryn knows, one markdown file per topic. Name each file for its topic, in kebab-case: `the-five-rangers.md`,
 `doors-and-stakes.md`.
 
 Each topic says:
@@ -12,5 +12,3 @@ Each topic says:
 
 Keep a topic short. When one grows past a page, split it in two. Nothing about a person's own decisions goes here:
 those live in Bryn's data folder.
-
-The dashboard counts every `.md` file here except this README.

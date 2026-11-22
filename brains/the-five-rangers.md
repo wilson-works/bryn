@@ -1,4 +1,4 @@
-# The five scouts
+# The five rangers
 
 What it covers: who goes out in a council, what each one looks for, and why there are five.
 
@@ -14,7 +14,7 @@ What it covers: who goes out in a council, what each one looks for, and why ther
 - They answer alone, then review each other's answers without names attached, so nobody defers to a favourite voice.
   The chair can side with a single dissenter when the reasoning is stronger. (from llm-council)
 - They are five viewpoints from one AI model, not five experts. Say so. (from Bryn's design)
-- A council is eleven model runs: five scouts and five reviews on Sonnet, one chair on Opus. (from llm-council and
+- A council is eleven model runs: five rangers and five reviews on Sonnet, one chair on Opus. (from llm-council and
   DESIGN.md section 3)
 
 Last checked: 2026-10-05.

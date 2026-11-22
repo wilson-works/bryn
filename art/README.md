@@ -128,6 +128,7 @@ The owner (2026-10-22): "clean up her animations". The vinyl figures keep that r
 - `art.svg`: Bryn standing and waving, front on, in the 200 by 220 door box Kody and Louise use, on a transparent ground
   with a soft shadow. Her pole is in her other hand. One `<style>` holds the wave (the forearm turns about the elbow,
   2.4 s, the same keyframes as Kody's), guarded by `prefers-reduced-motion: no-preference`; without it you see her
-  mid-wave. The fleet office door can use it as it is.
+  mid-wave. The fleet office door can use it as it is. The waving hand is the house open hand (`handOpen` in
+  `tools/art/door.js`), not the mitt of section 3.
 - `mark.svg`: 48 by 48 (Louise's mark box), a round trail badge: dark rim, red ring, a hill with her red dashed trail
   climbing it and three cream stones. Static. Holds at 16 px.
